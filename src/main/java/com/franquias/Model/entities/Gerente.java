@@ -1,4 +1,4 @@
-package com.franquias.entities;
+package com.franquias.Model.entities;
 
 public class Gerente {
 
