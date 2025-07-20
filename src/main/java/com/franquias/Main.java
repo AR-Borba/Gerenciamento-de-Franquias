@@ -1,10 +1,9 @@
 package com.franquias;
 
-import com.franquias.View.TelaFranquia;
+import com.franquias.Controller.AplicacaoPrincipal;
 
 public class Main {
     public static void main(String[] args) {
-        TelaFranquia tela = new TelaFranquia();
-        tela.desenha();
+        new AplicacaoPrincipal().iniciar();;
     }
 }
