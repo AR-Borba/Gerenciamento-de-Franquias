@@ -3,13 +3,14 @@ package com.franquias.Controller;
 import javax.swing.*;
 
 import com.franquias.View.PainelLogin;
+import com.franquias.View.PainelVendedor;
 
 import java.awt.*;
 
 public class AplicacaoPrincipal {
-    private JFrame telaPricipal;
-    private JPanel painelDeConteudo;
-    private CardLayout cardLayout;
+    public JFrame telaPricipal;
+    public JPanel painelDeConteudo;
+    public CardLayout cardLayout;
 
 
     public final int WIDTH = 500;
@@ -26,11 +27,13 @@ public class AplicacaoPrincipal {
         painelDeConteudo = new JPanel(cardLayout);
 
         PainelLogin painelLogin = new PainelLogin(this);
+        PainelVendedor painelVendedor = new PainelVendedor(this);
 
         painelDeConteudo.add(painelLogin, "LOGIN");
+        painelDeConteudo.add(painelVendedor, "VENDEDOR");
 
         telaPricipal.add(painelDeConteudo);
-        cardLayout.show(painelDeConteudo, "LOGIN");
+        cardLayout.show(painelDeConteudo, "VENDEDOR");
 
         telaPricipal.setLocationRelativeTo(null);
         telaPricipal.setVisible(true);

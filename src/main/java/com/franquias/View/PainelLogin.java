@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
 import com.franquias.Controller.AplicacaoPrincipal;
+import com.franquias.Model.enums.TipoDeConta;
 
 public class PainelLogin extends JPanel {
 
@@ -73,8 +74,8 @@ public class PainelLogin extends JPanel {
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.gridx = 1;
         gbc.gridy = 4;
-        String[] accountString = {"Dono", "Gerente", "Vendedor"};
-        JComboBox accountList = new JComboBox(accountString);
+        TipoDeConta[] accountType = {TipoDeConta.DONO, TipoDeConta.GERENTE, TipoDeConta.VENDEDOR};
+        JComboBox accountList = new JComboBox(accountType);
         painelLogin.add(accountList, gbc);
 
         //--- Linha 2: Botão Entrar ---
@@ -98,6 +99,8 @@ public class PainelLogin extends JPanel {
 
             if(!loginBemSucedido)
                 JOptionPane.showMessageDialog(this, "Email ou senha inválidos.", "Erro de Login", JOptionPane.ERROR_MESSAGE);
+            else
+                telaPrincipal.cardLayout.show(telaPrincipal.painelDeConteudo, "VENDEDOR");
         });
         painelLogin.add(btEntrar, gbc);
         
