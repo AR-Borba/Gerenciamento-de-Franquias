@@ -18,14 +18,13 @@ public class Pedido {
     private StatusPedido statusPedido;
 
     public Pedido(List<Produto> produtos, String cliente, LocalDateTime datahora,
-            FormaDePagamento formaDePagamento, double taxas, double valorTotal, ModalidadeEntrega modalidadeDeEntrega,
+            FormaDePagamento formaDePagamento, double taxas, ModalidadeEntrega modalidadeDeEntrega,
             StatusPedido statusPedido) {
         this.produtos = produtos;
         this.cliente = cliente;
         this.datahora = datahora;
         this.formaDePagamento = formaDePagamento;
         this.taxas = taxas;
-        this.valorTotal = valorTotal;
         this.modalidadeDeEntrega = modalidadeDeEntrega;
         this.statusPedido = statusPedido;
     }
