@@ -1,21 +1,20 @@
 package com.franquias.Model;
 
-import com.franquias.Model.enums.TipoDeProduto;
 
 public class Produto {
-    private TipoDeProduto produto;
+    private String produto;
     private double preco;
     private int quantidade;
     
-    public Produto(TipoDeProduto produto, double preco, int quantidade) {
+    public Produto(String produto, double preco, int quantidade) {
         this.produto = produto;
         this.preco = preco;
         this.quantidade = quantidade;
     }
-    public TipoDeProduto getProduto() {
+    public String getProduto() {
         return produto;
     }
-    public void setProduto(TipoDeProduto produto) {
+    public void setProduto(String produto) {
         this.produto = produto;
     }
     public double getPreco() {

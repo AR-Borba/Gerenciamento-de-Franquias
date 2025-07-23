@@ -45,14 +45,4 @@ public class AplicacaoPrincipal {
             return true;
         return false;
     }
-
-    // public void tentarLogar() throws {
-    //     String email = tfEmail.getText();
-    //     EmailValidator validador = new EmailValidator.getInstance();
-    //     if(!validador.isValid(email))
-    //         throw new EmailException();
-            
-
-    //     String senha = new String(pfSenha.getPassword());
-    // }
 }

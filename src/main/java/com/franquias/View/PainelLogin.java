@@ -17,20 +17,18 @@ public class PainelLogin extends JPanel {
         painelLogin.setLayout(new GridBagLayout());
         painelLogin.setBorder(BorderFactory.createTitledBorder("Login"));
         painelLogin.setBackground(Color.lightGray);
-        // setPreferredSize é opcional se você quer que o pack() ajuste o tamanho
+        
         painelLogin.setPreferredSize(new Dimension(telaPrincipal.WIDTH / 2, telaPrincipal.HEIGHT / 2));
 
         GridBagConstraints gbc; // Apenas declare aqui
 
         //--- Linha 0: Email ---
-        // Rótulo "Email"
         gbc = new GridBagConstraints(); // Reseta para os padrões
         gbc.insets = new Insets(5, 5, 5, 5); // Define uma margem
         gbc.gridx = 0; // Coluna 0
         gbc.gridy = 0; // Linha 0
         painelLogin.add(new JLabel("Email:"), gbc);
 
-        // Campo de texto para o Email
         gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.gridx = 0; // Coluna 1
@@ -41,15 +39,13 @@ public class PainelLogin extends JPanel {
         tfEmail = new JTextField(15);
         painelLogin.add(tfEmail, gbc);
 
-        //--- Linha 1: Senha (ORDEM CORRIGIDA) ---
-        // Rótulo "Senha"
+        //--- Linha 1: Senha ---
         gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.gridx = 0; // Coluna 0
         gbc.gridy = 2; // Linha 1
         painelLogin.add(new JLabel("Senha:"), gbc);
 
-        // Campo de texto para a Senha
         gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.gridx = 0; // Coluna 1
@@ -61,7 +57,6 @@ public class PainelLogin extends JPanel {
         painelLogin.add(pfSenha, gbc);
 
         //--- Seleção do tipo de conta
-        // nome do componente
         gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.gridx = 0;
@@ -69,7 +64,6 @@ public class PainelLogin extends JPanel {
         gbc.anchor = GridBagConstraints.EAST;
         painelLogin.add(new JLabel("Conta:"), gbc);
 
-        // campo de seleção
         gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.gridx = 1;
