@@ -9,9 +9,9 @@ import com.franquias.Model.entities.Usuários.Dono;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-public class DonoPersistence implements Persistence<Dono> {
+public class FranquiaPersistence implements Persistence<Dono> {
 
-    private static final String PATH = DIRECTORY + File.separator + "gerente.json";
+    private static final String PATH = DIRECTORY + File.separator + "franquias.json";
     private final Gson gson = new Gson();
 
     @Override
