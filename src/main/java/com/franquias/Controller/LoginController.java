@@ -9,7 +9,10 @@ public class LoginController {
     }
 
     public void realizarLogin(String email, String senha) {
-    // lógica para validar o login
-        
+        if("adm@gmail.com".equals(email) && "1234".equals(senha))
+            app.mostrarTela("GERENTE");
+        else
+            app.mostrarTela("VENDEDOR");
+
     }
 }
