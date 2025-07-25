@@ -1,18 +1,17 @@
 package com.franquias.Persistence;
 
-import com.franquias.Model.entities.Vendedor;
-
 import java.io.File;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.franquias.Model.entities.Usuários.Vendedor;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 public class VendedorPersistence implements Persistence<Vendedor> {
 
-    private static final String PATH = DIRECTORY + File.separator + "vendor.json";
+    private static final String PATH = DIRECTORY + File.separator + "vendedor.json";
     private final Gson gson = new Gson();
 
     @Override

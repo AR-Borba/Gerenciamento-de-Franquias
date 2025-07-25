@@ -1,4 +1,4 @@
-package com.franquias.Model.entities;
+package com.franquias.Model.entities.Usuários;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.List;
 
 import com.franquias.Model.Produto;
+import com.franquias.Model.entities.Pedido;
 import com.franquias.Model.enums.FormaDePagamento;
 import com.franquias.Model.enums.ModalidadeEntrega;
 import com.franquias.Model.enums.StatusPedido;
