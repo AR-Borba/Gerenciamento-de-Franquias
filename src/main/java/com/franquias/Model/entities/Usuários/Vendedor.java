@@ -11,23 +11,18 @@ import com.franquias.Model.enums.FormaDePagamento;
 import com.franquias.Model.enums.ModalidadeEntrega;
 import com.franquias.Model.enums.StatusPedido;
 
-public class Vendedor {
-    String nome;
+public class Vendedor extends Usuario {
     long id;
     List<Pedido> pedidos;
     
     //email e senha de login
-    public Vendedor(String nome, long id){
-        this.nome = nome;
+    public Vendedor(String email, String senha, String cpf, long id){
+        super(email, senha, cpf);
         this.id = id;
     }
     
     public long getId() {
         return id;
-    }
-    
-    public String getNome() {
-        return nome;
     }
 
     public void cadastrarPedido(Map<Produto, Integer> produtos, String cliente, LocalDateTime datahora, FormaDePagamento formaDePagamento, BigDecimal taxas, ModalidadeEntrega modalidadeDeEntrega, StatusPedido statusPedido){

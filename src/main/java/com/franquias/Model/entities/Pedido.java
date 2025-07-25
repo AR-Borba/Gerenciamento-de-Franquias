@@ -10,6 +10,7 @@ import com.franquias.Model.entities.Usuários.Vendedor;
 import com.franquias.Model.enums.*;
 
 public class Pedido {
+    private long id;
     private Map<Produto, Integer> produtos;
     private String cliente;
     private LocalDateTime datahora;
@@ -89,7 +90,7 @@ public class Pedido {
         this.valorTotal = subtotalItens.add(taxas);
     }
 
-    public void setStatusPedido(StatusPedido statusPedido) {
-        this.statusPedido = statusPedido;
-    }
+    // public void setStatusPedido(StatusPedido statusPedido) {
+    //     this.statusPedido = statusPedido;
+    // }
 }
