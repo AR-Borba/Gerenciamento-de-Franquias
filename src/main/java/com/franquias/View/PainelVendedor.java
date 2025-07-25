@@ -3,11 +3,8 @@ package com.franquias.View;
 import javax.swing.*;
 
 import java.awt.*;
-import java.util.HashMap;
-import java.util.Map;
 
 import com.franquias.Controller.*;
-import com.franquias.Model.Produto;
 import com.franquias.View.PaineisVendedor.PainelHistoricoVenda;
 import com.franquias.View.PaineisVendedor.PainelNovaVenda;
 
@@ -24,13 +21,7 @@ public class PainelVendedor extends PainelBase {
         this.controller = controller;
         this.setLayout(new BorderLayout(5, 5));
 
-        
-
         construirLayout();
-
-        // desenhaFormularioDeProdutos();
-        // desenhaListaDeProdutos();    
-        // desenhaRodape();
 
         this.setVisible(true);
     }
