@@ -6,7 +6,11 @@ import org.apache.commons.validator.routines.EmailValidator;
 
 public class Dono extends Usuario{
 
-    public Dono() {
+    // public Dono() {
+    // }
+
+    public Dono(String nome, String email, String senha, String cpf) {
+        super(nome, email, senha, cpf);
     }
     
     public void cadastrarUnidade(String nome, Endereco endereço, Gerente gerente){
