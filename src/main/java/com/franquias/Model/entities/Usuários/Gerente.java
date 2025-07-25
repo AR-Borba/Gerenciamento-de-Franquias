@@ -1,11 +1,12 @@
-package com.franquias.Model.entities;
+package com.franquias.Model.entities.Usuários;
 
 public class Gerente {
     String nome;
     String cpf;
-    //email e senha de login
+    String email;
+    String senha;
 
-    public Gerente() {
+    public Gerente(String nome, String cpf, String email, String senha) {
     }
 
     public void cadastrarVendedor(){
