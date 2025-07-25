@@ -1,0 +1,44 @@
+package com.franquias.Persistence;
+
+import com.franquias.Model.entities.Dono;
+
+import java.io.File;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+public class DonoPersistence implements Persistence<Dono> {
+
+    private static final String PATH = DIRECTORY + File.separator + "gerente.json";
+    private final Gson gson = new Gson();
+
+    @Override
+    public void save(List<Dono> itens) {
+        String json = gson.toJson(itens);
+
+        File diretorio = new File(DIRECTORY);
+        if(!diretorio.exists())
+            diretorio.mkdirs();
+
+        Arquivo.salva(PATH, json);
+    }
+
+    @Override
+    public List<Dono> findAll() {
+        String json = Arquivo.le(PATH);
+        List<Dono> itens = new ArrayList<>();
+
+        if(!json.trim().equals("")) {
+            Type tipoLista = new TypeToken<List<Dono>>() {}.getType();
+            itens = gson.fromJson(json, tipoLista);
+
+                if(itens == null) 
+                    itens = new ArrayList<>();
+        }
+        return itens;
+    }
+}
+
