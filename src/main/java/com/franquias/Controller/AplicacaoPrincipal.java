@@ -1,11 +1,9 @@
 package com.franquias.Controller;
 
 import javax.swing.*;
-
-import com.franquias.View.PainelLogin;
-import com.franquias.View.PainelVendedor;
-
 import java.awt.*;
+
+import com.franquias.View.*;
 
 public class AplicacaoPrincipal {
     public JFrame telaPricipal;
@@ -13,7 +11,7 @@ public class AplicacaoPrincipal {
     public CardLayout cardLayout;
 
 
-    public final int WIDTH = 500;
+    public final int WIDTH = 600;
     public final int HEIGHT = 400;
     // private final int V_GAP = 10;
     // private final int H_GAP = 5;
@@ -39,15 +37,18 @@ public class AplicacaoPrincipal {
 
         LoginController loginController = new LoginController(this);
         VendedorController vendedorController = new VendedorController(this);
+        GerenteController gerenteController = new GerenteController(this);
 
         PainelLogin painelLogin = new PainelLogin(loginController);
-        PainelVendedor painelVendedor = new PainelVendedor(vendedorController);
-
+        PainelVendedor painelVendedor = new PainelVendedor(this, vendedorController);
+        PainelGerente painelGerente = new PainelGerente(this, gerenteController);
+        
         painelDeConteudo.add(painelLogin, "LOGIN");
         painelDeConteudo.add(painelVendedor, "VENDEDOR");
-
+        painelDeConteudo.add(painelGerente, "GERENTE");
+        
         telaPricipal.add(painelDeConteudo);
-        cardLayout.show(painelDeConteudo, "VENDEDOR");
+        cardLayout.show(painelDeConteudo, "GERENTE");
 
         telaPricipal.setLocationRelativeTo(null);
         telaPricipal.setVisible(true);
@@ -56,11 +57,5 @@ public class AplicacaoPrincipal {
 
     public void mostrarTela(String nomePainel) {
         cardLayout.show(painelDeConteudo, nomePainel);
-    }
-
-    public boolean realizarLogin(String email, String senha) {
-        if("adm@gmail.com".equals(email) && "1234".equals(senha))
-            return true;
-        return false;
     }
 }

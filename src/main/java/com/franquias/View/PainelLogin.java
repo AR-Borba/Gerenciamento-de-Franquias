@@ -11,7 +11,7 @@ public class PainelLogin extends JPanel {
 
     JPasswordField pfSenha;
     JTextField tfEmail;
-    
+
     public PainelLogin(LoginController controller) {
         this.setLayout(new GridBagLayout());
         JPanel painelLogin = new JPanel();
@@ -19,7 +19,7 @@ public class PainelLogin extends JPanel {
         painelLogin.setBorder(BorderFactory.createTitledBorder("Login"));
         painelLogin.setBackground(Color.lightGray);
 
-        painelLogin.setPreferredSize(new Dimension(controller.app.WIDTH / 2, controller.app.HEIGHT / 2));
+        painelLogin.setPreferredSize(new Dimension(250, 200));
 
         GridBagConstraints gbc; // Apenas declare aqui
 
@@ -57,26 +57,11 @@ public class PainelLogin extends JPanel {
         pfSenha = new JPasswordField(15);
         painelLogin.add(pfSenha, gbc);
 
-        //--- Seleção do tipo de conta
-        gbc = new GridBagConstraints();
-        gbc.insets = new Insets(5, 5, 5, 5);
-        gbc.gridx = 0;
-        gbc.gridy = 4;
-        gbc.anchor = GridBagConstraints.EAST;
-        painelLogin.add(new JLabel("Conta:"), gbc);
-
-        gbc = new GridBagConstraints();
-        gbc.insets = new Insets(5, 5, 5, 5);
-        gbc.gridx = 1;
-        gbc.gridy = 4;
-        JComboBox<TipoDeConta> accountList = new JComboBox<>(TipoDeConta.values());
-        painelLogin.add(accountList, gbc);
-
-        //--- Linha 2: Botão Entrar ---
+        //--- Linha 1: Botão Entrar ---
         gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 5, 5, 5); // Mais margem no topo
         gbc.gridx = 0; // Começa na coluna 0
-        gbc.gridy = 5; // Linha 2
+        gbc.gridy = 4; // Linha 1
         gbc.gridwidth = 2; // << AQUI SIM: Ocupa 2 colunas para centralizar
         JButton btEntrar = new JButton("Entrar");
 
@@ -96,4 +81,5 @@ public class PainelLogin extends JPanel {
         
         this.add(painelLogin);
     }
+    
 }
