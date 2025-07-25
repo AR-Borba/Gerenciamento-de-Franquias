@@ -1,13 +1,15 @@
 package com.franquias.Controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.franquias.Model.entities.Usuários.Gerente;
-import com.franquias.Model.entities.Usuários.Usuario;
+import com.franquias.Model.entities.Usuários.Vendedor;
+import com.franquias.Model.entities.Franquia;
+import com.franquias.Model.entities.Pedido;
 import com.franquias.Persistence.GerentePersistence;
-
-import br.com.caelum.stella.validation.CPFValidator;
-import br.com.caelum.stella.validation.InvalidStateException;
+import com.franquias.Utils.Endereco;
+import com.franquias.Persistence.FranquiaPersistence;
 
 public class DonoController {
 
@@ -18,36 +20,75 @@ public class DonoController {
     }
     
     public void cadastrarGerente(String nome, String cpf, String email, String senha) {
-        CPFValidator validator = new CPFValidator();
-        try {
-            validator.assertValid(cpf);
-        } catch (InvalidStateException e) {
-            System.out.println(e.getInvalidMessages());
-        }
-       
         Gerente novoGerente = new Gerente(nome, cpf, email, senha);
         
         GerentePersistence gerentePersistence = new GerentePersistence();
+       
         List<Gerente> novosGerentes;
         novosGerentes = List.of(novoGerente);
+       
         gerentePersistence.save(novosGerentes);
     }
 
     public void removerGerente(Gerente gerenteParaRemover) {
+        FranquiaPersistence franquiaPersistence = new FranquiaPersistence();
         List<Franquia> todasFranquias = franquiaPersistence.findAll();
         
-        // Desvincula o gerente da sua franquia
         for (Franquia franquia : todasFranquias) {
             if (franquia.getGerente() != null && franquia.getGerente().equals(gerenteParaRemover)) {
-                franquia.setGerente(null); // Define que a franquia agora está sem gerente
+                franquia.setGerente(null);
             }
         }
         
-        List<Usuario> todosUsuarios = usuarioPersistence.findAll();
-        todosUsuarios.remove(gerenteParaRemover);
+        GerentePersistence gerentePersistence = new GerentePersistence();
+        List<Gerente> todosGerentes = gerentePersistence.findAll();
+        todosGerentes.remove(gerenteParaRemover);
         
-        // Salva as duas listas modificadas
-        usuarioPersistence.save(todosUsuarios);
+        gerentePersistence.save(todosGerentes);
         franquiaPersistence.save(todasFranquias);
     }
+
+    public void cadastrarFranquia(String nome, Endereco endereco, Gerente gerenteResponsavel) {
+        FranquiaPersistence franquiaPersistence = new FranquiaPersistence();
+        List<Franquia> todasFranquias = franquiaPersistence.findAll();
+        
+        Franquia novaFranquia = new Franquia(nome, endereco, gerenteResponsavel);
+        
+        todasFranquias.add(novaFranquia);
+        franquiaPersistence.save(todasFranquias);
+    }
+
+    public List<Franquia> verificarFranquiasSemGerente() {
+        FranquiaPersistence franquiaPersistence = new FranquiaPersistence();
+        List<Franquia> todasFranquias = franquiaPersistence.findAll();
+        List<Franquia> franquiasSemGerente = new ArrayList<>();
+        
+        for (Franquia franquia : todasFranquias) {
+            if (franquia.getGerente() == null) {
+                franquiasSemGerente.add(franquia);
+            }
+        }
+        return franquiasSemGerente;
+    }
+
+    // public RelatorioDesempenhoUnidade gerarRelatorioParaFranquia(Franquia franquia) {
+    //     double faturamentoBruto = 0.0;
+    //     int numeroDePedidos = franquia.getPedidos().size();
+
+    //     for (Pedido pedido : franquia.getPedidos()) {
+    //         faturamentoBruto += pedido.getValorTotal();
+    //     }
+
+    //     double ticketMedio = (numeroDePedidos > 0) ? faturamentoBruto / numeroDePedidos : 0;
+
+    //     return new RelatorioDesempenhoUnidade(faturamentoBruto, numeroDePedidos, ticketMedio);
+    // }
+
+    // public List<Vendedor> getRankingVendedores(Franquia franquia) {
+    //     List<Vendedor> vendedoresDaFranquia = new ArrayList<>(franquia.getVendedores());
+        
+    //     vendedoresDaFranquia.sort((v1, v2) -> Double.compare(v2.getValorTotalVendas(), v1.getValorTotalVendas()));
+        
+    //     return vendedoresDaFranquia;
+    // }
 }

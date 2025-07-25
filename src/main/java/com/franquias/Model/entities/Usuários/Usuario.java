@@ -11,6 +11,10 @@ public abstract class Usuario {
     String senha;
     String cpf;
 
+    public Usuario(){
+
+    }
+
     public Usuario(String nome, String email, String senha, String cpf) {
         this.nome = nome;
         this.email = email;

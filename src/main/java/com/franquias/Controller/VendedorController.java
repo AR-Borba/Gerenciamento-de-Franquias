@@ -36,7 +36,7 @@ public class VendedorController {
 
     public void finalizaPedido() { // recebe todos os dados do pedido
         // atualizar o pedido com os dados do pedidoAtual
-        pedidoAtual.setStatusPedido(StatusPedido.CONCLUIDO);
+        //pedidoAtual.setStatusPedido(StatusPedido.CONCLUIDO);
         // salvar pedido em arquivo
 
         // inicia novo pedido em branco
