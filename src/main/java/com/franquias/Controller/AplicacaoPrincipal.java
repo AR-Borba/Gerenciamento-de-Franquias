@@ -6,6 +6,7 @@ import java.awt.*;
 import com.franquias.View.*;
 
 public class AplicacaoPrincipal {
+
     public JFrame telaPricipal;
     private JMenuBar menuBarPrincipal;
     private JMenu menuAtualDoPainel;
@@ -84,5 +85,9 @@ public class AplicacaoPrincipal {
 
         menuBarPrincipal.revalidate();
         menuBarPrincipal.repaint();
+    }
+
+    public JFrame getFramePrincipal() {
+        return telaPricipal;
     }
 }

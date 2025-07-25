@@ -45,10 +45,10 @@ public class PainelGerente extends PainelBase {
 
     @Override
     protected void registrarSubPaineis(JPanel painelDeCards) {
-        PainelGerenciarEquipe painelGerenciarEquipe = new PainelGerenciarEquipe(controller);
-        PainelControlarPedidos painelControlarPedidos = new PainelControlarPedidos(controller);
-        PainelGerenciarEstoque painelGerenciarEstoque = new PainelGerenciarEstoque(controller);
-        PainelGerarRelatorios painelGerarRelatorios = new PainelGerarRelatorios(controller);
+        PainelGerenciarEquipe painelGerenciarEquipe = new PainelGerenciarEquipe(controller, app.getFramePrincipal());
+        PainelControlarPedidos painelControlarPedidos = new PainelControlarPedidos(controller, app.getFramePrincipal());
+        PainelGerenciarEstoque painelGerenciarEstoque = new PainelGerenciarEstoque(controller, app.getFramePrincipal());
+        PainelGerarRelatorios painelGerarRelatorios = new PainelGerarRelatorios(controller, app.getFramePrincipal());
 
         painelDeCards.add(painelGerenciarEquipe, "GERENCIAR_EQUIPE");
         painelDeCards.add(painelControlarPedidos, "CONTROLAR_PEDIDOS");
