@@ -34,11 +34,11 @@ public class PainelVendedor extends PainelBase {
         this.itensDoPedido = new HashMap<>();
         this.listModel = new DefaultListModel<>();
 
+        construirLayout();
 
-        desenhaBotoes();
-        desenhaFormularioDeProdutos();
-        desenhaListaDeProdutos();    
-        desenhaRodape();
+        // desenhaFormularioDeProdutos();
+        // desenhaListaDeProdutos();    
+        // desenhaRodape();
 
         this.setVisible(true);
     }
@@ -49,61 +49,71 @@ public class PainelVendedor extends PainelBase {
         painelAcoes.setLayout(new FlowLayout(FlowLayout.LEFT));
 
         JButton btVender = new JButton("Nova Venda");
-        painelAcoes.add(btVender);
-        btVender.addActionListener(e -> {
-            // ação para iniciar a venda
-            controller.iniciarVenda();
-        });
-
+        btVender.addActionListener(e -> controller.iniciarNovoPedido());
+        
         JButton btRegistro = new JButton("Abrir Registro");
-        painelAcoes.add(btRegistro);
         btRegistro.addActionListener(e -> {
             // Ação para abrir o registro
         });
+
+        painelAcoes.add(btVender);
+        painelAcoes.add(btRegistro);
 
         return painelAcoes;
     }
 
-    private void desenhaBotoes() {
-        JButton btVender = new JButton("Vender");
+    @Override
+    protected JPanel criarPainelConteudo() {
+        JPanel painelConteudo = new JPanel();
+        painelConteudo.setLayout(new BorderLayout());
 
-        btVender.addActionListener(e -> {
-            // ação para iniciar a venda
-        });
+        desenhaFormularioDeProdutos();
+        desenhaListaDeProdutos();
+        desenhaRodape();
 
-        JButton btRegistro = new JButton("Abrir Registro");
-
-        btRegistro.addActionListener(e -> {
-            // Ação para abrir o registro
-        });
-
-        JButton btDeslogar = new JButton("Deslogar");
-
-        btDeslogar.addActionListener(e -> controller.deslogar());
-
-        JPanel painelOpcoes = new JPanel();
-        painelOpcoes.setLayout(new GridBagLayout());
-        painelOpcoes.setPreferredSize(new Dimension(WIDTH, HEIGHT / 10));
-
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.anchor = GridBagConstraints.LINE_START;
-        
-        gbc.gridx = 0;
-        painelOpcoes.add(btVender, gbc);
-        
-        gbc.gridx = 1;
-        painelOpcoes.add(btRegistro, gbc);
-        
-        gbc.weightx = 1;
-        gbc.gridx = 2;
-        painelOpcoes.add(new JPanel(), gbc);
-
-        gbc.gridx = 3;
-        gbc.anchor = GridBagConstraints.LINE_END;
-        painelOpcoes.add(btDeslogar, gbc);
-        
-        this.add(painelOpcoes, BorderLayout.NORTH);
+        return painelConteudo;
     }
+
+    // private void desenhaBotoes() {
+    //     JButton btVender = new JButton("Vender");
+
+    //     btVender.addActionListener(e -> {
+    //         // ação para iniciar a venda
+    //     });
+
+    //     JButton btRegistro = new JButton("Abrir Registro");
+
+    //     btRegistro.addActionListener(e -> {
+    //         // Ação para abrir o registro
+    //     });
+
+    //     JButton btDeslogar = new JButton("Deslogar");
+
+    //     btDeslogar.addActionListener(e -> controller.deslogar());
+
+    //     JPanel painelOpcoes = new JPanel();
+    //     painelOpcoes.setLayout(new GridBagLayout());
+    //     painelOpcoes.setPreferredSize(new Dimension(WIDTH, HEIGHT / 10));
+
+    //     GridBagConstraints gbc = new GridBagConstraints();
+    //     gbc.anchor = GridBagConstraints.LINE_START;
+        
+    //     gbc.gridx = 0;
+    //     painelOpcoes.add(btVender, gbc);
+        
+    //     gbc.gridx = 1;
+    //     painelOpcoes.add(btRegistro, gbc);
+        
+    //     gbc.weightx = 1;
+    //     gbc.gridx = 2;
+    //     painelOpcoes.add(new JPanel(), gbc);
+
+    //     gbc.gridx = 3;
+    //     gbc.anchor = GridBagConstraints.LINE_END;
+    //     painelOpcoes.add(btDeslogar, gbc);
+        
+    //     this.add(painelOpcoes, BorderLayout.NORTH);
+    // }
 
     private void desenhaFormularioDeProdutos() {
         JPanel painelFormulario = new JPanel();

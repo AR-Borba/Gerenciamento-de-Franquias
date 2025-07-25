@@ -87,4 +87,8 @@ public class Pedido {
 
         this.valorTotal = subtotalItens.add(taxas);
     }
+
+    public void setStatusPedido(StatusPedido statusPedido) {
+        this.statusPedido = statusPedido;
+    }
 }

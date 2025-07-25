@@ -40,14 +40,14 @@ public class AplicacaoPrincipal {
         LoginController loginController = new LoginController(this);
         VendedorController vendedorController = new VendedorController(this);
 
-        PainelLogin painelLogin = new PainelLogin(loginController);
-        PainelVendedor painelVendedor = new PainelVendedor(vendedorController);
+        PainelLogin painelLogin = new PainelLogin(this, loginController);
+        PainelVendedor painelVendedor = new PainelVendedor(this, vendedorController);
 
         painelDeConteudo.add(painelLogin, "LOGIN");
         painelDeConteudo.add(painelVendedor, "VENDEDOR");
 
         telaPricipal.add(painelDeConteudo);
-        cardLayout.show(painelDeConteudo, "VENDEDOR");
+        cardLayout.show(painelDeConteudo, "LOGIN");
 
         telaPricipal.setLocationRelativeTo(null);
         telaPricipal.setVisible(true);

@@ -7,19 +7,35 @@ import com.franquias.Controller.AplicacaoPrincipal;
 import com.franquias.Controller.LoginController;
 import com.franquias.Model.enums.TipoDeConta;
 
-public class PainelLogin extends JPanel {
+public class PainelLogin extends PainelBase {
 
     JPasswordField pfSenha;
     JTextField tfEmail;
-    
-    public PainelLogin(LoginController controller) {
-        this.setLayout(new GridBagLayout());
+
+    LoginController controller;
+
+    public PainelLogin(AplicacaoPrincipal app, LoginController controller) {
+        super(app);
+        this.controller = controller;
+
+        construirLayout();
+    }
+
+    @Override
+    protected JPanel criarPainelAcoes() {
+        return new JPanel();
+    }
+
+    @Override
+    protected JPanel criarPainelConteudo() {
+        JPanel painelConteudo = new JPanel();
+        painelConteudo.setLayout(new BorderLayout());
         JPanel painelLogin = new JPanel();
         painelLogin.setLayout(new GridBagLayout());
         painelLogin.setBorder(BorderFactory.createTitledBorder("Login"));
         painelLogin.setBackground(Color.lightGray);
 
-        painelLogin.setPreferredSize(new Dimension(controller.app.WIDTH / 2, controller.app.HEIGHT / 2));
+        painelLogin.setPreferredSize(new Dimension(app.WIDTH / 2, app.HEIGHT / 2));
 
         GridBagConstraints gbc; // Apenas declare aqui
 
@@ -85,7 +101,7 @@ public class PainelLogin extends JPanel {
             String senha = new String(pfSenha.getPassword());
 
             if(email.isBlank() || senha.isBlank()) {
-                JOptionPane.showMessageDialog(this, "Email e senha não podem estar em branco.", "Erro", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(painelConteudo, "Email e senha não podem estar em branco.", "Erro", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
@@ -94,6 +110,8 @@ public class PainelLogin extends JPanel {
 
         painelLogin.add(btEntrar, gbc);
         
-        this.add(painelLogin);
+        painelConteudo.add(painelLogin, BorderLayout.CENTER);
+
+        return painelConteudo;
     }
 }

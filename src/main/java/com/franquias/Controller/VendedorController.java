@@ -3,6 +3,7 @@ package com.franquias.Controller;
 import com.franquias.Model.Produto;
 import com.franquias.Model.entities.Pedido;
 import com.franquias.Model.entities.Vendedor;
+import com.franquias.Model.enums.StatusPedido;
 
 public class VendedorController {
     
@@ -16,7 +17,7 @@ public class VendedorController {
 
     public void iniciarSessao(Vendedor vendedor) {
         this.vendedorLogado = vendedor;
-        this.inciarNovoPedido();
+        this.iniciarNovoPedido();
     }
 
     public void iniciarNovoPedido() {
@@ -24,6 +25,8 @@ public class VendedorController {
     }
 
     public Produto adicionarItemAoPedido(String codProduto, int quantidade) {
+        // Produto produto = new Produto(codProduto, codProduto, null, quantidade)
+        
         // buscar o produto pelo código
         // adiciona ao pedidoAtual
         // retorn para view
@@ -32,13 +35,15 @@ public class VendedorController {
     }
 
     public void finalizaPedido() { // recebe todos os dados do pedido
-        // salva o pedido em um arquivo
-        this.pedidoAtual = null; // limpa o pedido atual
+        // atualizar o pedido com os dados do pedidoAtual
+        pedidoAtual.setStatusPedido(StatusPedido.CONCLUIDO);
+        // salvar pedido em arquivo
+
+        // inicia novo pedido em branco
+        this.iniciarNovoPedido();
     }
 
-    public void deslogar() {
-        this.vendedorLogado = null;
-        this.pedidoAtual = null;
-        app.mostrarTela("LOGIN");
+    public Pedido getPedidoAtual() {
+        return pedidoAtual;
     }
 }
