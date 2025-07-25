@@ -1,21 +1,22 @@
 package com.franquias.Persistence;
 
+import com.franquias.Model.entities.Pedido;
+
 import java.io.File;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.franquias.Model.entities.Usuários.Dono;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-public class DonoPersistence implements Persistence<Dono> {
-
+public class PedidoPersistence implements Persistence<Pedido>{
+    
     private static final String PATH = DIRECTORY + File.separator + "gerente.json";
     private final Gson gson = new Gson();
 
     @Override
-    public void save(List<Dono> itens) {
+    public void save(List<Pedido> itens) {
         String json = gson.toJson(itens);
 
         File diretorio = new File(DIRECTORY);
@@ -26,12 +27,12 @@ public class DonoPersistence implements Persistence<Dono> {
     }
 
     @Override
-    public List<Dono> findAll() {
+    public List<Pedido> findAll() {
         String json = Arquivo.le(PATH);
-        List<Dono> itens = new ArrayList<>();
+        List<Pedido> itens = new ArrayList<>();
 
         if(!json.trim().equals("")) {
-            Type tipoLista = new TypeToken<List<Dono>>() {}.getType();
+            Type tipoLista = new TypeToken<List<Pedido>>() {}.getType();
             itens = gson.fromJson(json, tipoLista);
 
                 if(itens == null) 
