@@ -36,20 +36,18 @@ public class PainelVendedor extends PainelBase {
     }
 
     @Override
-    protected JPanel criarPainelAcoes() {
-        JPanel painelAcoes = new JPanel();
-        painelAcoes.setLayout(new FlowLayout(FlowLayout.LEFT));
+    public JMenu getMenu() {
+        JMenu menuVendas = new JMenu("Vendas");
 
-        JButton btVender = new JButton("Nova Venda");
-        btVender.addActionListener(e -> mostrarSubPainel("NOVA_VENDA"));
+        JMenuItem itemNovaVenda = new JMenuItem("Nova Venda");
+        JMenuItem itemMinhasVendas = new JMenuItem("Minhas Vendas");
+        itemNovaVenda.addActionListener(e -> mostrarSubPainel("NOVA_VENDA"));
+        itemMinhasVendas.addActionListener(e -> mostrarSubPainel("HISTORICO_VENDAS"));
 
-        JButton btRegistro = new JButton("Abrir Registro");
-        btRegistro.addActionListener(e -> mostrarSubPainel("HISTORICO_VENDAS"));
+        menuVendas.add(itemNovaVenda);
+        menuVendas.add(itemMinhasVendas);
 
-        painelAcoes.add(btVender);
-        painelAcoes.add(btRegistro);
-
-        return painelAcoes;
+        return menuVendas;
     }
 
     @Override

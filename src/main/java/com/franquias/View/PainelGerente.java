@@ -1,8 +1,7 @@
 package com.franquias.View;
 
-import java.awt.FlowLayout;
-
-import javax.swing.JButton;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
 import com.franquias.Controller.AplicacaoPrincipal;
@@ -18,32 +17,30 @@ public class PainelGerente extends PainelBase {
         this.controller = controller;
 
         construirLayout();
-
-        this.setVisible(true);
     }
 
     @Override
-    protected JPanel criarPainelAcoes() {
-        JPanel painelAcoes = new JPanel();
-        painelAcoes.setLayout(new FlowLayout(FlowLayout.LEFT));
+    public JMenu getMenu() {
+        JMenu menuOpcoes = new JMenu("Opções");
 
-        JButton btGerenciarEquipe = new JButton("Gerenciar Equipe");
-        btGerenciarEquipe.addActionListener(e -> mostrarSubPainel("GERENCIAR_EQUIPE"));
-        painelAcoes.add(btGerenciarEquipe);
+        JMenuItem itemGerenciarEquipe = new JMenuItem("Gerenciar Equipe");
+        itemGerenciarEquipe.addActionListener(e -> mostrarSubPainel("GERENCIAR_EQUIPE"));
+        
+        JMenuItem itemControlarPedidos = new JMenuItem("Controlar Pedidos");
+        itemControlarPedidos.addActionListener(e -> mostrarSubPainel("CONTROLAR_PEDIDOS"));
+        
+        JMenuItem itemEstoque = new JMenuItem("Gerenciar Estoque");
+        itemEstoque.addActionListener(e -> mostrarSubPainel("GERENCIAR_ESTOQUE"));
+        
+        JMenuItem itemRelatorios = new JMenuItem("Gerar Relatórios");
+        itemRelatorios.addActionListener(e -> mostrarSubPainel("GERAR_RELATORIOS"));
+        
+        menuOpcoes.add(itemGerenciarEquipe);
+        menuOpcoes.add(itemControlarPedidos);
+        menuOpcoes.add(itemEstoque);
+        menuOpcoes.add(itemRelatorios);
 
-        JButton btControlarPedidos = new JButton("Controlar Pedidos");
-        btControlarPedidos.addActionListener(e -> mostrarSubPainel("CONTROLAR_PEDIDOS"));
-        painelAcoes.add(btControlarPedidos);
-
-        JButton btEstoque = new JButton("Gerenciar Estoque");
-        btEstoque.addActionListener(e -> mostrarSubPainel("GERENCIAR_ESTOQUE"));
-        painelAcoes.add(btEstoque);
-
-        JButton btRelatorios = new JButton("Gerar Relatórios");
-        btRelatorios.addActionListener(e -> mostrarSubPainel("GERAR_RELATORIOS"));
-        painelAcoes.add(btRelatorios);
-
-        return painelAcoes;
+        return menuOpcoes;
     }
 
     @Override
