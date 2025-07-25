@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.util.Map;
 
 import com.franquias.Model.*;
+import com.franquias.Model.entities.Usuários.Vendedor;
 import com.franquias.Model.enums.*;
 
 public class Pedido {

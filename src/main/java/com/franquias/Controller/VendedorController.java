@@ -2,7 +2,7 @@ package com.franquias.Controller;
 
 import com.franquias.Model.Produto;
 import com.franquias.Model.entities.Pedido;
-import com.franquias.Model.entities.Vendedor;
+import com.franquias.Model.entities.Usuários.Vendedor;
 import com.franquias.Model.enums.StatusPedido;
 
 public class VendedorController {
