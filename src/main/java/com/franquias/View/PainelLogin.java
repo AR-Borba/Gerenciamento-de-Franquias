@@ -3,9 +3,7 @@ package com.franquias.View;
 import javax.swing.*;
 import java.awt.*;
 
-import com.franquias.Controller.AplicacaoPrincipal;
 import com.franquias.Controller.LoginController;
-import com.franquias.Model.enums.TipoDeConta;
 
 public class PainelLogin extends JPanel {
 

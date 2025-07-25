@@ -3,6 +3,8 @@ package com.franquias.View;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 
 import com.franquias.Controller.AplicacaoPrincipal;
@@ -20,12 +22,9 @@ public abstract class PainelBase extends JPanel {
     }
 
     public final void construirLayout() {
-        JPanel painelAcoes = criarPainelAcoes();
-        this.add(painelAcoes, BorderLayout.NORTH);
-        
         cardLayoutConteudo = new CardLayout();
         painelConteudo = new JPanel(cardLayoutConteudo);
-
+        
         registrarSubPaineis(painelConteudo);
 
         this.add(painelConteudo, BorderLayout.CENTER);
@@ -35,7 +34,7 @@ public abstract class PainelBase extends JPanel {
         cardLayoutConteudo.show(painelConteudo, nomeDoCard);
     }
 
-    protected abstract JPanel criarPainelAcoes();
+    public abstract JMenu getMenu();
 
     protected abstract void registrarSubPaineis(JPanel painelDeCards);
 }

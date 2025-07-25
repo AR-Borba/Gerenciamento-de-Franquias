@@ -7,6 +7,9 @@ import com.franquias.View.*;
 
 public class AplicacaoPrincipal {
     public JFrame telaPricipal;
+    private JMenuBar menuBarPrincipal;
+    private JMenu menuAtualDoPainel;
+
     public JPanel painelDeConteudo;
     public CardLayout cardLayout;
 
@@ -21,16 +24,17 @@ public class AplicacaoPrincipal {
         telaPricipal.setDefaultCloseOperation(telaPricipal.EXIT_ON_CLOSE);
         telaPricipal.setSize(WIDTH, HEIGHT);
 
-        JMenuBar menuBar = new JMenuBar();
+        menuBarPrincipal = new JMenuBar();
         JMenu menuSistema = new JMenu("Sistema");
-        JMenuItem menuDeslogar = new JMenuItem("Deslogar");
+        JMenuItem itemDeslogar = new JMenuItem("Deslogar");
+        itemDeslogar.addActionListener(e -> mostrarTela("LOGIN"));
 
-        menuDeslogar.addActionListener(e -> mostrarTela("LOGIN"));
+        itemDeslogar.addActionListener(e -> mostrarTela("LOGIN"));
 
-        menuSistema.add(menuDeslogar);
-        menuBar.add(menuSistema);
+        menuSistema.add(itemDeslogar);
+        menuBarPrincipal.add(menuSistema);
 
-        telaPricipal.setJMenuBar(menuBar);
+        telaPricipal.setJMenuBar(menuBarPrincipal);
 
         cardLayout = new CardLayout();
         painelDeConteudo = new JPanel(cardLayout);
@@ -48,7 +52,7 @@ public class AplicacaoPrincipal {
         painelDeConteudo.add(painelGerente, "GERENTE");
         
         telaPricipal.add(painelDeConteudo);
-        cardLayout.show(painelDeConteudo, "GERENTE");
+        mostrarTela("GERENTE");
 
         telaPricipal.setLocationRelativeTo(null);
         telaPricipal.setVisible(true);
@@ -56,6 +60,29 @@ public class AplicacaoPrincipal {
     }
 
     public void mostrarTela(String nomePainel) {
+        if(menuAtualDoPainel != null) {
+            menuBarPrincipal.remove(menuAtualDoPainel);
+            menuAtualDoPainel = null;
+        }
+
         cardLayout.show(painelDeConteudo, nomePainel);
+        
+        JPanel painelAtual = null;
+        for(Component comp : painelDeConteudo.getComponents()) {
+            if(comp.isVisible()) {
+                painelAtual = (JPanel) comp;
+                break;
+            }
+        }
+
+        if(painelAtual instanceof PainelBase) {
+            menuAtualDoPainel = ((PainelBase) painelAtual).getMenu();
+            if(menuAtualDoPainel != null) {
+                menuBarPrincipal.add(menuAtualDoPainel);
+            }
+        }
+
+        menuBarPrincipal.revalidate();
+        menuBarPrincipal.repaint();
     }
 }
