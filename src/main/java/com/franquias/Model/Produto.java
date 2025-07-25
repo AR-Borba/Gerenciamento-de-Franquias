@@ -1,15 +1,25 @@
 package com.franquias.Model;
 
+import java.math.BigDecimal;
+import java.util.Objects;
 
 public class Produto {
+    private String id;
     private String produto;
-    private double preco;
-    private int quantidade;
-    
-    public Produto(String produto, double preco, int quantidade) {
+    private BigDecimal preco;
+    private int quantidadeEstoque;
+
+    public Produto(String id, String produto, BigDecimal preco, int quantidadeEstoque) {
+        this.id = id;
         this.produto = produto;
         this.preco = preco;
-        this.quantidade = quantidade;
+        this.quantidadeEstoque = quantidadeEstoque;
+    }
+    public String getId() {
+        return id;
+    }
+    private void setId(String id) {
+        this.id = id;
     }
     public String getProduto() {
         return produto;
@@ -17,16 +27,29 @@ public class Produto {
     public void setProduto(String produto) {
         this.produto = produto;
     }
-    public double getPreco() {
+    public BigDecimal getPreco() {
         return preco;
     }
-    public void setPreco(double preco) {
+    public void setPreco(BigDecimal preco) {
         this.preco = preco;
     }
-    public int getQuantidade() {
-        return quantidade;
+    public int getquantidadeEstoque() {
+        return quantidadeEstoque;
     }
-    public void setQuantidade(int quantidade) {
-        this.quantidade = quantidade;
+    public void setquantidadeEstoque(int quantidadeEstoque) {
+        this.quantidadeEstoque = quantidadeEstoque;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if(this == o) return true;
+        if(o == null || getClass() != o.getClass()) return false;
+        Produto produto = (Produto) o;
+        return id == produto.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

@@ -1,6 +1,8 @@
 package com.franquias.Model.entities;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Map;
 import java.util.List;
 
 import com.franquias.Model.Produto;
@@ -16,8 +18,8 @@ public class Vendedor {
     public Vendedor(String nome){
         this.nome = nome;
     }
-    
-    public void cadastrarPedido(List<Produto> produtos, String cliente, LocalDateTime datahora, FormaDePagamento formaDePagamento, double taxas, double valorTotal, ModalidadeEntrega modalidadeDeEntrega, StatusPedido statusPedido){
+
+    public void cadastrarPedido(Map<Produto, Integer> produtos, String cliente, LocalDateTime datahora, FormaDePagamento formaDePagamento, BigDecimal taxas, ModalidadeEntrega modalidadeDeEntrega, StatusPedido statusPedido){
         Pedido pedido = new Pedido(produtos, cliente, datahora, formaDePagamento, taxas, modalidadeDeEntrega, statusPedido);
         pedidos = List.of(pedido);
     }

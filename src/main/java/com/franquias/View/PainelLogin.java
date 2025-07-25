@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
 import com.franquias.Controller.AplicacaoPrincipal;
+import com.franquias.Controller.LoginController;
 import com.franquias.Model.enums.TipoDeConta;
 
 public class PainelLogin extends JPanel {
@@ -11,14 +12,14 @@ public class PainelLogin extends JPanel {
     JPasswordField pfSenha;
     JTextField tfEmail;
     
-    public PainelLogin(AplicacaoPrincipal telaPrincipal) {
+    public PainelLogin(LoginController controller) {
         this.setLayout(new GridBagLayout());
         JPanel painelLogin = new JPanel();
         painelLogin.setLayout(new GridBagLayout());
         painelLogin.setBorder(BorderFactory.createTitledBorder("Login"));
         painelLogin.setBackground(Color.lightGray);
-        
-        painelLogin.setPreferredSize(new Dimension(telaPrincipal.WIDTH / 2, telaPrincipal.HEIGHT / 2));
+
+        painelLogin.setPreferredSize(new Dimension(controller.app.WIDTH / 2, controller.app.HEIGHT / 2));
 
         GridBagConstraints gbc; // Apenas declare aqui
 
@@ -68,8 +69,7 @@ public class PainelLogin extends JPanel {
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.gridx = 1;
         gbc.gridy = 4;
-        TipoDeConta[] accountType = {TipoDeConta.DONO, TipoDeConta.GERENTE, TipoDeConta.VENDEDOR};
-        JComboBox accountList = new JComboBox(accountType);
+        JComboBox<TipoDeConta> accountList = new JComboBox<>(TipoDeConta.values());
         painelLogin.add(accountList, gbc);
 
         //--- Linha 2: Botão Entrar ---
@@ -89,13 +89,9 @@ public class PainelLogin extends JPanel {
                 return;
             }
 
-            boolean loginBemSucedido = telaPrincipal.realizarLogin(email, senha);
-
-            if(!loginBemSucedido)
-                JOptionPane.showMessageDialog(this, "Email ou senha inválidos.", "Erro de Login", JOptionPane.ERROR_MESSAGE);
-            else
-                telaPrincipal.cardLayout.show(telaPrincipal.painelDeConteudo, "VENDEDOR");
+            controller.realizarLogin(email, senha);
         });
+
         painelLogin.add(btEntrar, gbc);
         
         this.add(painelLogin);

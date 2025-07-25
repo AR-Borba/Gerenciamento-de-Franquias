@@ -1,24 +1,39 @@
 package com.franquias.Model.entities;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-import java.util.List;
+import java.util.Map;
 
 import com.franquias.Model.*;
 import com.franquias.Model.enums.*;
 
 public class Pedido {
-    private List<Produto> produtos;
+    private Map<Produto, Integer> produtos;
     private String cliente;
     private LocalDateTime datahora;
     private FormaDePagamento formaDePagamento;
-    private double taxas;
-    private double valorTotal;
+    private BigDecimal taxas;
+    private BigDecimal valorTotal;
     private ModalidadeEntrega modalidadeDeEntrega;
     private StatusPedido statusPedido;
 
-    public Pedido(List<Produto> produtos, String cliente, LocalDateTime datahora,
-            FormaDePagamento formaDePagamento, double taxas, ModalidadeEntrega modalidadeDeEntrega,
+    public Pedido() {
+
+    }
+
+    public Pedido(Vendedor vendedor) {
+        this.produtos = Map.of(); // Inicializa com um mapa vazio
+        this.cliente = "";
+        this.datahora = LocalDateTime.now();
+        this.formaDePagamento = FormaDePagamento.DINHEIRO; // Valor padrão
+        this.taxas = BigDecimal.ZERO; // Valor padrão
+        this.modalidadeDeEntrega = ModalidadeEntrega.RETIRADA_NA_LOJA; // Valor padrão
+        this.statusPedido = StatusPedido.ATIVO; // Valor padrão
+    }
+
+    public Pedido(Map<Produto, Integer> produtos, String cliente, LocalDateTime datahora,
+            FormaDePagamento formaDePagamento, BigDecimal taxas, ModalidadeEntrega modalidadeDeEntrega,
             StatusPedido statusPedido) {
         this.produtos = produtos;
         this.cliente = cliente;
@@ -27,9 +42,11 @@ public class Pedido {
         this.taxas = taxas;
         this.modalidadeDeEntrega = modalidadeDeEntrega;
         this.statusPedido = statusPedido;
+
+        calcularEAtualizaValorTotal();
     }
 
-    public List<Produto> getProdutos() {
+    public Map<Produto, Integer> getProdutos() {
         return produtos;
     }
     public String getCliente() {
@@ -41,10 +58,10 @@ public class Pedido {
     public FormaDePagamento getFormaDePagamento() {
         return formaDePagamento;
     }
-    public double getTaxas() {
+    public BigDecimal getTaxas() {
         return taxas;
     }
-    public double getValorTotal() {
+    public BigDecimal getValorTotal() {
         return valorTotal;
     }
     public ModalidadeEntrega getModalidadeDeEntrega() {
@@ -54,14 +71,20 @@ public class Pedido {
         return statusPedido;
     }
 
-    public double calcularSubtotal() {
-        double total = 0;
+    public void calcularEAtualizaValorTotal() {
+        BigDecimal subtotalItens = BigDecimal.ZERO;
 
-        for(Produto produto : produtos)
-            total += produto.getPreco() * produto.getQuantidade();
+        for (Map.Entry<Produto, Integer> entrada : produtos.entrySet()) {
+            Produto produto = entrada.getKey();
+            Integer quantidade = entrada.getValue();
 
-        total += taxas;
+            BigDecimal precoProduto = produto.getPreco();
 
-        return total;
+            BigDecimal subtotal = precoProduto.multiply(new BigDecimal(quantidade));
+
+            subtotalItens = subtotalItens.add(subtotal);
+        }
+
+        this.valorTotal = subtotalItens.add(taxas);
     }
 }

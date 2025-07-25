@@ -23,11 +23,25 @@ public class AplicacaoPrincipal {
         telaPricipal.setDefaultCloseOperation(telaPricipal.EXIT_ON_CLOSE);
         telaPricipal.setSize(WIDTH, HEIGHT);
 
+        JMenuBar menuBar = new JMenuBar();
+        JMenu menuSistema = new JMenu("Sistema");
+        JMenuItem menuDeslogar = new JMenuItem("Deslogar");
+
+        menuDeslogar.addActionListener(e -> mostrarTela("LOGIN"));
+
+        menuSistema.add(menuDeslogar);
+        menuBar.add(menuSistema);
+
+        telaPricipal.setJMenuBar(menuBar);
+
         cardLayout = new CardLayout();
         painelDeConteudo = new JPanel(cardLayout);
 
-        PainelLogin painelLogin = new PainelLogin(this);
-        PainelVendedor painelVendedor = new PainelVendedor(this);
+        LoginController loginController = new LoginController(this);
+        VendedorController vendedorController = new VendedorController(this);
+
+        PainelLogin painelLogin = new PainelLogin(loginController);
+        PainelVendedor painelVendedor = new PainelVendedor(vendedorController);
 
         painelDeConteudo.add(painelLogin, "LOGIN");
         painelDeConteudo.add(painelVendedor, "VENDEDOR");
@@ -38,6 +52,10 @@ public class AplicacaoPrincipal {
         telaPricipal.setLocationRelativeTo(null);
         telaPricipal.setVisible(true);
 
+    }
+
+    public void mostrarTela(String nomePainel) {
+        cardLayout.show(painelDeConteudo, nomePainel);
     }
 
     public boolean realizarLogin(String email, String senha) {

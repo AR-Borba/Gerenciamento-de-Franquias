@@ -1,28 +1,39 @@
 package com.franquias.View;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 
 import java.awt.*;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.franquias.Controller.*;
 import com.franquias.Model.Produto;
+import com.franquias.Model.entities.Vendedor;
+import com.franquias.Model.enums.FormaDePagamento;
+import com.franquias.Model.enums.ModalidadeEntrega;
 
-public class PainelVendedor extends JPanel {
+public class PainelVendedor extends PainelBase {
 
-    AplicacaoPrincipal telaPrincipal;
+    private VendedorController controller;
+    private Map<Produto, Integer> itensDoPedido;
+    private JList<String> listaProdutosVisual;
+    private DefaultListModel<String> listModel;
 
-    JList<Produto> produtos;
+    JLabel lblTotalValor;
 
     private final int WIDTH = 500;
     private final int HEIGHT = 400;
     // private final int V_GAP = 10;
     // private final int H_GAP = 5;
 
-    public PainelVendedor(AplicacaoPrincipal telaPrincipal) {
-        this.telaPrincipal = telaPrincipal;
-        this.setLayout(new BorderLayout());
-        this.setSize(WIDTH, HEIGHT);
+    public PainelVendedor(AplicacaoPrincipal app, VendedorController controller) {
+        super(app);
+        this.controller = controller;
+        this.setLayout(new BorderLayout(5, 5));
+
+        this.itensDoPedido = new HashMap<>();
+        this.listModel = new DefaultListModel<>();
+
 
         desenhaBotoes();
         desenhaFormularioDeProdutos();
@@ -30,6 +41,27 @@ public class PainelVendedor extends JPanel {
         desenhaRodape();
 
         this.setVisible(true);
+    }
+
+    @Override
+    protected JPanel criarPainelAcoes() {
+        JPanel painelAcoes = new JPanel();
+        painelAcoes.setLayout(new FlowLayout(FlowLayout.LEFT));
+
+        JButton btVender = new JButton("Nova Venda");
+        painelAcoes.add(btVender);
+        btVender.addActionListener(e -> {
+            // ação para iniciar a venda
+            controller.iniciarVenda();
+        });
+
+        JButton btRegistro = new JButton("Abrir Registro");
+        painelAcoes.add(btRegistro);
+        btRegistro.addActionListener(e -> {
+            // Ação para abrir o registro
+        });
+
+        return painelAcoes;
     }
 
     private void desenhaBotoes() {
@@ -47,9 +79,7 @@ public class PainelVendedor extends JPanel {
 
         JButton btDeslogar = new JButton("Deslogar");
 
-        btDeslogar.addActionListener(e -> {
-            telaPrincipal.cardLayout.show(telaPrincipal.painelDeConteudo, "LOGIN");
-        });
+        btDeslogar.addActionListener(e -> controller.deslogar());
 
         JPanel painelOpcoes = new JPanel();
         painelOpcoes.setLayout(new GridBagLayout());
@@ -77,44 +107,46 @@ public class PainelVendedor extends JPanel {
 
     private void desenhaFormularioDeProdutos() {
         JPanel painelFormulario = new JPanel();
-        painelFormulario.setLayout(new BorderLayout());
-        painelFormulario.setBackground(Color.lightGray);
-        
-        JPanel painelAux = new JPanel();
-        painelAux.setLayout(new GridBagLayout());
+        painelFormulario.setLayout(new GridBagLayout());
+
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.anchor = GridBagConstraints.WEST;
+
+        // linha 0: código do produto
         gbc.gridy = 0;
+        
+        gbc.gridx = 0;
+        painelFormulario.add(new JLabel("Código do Produto: "), gbc);
 
-        JLabel jlProd = new JLabel("Produto");
-        gbc.gridwidth = 2;
-        JTextField tfProd = new JTextField(20);
+        gbc.gridx = 1;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weightx = 1.0;
+        JTextField tfCodigo = new JTextField(15);
+        painelFormulario.add(tfCodigo, gbc);
 
-        painelAux.add(jlProd, gbc);
-        painelAux.add(tfProd, gbc);
-
-        gbc.gridwidth = 1;
+        // linha 1: quantidade
         gbc.gridy = 1;
-        painelAux.add(new JLabel("Qtd"), gbc);
-        JTextField tfQtd = new JTextField(2);
-        painelAux.add(tfQtd, gbc);
-        painelAux.add(new JLabel("Preço"), gbc);
-        JTextField tfPreco = new JTextField(8);
-        painelAux.add(tfPreco, gbc);
 
-        painelFormulario.add(painelAux, BorderLayout.CENTER);
+        gbc.gridx = 0;
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.weightx = 0;
+        painelFormulario.add(new JLabel("Qtd: "), gbc);
 
-        JButton btnAdiciona = new JButton("Adiciona");
-        btnAdiciona.addActionListener(e -> {
-            String produto = tfProd.getText();
-            int quantidade = Integer.parseInt(tfQtd.getText());
-            double preco = Double.parseDouble(tfPreco.getText());
+        gbc.gridx = 1;
+        JTextField tfQtd = new JTextField("1", 3);
+        painelFormulario.add(tfQtd, gbc);
 
-            DefaultListModel<Produto> model = (DefaultListModel<Produto>)produtos.getModel();
-            model.addElement(new Produto(produto, preco, quantidade));
-        });
+        // linha 2: botão adicionar
+        gbc.gridy = 2;
+        gbc.gridx = 0;
+        gbc.gridwidth = 4;
+        gbc.anchor = GridBagConstraints.CENTER;
+        JButton btAdicionar = new JButton("Adicionar Produto");
+        
+        btAdicionar.addActionListener(e -> controller.adicionarItemAoPedido(tfCodigo.getText(), Integer.parseInt(tfQtd.getText())));
 
-        painelFormulario.add(btnAdiciona, BorderLayout.SOUTH);
+        painelFormulario.add(btAdicionar, gbc);
 
         this.add(painelFormulario, BorderLayout.WEST);
     }
@@ -122,16 +154,17 @@ public class PainelVendedor extends JPanel {
     private void desenhaListaDeProdutos() {
         JPanel painelLista = new JPanel(new BorderLayout());
 
-        DefaultListModel<Produto> model = new DefaultListModel<>();
+        listaProdutosVisual = new JList<>(listModel);
 
-        produtos = new JList<>(model);
+        painelLista.add(new JScrollPane(listaProdutosVisual), BorderLayout.CENTER);
 
-        painelLista.add(new JScrollPane(produtos), BorderLayout.CENTER);
+        JPanel painelTotalLista = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        painelTotalLista.add(new JLabel("Total do Pedido: "));
+        lblTotalValor = new JLabel("R$ 0,00");
+        lblTotalValor.setFont(new Font("Arial", Font.BOLD, 16));
+        painelTotalLista.add(lblTotalValor);
 
-        JPanel painelRodape = new JPanel(new FlowLayout());
-        painelRodape.add(new JLabel("Total: "));
-        painelRodape.add(new JTextArea("1000"));
-        painelLista.add(painelRodape, BorderLayout.SOUTH);
+        painelLista.add(painelTotalLista, BorderLayout.SOUTH);
 
         this.add(painelLista, BorderLayout.EAST);
     }
@@ -150,16 +183,16 @@ public class PainelVendedor extends JPanel {
         painelCliente.setLayout(new FlowLayout());
         painelCliente.add(new JLabel("Cliente: "));
         painelCliente.add(new JTextField(15));
-        String[] formaPagamento = {"PIX", "DINHEIRO", "CARTAO_DEBITO", "CARTAO_CREDITO"};
-        painelCliente.add(new JComboBox<>(formaPagamento));
+        JComboBox<FormaDePagamento> formaPagamento = new JComboBox<>(FormaDePagamento.values());
+        painelCliente.add(formaPagamento);
         gbc.gridy = 0;
 
         painelRodape.add(painelCliente, gbc);
 
         JPanel painelEntregaTaxa = new JPanel();
         painelEntregaTaxa.setLayout(new FlowLayout());
-        String[] formaEntrega = {"RETIRADA_NA_LOJA", "ENTREGA_CLIENTE"};
-        painelEntregaTaxa.add(new JComboBox<>(formaEntrega));
+        JComboBox<ModalidadeEntrega> formaEntrega = new JComboBox<>(ModalidadeEntrega.values());
+        painelEntregaTaxa.add(formaEntrega);
         painelEntregaTaxa.add(new JLabel("Taxa"));
         painelEntregaTaxa.add(new JTextField(8));
         
