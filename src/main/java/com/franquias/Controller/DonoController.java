@@ -19,13 +19,11 @@ public class DonoController {
         this.app = app;
     }
     
-    public void cadastrarGerente(String nome, String cpf, String email, String senha) {
-        Gerente novoGerente = new Gerente(nome, cpf, email, senha);
-        
+    public void cadastrarGerente(Gerente gerente) {        
         GerentePersistence gerentePersistence = new GerentePersistence();
        
         List<Gerente> novosGerentes;
-        novosGerentes = List.of(novoGerente);
+        novosGerentes = List.of(gerente);
        
         gerentePersistence.save(novosGerentes);
     }
@@ -46,6 +44,12 @@ public class DonoController {
         
         gerentePersistence.save(todosGerentes);
         franquiaPersistence.save(todasFranquias);
+    }
+
+    public List<Gerente> getGerentes(){
+        GerentePersistence gerentePersistence = new GerentePersistence();
+        List<Gerente> gerentes = gerentePersistence.findAll();
+        return gerentes;
     }
 
     public void cadastrarFranquia(String nome, Endereco endereco, Gerente gerenteResponsavel) {

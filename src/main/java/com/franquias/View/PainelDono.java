@@ -47,13 +47,13 @@ public class PainelDono extends PainelBase{
 
     @Override
     protected void registrarSubPaineis(JPanel painelDeCards) {
-        PainelGerenciarGerentes painelGerenciarEquipe = new PainelGerenciarGerentes(controller);
-        PainelGerenciarFranquias painelControlarPedidos = new PainelGerenciarFranquias(controller);
+        PainelGerenciarGerentes painelGerenciarEquipe = new PainelGerenciarGerentes(controller, app.getFramePrincipal());
+        //PainelGerenciarFranquias painelControlarPedidos = new PainelGerenciarFranquias(controller, app.getFramePrincipal());
         PainelIndicadoresFinanceiros painelGerenciarEstoque = new PainelIndicadoresFinanceiros(controller);
         PainelRankingVendedores painelGerarRelatorios = new PainelRankingVendedores(controller);
 
         painelDeCards.add(painelGerenciarEquipe, "GERENCIAR_GERENTES");
-        painelDeCards.add(painelControlarPedidos, "GERENCIAR_FRANQUIAS");
+        //painelDeCards.add(painelControlarPedidos, "GERENCIAR_FRANQUIAS");
         painelDeCards.add(painelGerenciarEstoque, "INDICADORES_FINANCEIROS");
         painelDeCards.add(painelGerarRelatorios, "RANKING_VENDEDORES");
     }

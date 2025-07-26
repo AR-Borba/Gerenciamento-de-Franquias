@@ -30,7 +30,7 @@ public class AplicacaoPrincipal {
         JMenuItem itemDeslogar = new JMenuItem("Deslogar");
         itemDeslogar.addActionListener(e -> mostrarTela("LOGIN"));
 
-        itemDeslogar.addActionListener(e -> mostrarTela("LOGIN"));
+        //itemDeslogar.addActionListener(e -> mostrarTela("LOGIN"));
 
         menuSistema.add(itemDeslogar);
         menuBarPrincipal.add(menuSistema);
@@ -43,17 +43,20 @@ public class AplicacaoPrincipal {
         LoginController loginController = new LoginController(this);
         VendedorController vendedorController = new VendedorController(this);
         GerenteController gerenteController = new GerenteController(this);
+        DonoController donoController = new DonoController(this);
 
         PainelLogin painelLogin = new PainelLogin(loginController);
         PainelVendedor painelVendedor = new PainelVendedor(this, vendedorController);
         PainelGerente painelGerente = new PainelGerente(this, gerenteController);
+        PainelDono painelDono = new PainelDono(this, donoController);
         
         painelDeConteudo.add(painelLogin, "LOGIN");
         painelDeConteudo.add(painelVendedor, "VENDEDOR");
         painelDeConteudo.add(painelGerente, "GERENTE");
+        painelDeConteudo.add(painelDono, "DONO");
         
         telaPricipal.add(painelDeConteudo);
-        mostrarTela("GERENTE");
+        mostrarTela("DONO");
 
         telaPricipal.setLocationRelativeTo(null);
         telaPricipal.setVisible(true);
