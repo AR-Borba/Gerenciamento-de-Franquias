@@ -7,17 +7,12 @@ import java.util.List;
 
 import com.franquias.Model.entities.Usuários.Vendedor;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import com.fatboyindustrial.gsonjavatime.JavaTimeTypeAdapterFactory;
 
 public class VendedorPersistence implements Persistence<Vendedor> {
 
     private static final String PATH = DIRECTORY + File.separator + "vendedor.json";
-    private final Gson gson = new GsonBuilder()
-                                .registerTypeAdapterFactory(new JavaTimeTypeAdapterFactory())
-                                .setPrettyPrinting() // Opcional: deixa o JSON no arquivo mais legível
-                                .create();
+    private final Gson gson = new Gson();
     private List<Vendedor> vendedoresEmMemoria;
     private long proximoId;
 

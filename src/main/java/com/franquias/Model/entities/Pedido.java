@@ -2,7 +2,7 @@ package com.franquias.Model.entities;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
 import com.franquias.Model.*;
@@ -13,7 +13,8 @@ public class Pedido {
     private long id;
     private Map<Produto, Integer> produtos;
     private String cliente;
-    private LocalDateTime datahora;
+    private transient LocalDateTime dataHora;
+    private String dataHoraFormatada;
     private FormaDePagamento formaDePagamento;
     private BigDecimal taxas;
     private BigDecimal valorTotal;
@@ -27,7 +28,8 @@ public class Pedido {
     public Pedido(Vendedor vendedor) {
         this.produtos = Map.of(); // Inicializa com um mapa vazio
         this.cliente = "";
-        this.datahora = LocalDateTime.now();
+        this.dataHora = LocalDateTime.now();
+        atualizarDataHoraFormatada();
         this.formaDePagamento = FormaDePagamento.DINHEIRO; // Valor padrão
         this.taxas = BigDecimal.ZERO; // Valor padrão
         this.modalidadeDeEntrega = ModalidadeEntrega.RETIRADA_NA_LOJA; // Valor padrão
@@ -39,7 +41,8 @@ public class Pedido {
             StatusPedido statusPedido) {
         this.produtos = produtos;
         this.cliente = cliente;
-        this.datahora = datahora;
+        this.dataHora = LocalDateTime.now();
+        atualizarDataHoraFormatada();
         this.formaDePagamento = formaDePagamento;
         this.taxas = taxas;
         this.modalidadeDeEntrega = modalidadeDeEntrega;
@@ -48,27 +51,54 @@ public class Pedido {
         calcularEAtualizaValorTotal();
     }
 
+    private void atualizarDataHoraFormatada() {
+        if (this.dataHora != null) {
+            this.dataHoraFormatada = this.dataHora.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+        }
+    }
+
+    private void atualizarDataHoraPelaString() {
+        if (this.dataHoraFormatada != null && !this.dataHoraFormatada.isEmpty()) {
+            this.dataHora = LocalDateTime.parse(this.dataHoraFormatada, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+        }
+    }
+
     public Map<Produto, Integer> getProdutos() {
         return produtos;
     }
+
     public String getCliente() {
         return cliente;
     }
+
     public LocalDateTime getDatahora() {
-        return datahora;
+        if (this.dataHora == null && this.dataHoraFormatada != null) {
+            atualizarDataHoraPelaString();
+        }
+        return this.dataHora;
     }
+
+    public void setDataHora(LocalDateTime dataHora) {
+        this.dataHora = dataHora;
+        atualizarDataHoraFormatada();
+    }
+
     public FormaDePagamento getFormaDePagamento() {
         return formaDePagamento;
     }
+
     public BigDecimal getTaxas() {
         return taxas;
     }
+
     public BigDecimal getValorTotal() {
         return valorTotal;
     }
+
     public ModalidadeEntrega getModalidadeDeEntrega() {
         return modalidadeDeEntrega;
     }
+
     public StatusPedido getStatusPedido() {
         return statusPedido;
     }

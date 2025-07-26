@@ -82,9 +82,9 @@ public class DialogCadastroVendedor extends JDialog {
 
         gbc.gridy = 4;
         gbc.gridx = 0;
-        add(salvarButton, gbc);
-        gbc.gridx = 1;
         add(cancelarButton, gbc);
+        gbc.gridx = 1;
+        add(salvarButton, gbc);
 
         // Exibir o diálogo
         pack();
