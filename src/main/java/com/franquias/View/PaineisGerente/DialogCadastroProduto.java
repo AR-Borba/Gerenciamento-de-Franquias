@@ -3,12 +3,17 @@ package com.franquias.View.PaineisGerente;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.text.NumberFormatter;
 
 import com.franquias.Model.Produto;
 import com.franquias.Model.entities.Usuários.Vendedor;
@@ -16,8 +21,8 @@ import com.franquias.Model.entities.Usuários.Vendedor;
 public class DialogCadastroProduto extends JDialog {
     JTextField idField;
     JTextField produtoField;
-    JTextField precoField;
-    JTextField qtdEstoqueField;
+    JFormattedTextField precoField;
+    JFormattedTextField qtdEstoqueField;
 
     Produto produto;
 
@@ -28,12 +33,27 @@ public class DialogCadastroProduto extends JDialog {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
+        // formatação correta ao coletar os dados
+        NumberFormat integerFormat = NumberFormat.getIntegerInstance();
+        DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
+
+        NumberFormatter integerFormatter = new NumberFormatter(integerFormat);
+        integerFormatter.setValueClass(Integer.class); // Define que o valor interno será um Integer
+        integerFormatter.setAllowsInvalid(false); // NÃO permite que o usuário digite caracteres inválidos (letras, etc.)
+        integerFormatter.setMinimum(0); // Opcional: define um valor mínimo
+
+        NumberFormatter decimalFormatter = new NumberFormatter(decimalFormat);
+        decimalFormatter.setValueClass(BigDecimal.class); // << A CLASSE É BigDecimal
+        decimalFormatter.setAllowsInvalid(false);
+        
         setLocationRelativeTo(null);
     
         idField = new JTextField(5);
         produtoField = new JTextField(20);
-        precoField = new JTextField(10);
-        qtdEstoqueField = new JTextField(3);
+        precoField = new JFormattedTextField(decimalFormatter);
+        precoField.setColumns(10);
+        qtdEstoqueField = new JFormattedTextField(integerFormat);
+        qtdEstoqueField.setColumns(3);
 
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -72,16 +92,15 @@ public class DialogCadastroProduto extends JDialog {
     }
 
     private void onSalvar() {
-        //     this.produto = new Produto(
-        //     idField.getText(),
-        //     produtoField.getText(),
-        //     precoField.getText(),
-        //     Integer.parseInt(qtdEstoqueField.getText()),
-        //     System.currentTimeMillis() // Usando timestamp como ID temporário
-        // ); // adicionar JFormattedTextField ...
+            this.produto = new Produto(
+            idField.getText(),
+            produtoField.getText(),
+            (BigDecimal) precoField.getValue(),
+            (Integer) qtdEstoqueField.getValue()
+        );
 
-        // dispose();
-        // JOptionPane.showMessageDialog(this, "Produto cadastrado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+        dispose();
+        JOptionPane.showMessageDialog(this, "Produto cadastrado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
     
     }
 

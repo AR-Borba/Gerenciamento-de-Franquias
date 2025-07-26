@@ -43,7 +43,7 @@ public class PainelGerenciarEquipe extends JPanel {
         add(new JScrollPane(tabelaRankingEquipe), BorderLayout.CENTER);
     }
 
-    public void carregarDadosNaTabela() {
+    public void carregarDadosNaTabela() { // lembrar de carregar ordenado por vendas
         modeloTabelaRanking.setRowCount(0); // Limpa a tabela antes de adicionar novos dados
 
         List<Vendedor> vendedores = controller.getEquipeDeVendasOrdenadaPorVendas();

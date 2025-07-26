@@ -1,33 +1,53 @@
 package com.franquias.View.PaineisGerente;
 
 import javax.swing.*;
+import javax.swing.text.MaskFormatter;
+
+import org.apache.commons.validator.routines.EmailValidator;
+
 import java.awt.*;
+import java.text.ParseException;
 
 import com.franquias.Model.entities.Usuários.Vendedor;
+
+import br.com.caelum.stella.validation.CPFValidator;
+import br.com.caelum.stella.validation.InvalidStateException;
 
 public class DialogCadastroVendedor extends JDialog {
     
     private JTextField nomeField;
-    private JTextField cpfField;
+    private JFormattedTextField cpfField;
     private JTextField emailField;
-    private JTextField senhaField;
+    private JPasswordField senhaField;
 
     private Vendedor vendedor;
 
     public DialogCadastroVendedor(Frame parent) {
+        
         super(parent, "Cadastro de Novo Vendedor", true);
         setSize(400, 300);
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
-
+        
         setLocationRelativeTo(null);
         
+        // mascára para CPF
+        try {
+            MaskFormatter cpfFormatter = new MaskFormatter("###.###.###-##");
+            cpfFormatter.setPlaceholderCharacter('_');
+
+            cpfField = new JFormattedTextField(cpfFormatter);
+            cpfField.setColumns(14);
+        } catch(ParseException e) {
+            cpfField = new JFormattedTextField();
+        }
+
         // Inicializar campos de texto
         nomeField = new JTextField(20);
-        cpfField = new JTextField(14);
+        // cpfField = new JFormattedTextField(14);
         emailField = new JTextField(30);
-        senhaField = new JTextField(20);
+        senhaField = new JPasswordField(20);
         
         // Adicionar componentes ao diálogo (layout e outros componentes omitidos)
 
@@ -71,13 +91,31 @@ public class DialogCadastroVendedor extends JDialog {
     }
 
     private void onSalvar() {
-        this.vendedor = new Vendedor(
-            nomeField.getText(),
-            emailField.getText(),
-            senhaField.getText(),
-            cpfField.getText(),
-            System.currentTimeMillis() // Usando timestamp como ID temporário
-        );
+        String nome = nomeField.getText();
+        String cpf = cpfField.getText();
+        String email = emailField.getText();
+        String senha = new String(senhaField.getPassword());
+
+        if(nome.isBlank() || cpf.isBlank() || email.isBlank() || senha.isBlank())
+        {
+            JOptionPane.showMessageDialog(this, "Todos os campos são obrigatórios", "Erro de validação", JOptionPane.ERROR_MESSAGE);
+        }
+
+        EmailValidator emailValidator = EmailValidator.getInstance();
+        if(!emailValidator.isValid(email)) {
+            JOptionPane.showMessageDialog(this, "Email inválido", "Erro de validação", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        try {
+            CPFValidator validator = new CPFValidator();
+            validator.assertValid(cpf);
+        } catch (InvalidStateException e) {
+            JOptionPane.showMessageDialog(this, "CPF inválido", "Erro de validação", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        this.vendedor = new Vendedor(nome, email, senha, cpf, 0);
 
         dispose();
         JOptionPane.showMessageDialog(this, "Vendedor cadastrado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);

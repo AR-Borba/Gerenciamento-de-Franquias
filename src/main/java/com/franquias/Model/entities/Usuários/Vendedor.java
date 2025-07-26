@@ -24,6 +24,10 @@ public class Vendedor extends Usuario {
         return id;
     }
 
+    public void setId(long id) {
+        this.id = id;
+    }
+
     public void cadastrarPedido(Map<Produto, Integer> produtos, String cliente, LocalDateTime datahora, FormaDePagamento formaDePagamento, BigDecimal taxas, ModalidadeEntrega modalidadeDeEntrega, StatusPedido statusPedido){
         Pedido pedido = new Pedido(produtos, cliente, datahora, formaDePagamento, taxas, modalidadeDeEntrega, statusPedido);
         pedidos = List.of(pedido);
