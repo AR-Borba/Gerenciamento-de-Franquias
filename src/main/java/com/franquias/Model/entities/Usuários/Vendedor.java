@@ -15,9 +15,8 @@ public class Vendedor extends Usuario {
     long id;
     List<Pedido> pedidos;
     
-    //email e senha de login
     public Vendedor(String nome, String email, String senha, String cpf, long id){
-        super(nome, email, senha, cpf);
+        super(nome, cpf, email, senha);
         this.id = id;
     }
     
