@@ -6,18 +6,24 @@ import java.util.ArrayList;
 import com.franquias.Model.Produto;
 import com.franquias.Model.entities.Pedido;
 import com.franquias.Model.entities.Usuários.Vendedor;
+import com.franquias.Persistence.VendedorPersistence;
 
 public class GerenteController {
 
     private AplicacaoPrincipal app;
+    private VendedorPersistence vendedorPersistence;
 
     public GerenteController(AplicacaoPrincipal app) {
         this.app = app;
+        vendedorPersistence = new VendedorPersistence();
     }
 
     public List<Vendedor> getEquipeDeVendasOrdenadaPorVendas() {
-        // Implementar lógica para obter a equipe de vendas ordenada por vendas
-        return new ArrayList<Vendedor>();
+        List<Vendedor> vendedores;
+
+        vendedores = vendedorPersistence.findAll();
+
+        return vendedores;
     }
 
     public void editarVendedor(long idVendedor) {
@@ -29,7 +35,7 @@ public class GerenteController {
     }
 
     public void adicionarVendedor(Vendedor vendedor) {
-        // Implementar lógica para adicionar um novo vendedor
+        vendedorPersistence.adicionarVendedor(vendedor);
     }
 
     public List<Pedido> getPedidos() {

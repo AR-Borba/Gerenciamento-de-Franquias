@@ -8,7 +8,6 @@ import javax.swing.JDialog;
 
 public class DialogVisualizarPedido extends JDialog{
     
-
     // JTextField 
 
     public DialogVisualizarPedido(Frame parent) {
