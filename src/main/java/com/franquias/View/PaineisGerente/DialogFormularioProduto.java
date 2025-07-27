@@ -16,24 +16,39 @@ import javax.swing.JTextField;
 import javax.swing.text.NumberFormatter;
 
 import com.franquias.Model.Produto;
-import com.franquias.Model.entities.Usuários.Vendedor;
 
-public class DialogCadastroProduto extends JDialog {
-    JTextField idField;
+public class DialogFormularioProduto extends JDialog {
     JTextField produtoField;
     JFormattedTextField precoField;
     JFormattedTextField qtdEstoqueField;
-
+    
     Produto produto;
 
-    public DialogCadastroProduto(Frame parent) {
-        super(parent, "Cadastro de Novo Produto", true);
+    boolean salvo;
+
+    public DialogFormularioProduto(Frame parent) {
+        super(parent, "Editando produto", true);
+        this.produto = new Produto();
+
+        desenhaUi();
+    }
+
+    public DialogFormularioProduto(Frame parent, Produto produtoSendoEditado) {
+        super(parent, "Editando produto", true);
+        this.produto = produtoSendoEditado;
+
+        desenhaUi();
+        preencherCampos();
+    }
+
+    private void desenhaUi() {
         setSize(400, 300);
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        // formatação correta ao coletar os dados
+        this.produto = produto;
+        
         NumberFormat integerFormat = NumberFormat.getIntegerInstance();
         DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
 
@@ -47,33 +62,26 @@ public class DialogCadastroProduto extends JDialog {
         decimalFormatter.setAllowsInvalid(false);
         
         setLocationRelativeTo(null);
-    
-        idField = new JTextField(5);
+
         produtoField = new JTextField(20);
         precoField = new JFormattedTextField(decimalFormatter);
         precoField.setColumns(10);
-        qtdEstoqueField = new JFormattedTextField(integerFormat);
+        qtdEstoqueField = new JFormattedTextField(integerFormatter);
         qtdEstoqueField.setColumns(3);
 
-        gbc.gridx = 0;
         gbc.gridy = 0;
-        add(new JLabel("ID:"), gbc);
-        gbc.gridx = 1;
-        add(idField, gbc);
-
-        gbc.gridy = 1;
         gbc.gridx = 0;
         add(new JLabel("Produto:"), gbc);
         gbc.gridx = 1;
         add(produtoField, gbc);
 
-        gbc.gridy = 2;
+        gbc.gridy = 1;
         gbc.gridx = 0;
         add(new JLabel("Preço:"), gbc);
         gbc.gridx = 1;
         add(precoField, gbc);
 
-        gbc.gridy = 3;
+        gbc.gridy = 2;
         gbc.gridx = 0;
         add(new JLabel("Quantidade em estoque:"), gbc);
         gbc.gridx = 1;
@@ -84,29 +92,45 @@ public class DialogCadastroProduto extends JDialog {
         JButton cancelarButton = new JButton("Cancelar");
         cancelarButton.addActionListener(e -> onCancelar());
 
-        gbc.gridy = 4;
+        gbc.gridy = 3;
         gbc.gridx = 0;
-        add(salvarButton, gbc);
-        gbc.gridx = 1;
         add(cancelarButton, gbc);
+        gbc.gridx = 1;
+        add(salvarButton, gbc);
+    }
+
+    private void preencherCampos() {
+        produtoField.setText(produto.getProduto());
+        precoField.setValue(produto.getPreco());
+        qtdEstoqueField.setValue(produto.getQuantidadeEstoque());
     }
 
     private void onSalvar() {
-            this.produto = new Produto(
-            idField.getText(),
-            produtoField.getText(),
-            (BigDecimal) precoField.getValue(),
-            (Integer) qtdEstoqueField.getValue()
-        );
+        String produto = produtoField.getText();
+        BigDecimal preco = (BigDecimal) precoField.getValue();
+        Integer quantidadeEmEstoque = (Integer) qtdEstoqueField.getValue();
 
+        if(produto.isBlank() || preco == null || quantidadeEmEstoque == null)
+        {
+            JOptionPane.showMessageDialog(this, "Todos os campos são obrigatórios", "Erro de validação", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        this.produto.setProduto(produto);
+        this.produto.setPreco(preco);
+        this.produto.setQuantidadeEstoque(quantidadeEmEstoque);
+
+        this.salvo = true;
         dispose();
-        JOptionPane.showMessageDialog(this, "Produto cadastrado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-    
     }
 
     private void onCancelar() {
-        this.produto = null;
+        this.salvo = false;
         dispose();
+    }
+
+    public boolean foiSalvo() {
+        return this.salvo;
     }
 
     public Produto getProduto() {

@@ -71,6 +71,10 @@ public class Pedido {
         return cliente;
     }
 
+    public long getId() {
+        return this.id;
+    }
+
     public LocalDateTime getDatahora() {
         if (this.dataHora == null && this.dataHoraFormatada != null) {
             atualizarDataHoraPelaString();

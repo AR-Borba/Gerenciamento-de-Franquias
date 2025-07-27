@@ -3,7 +3,7 @@ package com.franquias.Model.entities.Usuários;
 public class Gerente extends Usuario {
 
     public Gerente(String nome, String cpf, String email, String senha) {
-        super(nome, cpf, email, senha);
+        super(nome, email, senha, cpf);
     }
 
     public void cadastrarVendedor(){

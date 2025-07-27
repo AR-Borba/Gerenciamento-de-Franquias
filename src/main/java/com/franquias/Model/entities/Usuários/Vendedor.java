@@ -17,9 +17,13 @@ public class Vendedor extends Usuario {
     List<Pedido> pedidos;
     
     public Vendedor(String nome, String email, String senha, String cpf, long id){
-        super(nome, cpf, email, senha);
+        super(nome, email, senha, cpf);
         this.id = id;
         this.pedidos = new ArrayList<>();
+    }
+
+    public Vendedor() {
+        
     }
     
     public long getId() {

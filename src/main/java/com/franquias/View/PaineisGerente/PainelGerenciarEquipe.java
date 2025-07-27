@@ -78,7 +78,7 @@ public class PainelGerenciarEquipe extends JPanel {
     }
 
     private void adicionarVendedor() {
-        DialogCadastroVendedor dialog = new DialogCadastroVendedor(framePrincipal);
+        DialogFormularioVendedor dialog = new DialogFormularioVendedor(framePrincipal);
         dialog.setVisible(true);
 
         Vendedor novoVendedor = dialog.getVendedor();
@@ -93,7 +93,7 @@ public class PainelGerenciarEquipe extends JPanel {
         if (selectedRow != -1) {
             long idVendedor = (long) modeloTabelaRanking.getValueAt(selectedRow, 0);
             controller.removerVendedor(idVendedor);
-            modeloTabelaRanking.removeRow(selectedRow);
+            carregarDadosNaTabela();
         } else {
             // Exibir mensagem de erro ou aviso
             JOptionPane.showMessageDialog(framePrincipal, "Nenhum vendedor selecionado para remoção.", "Erro", JOptionPane.ERROR_MESSAGE);
@@ -102,13 +102,26 @@ public class PainelGerenciarEquipe extends JPanel {
 
     private void editarVendedorSelecionado() {
         int selectedRow = tabelaRankingEquipe.getSelectedRow();
-        if (selectedRow != -1) {
-            long idVendedor = (long) modeloTabelaRanking.getValueAt(selectedRow, 0);
-            controller.editarVendedor(idVendedor);
-            carregarDadosNaTabela();
-        } else {
-            // Exibir mensagem de erro ou aviso
+        if (selectedRow == -1) {
             JOptionPane.showMessageDialog(framePrincipal, "Nenhum vendedor selecionado para edição.", "Erro", JOptionPane.ERROR_MESSAGE);
+            return;
         }
+        long idVendedor = (long) modeloTabelaRanking.getValueAt(selectedRow, 0);
+
+        Vendedor vendedorParaEditar = controller.buscarVendedorPorId(idVendedor);
+
+        if(vendedorParaEditar != null) {
+            DialogFormularioVendedor dialog = new DialogFormularioVendedor(framePrincipal, vendedorParaEditar);
+            dialog.setVisible(true);
+            
+            // Vendedor vendedorAtualizado = dialog.getVendedor();
+
+            if(dialog.foiSalvo()) {
+                controller.editarVendedor(vendedorParaEditar);
+                carregarDadosNaTabela();
+                JOptionPane.showMessageDialog(this, "Vendedor editado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+            
     }
 }

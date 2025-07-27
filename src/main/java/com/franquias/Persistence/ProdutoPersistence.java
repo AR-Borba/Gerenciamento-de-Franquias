@@ -14,6 +14,36 @@ public class ProdutoPersistence implements Persistence<Produto> {
     private static final String PATH = DIRECTORY + File.separator + "produto.json";
     private final Gson gson = new Gson();
 
+    private List<Produto> produtosEmMemoria;
+    private long proximoId;
+
+   public ProdutoPersistence() {
+        this.produtosEmMemoria = new ArrayList<>();
+        carregarDoArquivo();
+        determinarProximoId();
+    }
+
+    private void carregarDoArquivo() {
+        String json = Arquivo.le(PATH);
+        if (json != null && !json.trim().isEmpty()) {
+            Type tipoLista = new TypeToken<List<Produto>>() {}.getType();
+            List<Produto> produtoesDoArquivo = gson.fromJson(json, tipoLista);
+            if (produtoesDoArquivo != null) {
+                this.produtosEmMemoria.addAll(produtoesDoArquivo);
+            }
+        }
+    }
+
+    private void determinarProximoId() {
+        if(!this.produtosEmMemoria.isEmpty()) {
+            long maiorId = this.produtosEmMemoria.stream().mapToLong(Produto::getId).max().getAsLong();
+
+            this.proximoId = maiorId + 1;
+        } else {
+            this.proximoId = 1;
+        }
+    }
+
     @Override
     public void save(List<Produto> itens) {
         String json = gson.toJson(itens);
@@ -27,16 +57,36 @@ public class ProdutoPersistence implements Persistence<Produto> {
 
     @Override
     public List<Produto> findAll() {
-        String json = Arquivo.le(PATH);
-        List<Produto> itens = new ArrayList<>();
+        return this.produtosEmMemoria;
+    }
 
-        if(!json.trim().equals("")) {
-            Type tipoLista = new TypeToken<List<Produto>>() {}.getType();
-            itens = gson.fromJson(json, tipoLista);
+    public void adicionarProduto(Produto novoproduto) {
+        novoproduto.setId(this.proximoId);
+        this.produtosEmMemoria.add(novoproduto);
+        this.proximoId++;
+        save(this.produtosEmMemoria);
+    }
 
-                if(itens == null)
-                    itens = new ArrayList<>();
+    public void removerProduto(long idproduto) {
+        boolean foiRemovido = this.produtosEmMemoria.removeIf(produto -> produto.getId() == idproduto);
+
+        if(foiRemovido) {
+            save(produtosEmMemoria);
+
         }
-        return itens;
+    }
+
+    public void update(Produto produto) {
+        Produto produtoAntigo = buscarPorId(produto.getId());
+
+        if(produtoAntigo != null) {
+            produtosEmMemoria.remove(produtoAntigo);
+            produtosEmMemoria.add(produto);
+            save(produtosEmMemoria);
+        }
+    }
+
+    public Produto buscarPorId(long idProduto) {
+        return produtosEmMemoria.stream().filter(p -> p.getId() == idProduto).findFirst().orElse(null);
     }
 }
