@@ -11,7 +11,7 @@ import com.google.gson.reflect.TypeToken;
 
 public class FranquiaPersistence implements Persistence<Franquia> {
 
-    private static final String PATH = DIRECTORY + File.separator + "franquias.json";
+    private static final String PATH = "data" + File.separator + "franquias.json";
     private final Gson gson = new Gson();
 
     @Override

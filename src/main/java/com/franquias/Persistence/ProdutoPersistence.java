@@ -11,7 +11,7 @@ import com.google.gson.reflect.TypeToken;
 
 public class ProdutoPersistence implements Persistence<Produto> {
 
-    private static final String PATH = DIRECTORY + File.separator + "produto.json";
+    private static final String PATH = "data" + File.separator + "produto.json";
     private final Gson gson = new Gson();
 
     @Override

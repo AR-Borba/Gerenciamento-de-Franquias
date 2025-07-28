@@ -11,7 +11,7 @@ import com.google.gson.reflect.TypeToken;
 
 public class GerentePersistence implements Persistence<Gerente> {
 
-    private static final String PATH = DIRECTORY + File.separator + "gerente.json";
+    private static final String PATH = "data" + File.separator + "gerente.json";
     private final Gson gson = new Gson();
 
     @Override
