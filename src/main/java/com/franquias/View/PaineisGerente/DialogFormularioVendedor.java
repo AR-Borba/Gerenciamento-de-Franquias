@@ -1,34 +1,57 @@
 package com.franquias.View.PaineisGerente;
 
-import javax.swing.*;
+import java.awt.Frame;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.text.ParseException;
+
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JFormattedTextField;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 import javax.swing.text.MaskFormatter;
 
 import org.apache.commons.validator.routines.EmailValidator;
-
-import java.awt.*;
-import java.text.ParseException;
 
 import com.franquias.Model.entities.Usuários.Vendedor;
 
 import br.com.caelum.stella.validation.CPFValidator;
 import br.com.caelum.stella.validation.InvalidStateException;
 
-public class DialogCadastroVendedor extends JDialog {
-    
+public class DialogFormularioVendedor extends JDialog {
+
     private JTextField nomeField;
     private JFormattedTextField cpfField;
     private JTextField emailField;
     private JPasswordField senhaField;
+    
+    Vendedor vendedor;
 
-    private Vendedor vendedor;
+    boolean salvo;
 
-    public DialogCadastroVendedor(Frame parent) {
-        
-        super(parent, "Cadastro de Novo Vendedor", true);
+    public DialogFormularioVendedor(Frame parent) {   
+        super(parent, "Editando vendedor", true);
+        vendedor = new Vendedor();
+        configurarUI();
+    }
+
+    public DialogFormularioVendedor(Frame parent, Vendedor vendedorSendoEditado) {
+        super(parent, "Editando vendedor", true);
+        this.vendedor = vendedorSendoEditado;
+        configurarUI();
+        preencherCampos();
+    }
+
+    private void configurarUI() {
         setSize(400, 300);
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
+
+        this.vendedor = vendedor;
         
         setLocationRelativeTo(null);
         
@@ -45,9 +68,11 @@ public class DialogCadastroVendedor extends JDialog {
 
         // Inicializar campos de texto
         nomeField = new JTextField(20);
-        // cpfField = new JFormattedTextField(14);
         emailField = new JTextField(30);
         senhaField = new JPasswordField(20);
+
+        
+        // senhaField.setText(vendedor.getSenha());
         
         // Adicionar componentes ao diálogo (layout e outros componentes omitidos)
 
@@ -82,21 +107,27 @@ public class DialogCadastroVendedor extends JDialog {
 
         gbc.gridy = 4;
         gbc.gridx = 0;
-        add(salvarButton, gbc);
-        gbc.gridx = 1;
         add(cancelarButton, gbc);
+        gbc.gridx = 1;
+        add(salvarButton, gbc);
 
         // Exibir o diálogo
         pack();
     }
 
+    private void preencherCampos() {
+        nomeField.setText(vendedor.getNome());
+        cpfField.setValue(vendedor.getCpf());
+        emailField.setText(vendedor.getEmail());
+    }
+
     private void onSalvar() {
         String nome = nomeField.getText();
-        String cpf = cpfField.getText();
+        String cpf = (String) cpfField.getValue();
         String email = emailField.getText();
         String senha = new String(senhaField.getPassword());
 
-        if(nome.isBlank() || cpf.isBlank() || email.isBlank() || senha.isBlank())
+        if(nome.isBlank() || cpf == null || cpf.isBlank() || email.isBlank())
         {
             JOptionPane.showMessageDialog(this, "Todos os campos são obrigatórios", "Erro de validação", JOptionPane.ERROR_MESSAGE);
         }
@@ -115,18 +146,27 @@ public class DialogCadastroVendedor extends JDialog {
             return;
         }
 
-        this.vendedor = new Vendedor(nome, email, senha, cpf, 0);
+        this.vendedor.setNome(nome);
+        this.vendedor.setCpf(cpf);
+        this.vendedor.setEmail(email);
 
+        if(!senha.isBlank())
+            vendedor.setSenha(senha);
+
+        this.salvo = true;
         dispose();
-        JOptionPane.showMessageDialog(this, "Vendedor cadastrado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
     }
 
     private void onCancelar() {
-        this.vendedor = null;
+        this.salvo = false;
         dispose();
+    }
+
+    public boolean foiSalvo() {
+        return this.salvo;
     }
 
     public Vendedor getVendedor() {
         return this.vendedor;
-    }   
+    }
 }

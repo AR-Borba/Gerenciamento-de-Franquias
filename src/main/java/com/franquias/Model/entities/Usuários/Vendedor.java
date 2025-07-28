@@ -3,6 +3,7 @@ package com.franquias.Model.entities.Usuários;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Map;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.franquias.Model.Produto;
@@ -16,8 +17,13 @@ public class Vendedor extends Usuario {
     List<Pedido> pedidos;
     
     public Vendedor(String nome, String email, String senha, String cpf, long id){
-        super(nome, cpf, email, senha);
+        super(nome, email, senha, cpf);
         this.id = id;
+        this.pedidos = new ArrayList<>();
+    }
+
+    public Vendedor() {
+        
     }
     
     public long getId() {
@@ -30,7 +36,7 @@ public class Vendedor extends Usuario {
 
     public void cadastrarPedido(Map<Produto, Integer> produtos, String cliente, LocalDateTime datahora, FormaDePagamento formaDePagamento, BigDecimal taxas, ModalidadeEntrega modalidadeDeEntrega, StatusPedido statusPedido){
         Pedido pedido = new Pedido(produtos, cliente, datahora, formaDePagamento, taxas, modalidadeDeEntrega, statusPedido);
-        pedidos = List.of(pedido);
+        this.pedidos = List.of(pedido);
     }
 
     public void visualizarPedidos(){
@@ -42,6 +48,9 @@ public class Vendedor extends Usuario {
     }
 
     public BigDecimal calcularTotalVendas() {
+
+        if(pedidos == null)
+            return BigDecimal.ZERO;
         BigDecimal total = BigDecimal.ZERO;
         for (Pedido pedido : pedidos) {
             if (pedido.getStatusPedido() == StatusPedido.CONCLUIDO) {

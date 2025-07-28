@@ -11,6 +11,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 
 import com.franquias.Controller.GerenteController;
 import com.franquias.Model.Produto;
+import com.franquias.Model.entities.Usuários.Vendedor;
 
 public class PainelGerenciarEstoque extends JPanel {
 
@@ -34,6 +35,7 @@ public class PainelGerenciarEstoque extends JPanel {
 
     private void criarTabelaProdutos() {
         modeloTabelaProdutos = new DefaultTableModel();
+        modeloTabelaProdutos.addColumn("ID");
         modeloTabelaProdutos.addColumn("Qtd. em Estoque");
         modeloTabelaProdutos.addColumn("Produto");
         modeloTabelaProdutos.addColumn("Preço");
@@ -49,7 +51,8 @@ public class PainelGerenciarEstoque extends JPanel {
 
         for(Produto produto : produtos) {
             Object[] rowData = {
-                produto.getquantidadeEstoque(),
+                produto.getId(),
+                produto.getQuantidadeEstoque(),
                 produto.getProduto(),
                 produto.getPreco()
             };
@@ -81,8 +84,8 @@ public class PainelGerenciarEstoque extends JPanel {
         JButton btnRemover = new JButton("Remover");
         JButton btnnAdicionar = new JButton("Adicionar");
 
-        btnEditar.addActionListener(e -> editarProduto());
-        btnRemover.addActionListener(e -> removerProduto());
+        btnEditar.addActionListener(e -> editarProdutoSelecionado());
+        btnRemover.addActionListener(e -> removerProdutoSelecionado());
         btnnAdicionar.addActionListener(e -> adicionarProduto());
         
         painelAcoes.add(btnEditar);
@@ -92,32 +95,47 @@ public class PainelGerenciarEstoque extends JPanel {
         add(painelAcoes, BorderLayout.SOUTH);
     }
 
-    private void editarProduto() {
+    private void editarProdutoSelecionado() {
+        int selectedRow = tabelaProdutos.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(framePrincipal, "Nenhum Produto selecionado para edição.", "Erro", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        Object idObject = modeloTabelaProdutos.getValueAt(selectedRow, 0);
+
+        long idProduto = ((Number) idObject).longValue();
+
+        Produto ProdutoParaEditar = controller.buscarProdutoPorId(idProduto);
+
+        if(ProdutoParaEditar != null) {
+            DialogFormularioProduto dialog = new DialogFormularioProduto(framePrincipal, ProdutoParaEditar);
+            dialog.setVisible(true);
+            
+            // Produto ProdutoAtualizado = dialog.grtPRoduto();
+
+            if(dialog.foiSalvo()) {
+                controller.editarProduto(ProdutoParaEditar);
+                carregarDadosNaTabela();
+                JOptionPane.showMessageDialog(this, "Produto editado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+            
+    }
+
+    private void removerProdutoSelecionado() {
         int selectedRow = tabelaProdutos.getSelectedRow();
         if (selectedRow != -1) {
-            long idProduto = (long) modeloTabelaProdutos.getValueAt(selectedRow, 0);
-            controller.editarProduto(idProduto);
+            long idProduto = (long) tabelaProdutos.getValueAt(selectedRow, 0);
+            controller.removerProduto(idProduto);
             carregarDadosNaTabela();
         } else {
             // Exibir mensagem de erro ou aviso
-            JOptionPane.showMessageDialog(framePrincipal, "Nenhum produto selecionado para edição.", "Erro", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    private void removerProduto() {
-        int selectedRow = tabelaProdutos.getSelectedRow();
-        if (selectedRow != -1) {
-            long idProduto = (long) modeloTabelaProdutos.getValueAt(selectedRow, 0);
-            controller.removerProduto(idProduto);
-            modeloTabelaProdutos.removeRow(selectedRow);
-        } else {
-            // Exibir mensagem de erro ou aviso
-            JOptionPane.showMessageDialog(framePrincipal, "Nenhum produto selecionado para remoção.", "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(framePrincipal, "Nenhum Produto selecionado para remoção.", "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }
 
     private void adicionarProduto() {
-        DialogCadastroProduto dialog = new DialogCadastroProduto(framePrincipal);
+        DialogFormularioProduto dialog = new DialogFormularioProduto(framePrincipal);
         dialog.setVisible(true);
 
         Produto novoProduto = dialog.getProduto();

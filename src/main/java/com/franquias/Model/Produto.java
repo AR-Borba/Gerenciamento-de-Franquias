@@ -4,21 +4,25 @@ import java.math.BigDecimal;
 import java.util.Objects;
 
 public class Produto {
-    private String id;
+    private long id;
     private String produto;
     private BigDecimal preco;
     private int quantidadeEstoque;
 
-    public Produto(String id, String produto, BigDecimal preco, int quantidadeEstoque) {
-        this.id = id;
+    public Produto() {
+        
+    }
+
+    public Produto(String produto, BigDecimal preco, int quantidadeEstoque, long id) {
         this.produto = produto;
         this.preco = preco;
         this.quantidadeEstoque = quantidadeEstoque;
+        this.id = id;
     }
-    public String getId() {
+    public long getId() {
         return id;
     }
-    private void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
     public String getProduto() {
@@ -33,10 +37,10 @@ public class Produto {
     public void setPreco(BigDecimal preco) {
         this.preco = preco;
     }
-    public int getquantidadeEstoque() {
+    public int getQuantidadeEstoque() {
         return quantidadeEstoque;
     }
-    public void setquantidadeEstoque(int quantidadeEstoque) {
+    public void setQuantidadeEstoque(int quantidadeEstoque) {
         this.quantidadeEstoque = quantidadeEstoque;
     }
 

@@ -6,16 +6,19 @@ import java.util.ArrayList;
 import com.franquias.Model.Produto;
 import com.franquias.Model.entities.Pedido;
 import com.franquias.Model.entities.Usuários.Vendedor;
+import com.franquias.Persistence.ProdutoPersistence;
 import com.franquias.Persistence.VendedorPersistence;
 
 public class GerenteController {
 
     private AplicacaoPrincipal app;
     private VendedorPersistence vendedorPersistence;
+    private ProdutoPersistence produtoPersistence;
 
     public GerenteController(AplicacaoPrincipal app) {
         this.app = app;
-        vendedorPersistence = new VendedorPersistence();
+        this.vendedorPersistence = new VendedorPersistence();
+        this.produtoPersistence = new ProdutoPersistence();
     }
 
     public List<Vendedor> getEquipeDeVendasOrdenadaPorVendas() {
@@ -26,12 +29,16 @@ public class GerenteController {
         return vendedores;
     }
 
-    public void editarVendedor(long idVendedor) {
-        // Implementar lógica para editar um vendedor
+    public void editarVendedor(Vendedor vendedorEditado) {
+        vendedorPersistence.update(vendedorEditado);
+    }
+
+    public Vendedor buscarVendedorPorId(long idVendedor) {
+        return vendedorPersistence.buscarPorId(idVendedor);
     }
 
     public void removerVendedor(long idVendedor) {
-        // Implementar lógica para remover um vendedor
+        vendedorPersistence.removerVendedor(idVendedor);
     }
 
     public void adicionarVendedor(Vendedor vendedor) {
@@ -44,19 +51,26 @@ public class GerenteController {
     }
 
     public List<Produto> getProdutos() {
-        // Implementar lógica para obter a lista de produtos
-        return new ArrayList<Produto>();
+        List<Produto> produtos;
+
+        produtos = produtoPersistence.findAll();
+
+        return produtos;
     }
 
-    public void editarProduto(long idProduto) {
-        // Implementar lógica para editar produto
+    public void editarProduto(Produto produtoEditado) {
+        produtoPersistence.update(produtoEditado);
     }
 
     public void removerProduto(long idProduto) {
-        // Implementar lógica para remover um produto
+        produtoPersistence.removerProduto(idProduto);
     }
 
     public void adicionarProduto(Produto produto) {
-        // Implementar lógica para adicioar um novo produto
+        produtoPersistence.adicionarProduto(produto);
+    }
+
+    public Produto buscarProdutoPorId(long idProduto) {
+        return produtoPersistence.buscarPorId(idProduto);
     }
 }

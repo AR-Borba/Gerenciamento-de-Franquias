@@ -7,7 +7,6 @@ import java.util.List;
 
 import com.franquias.Model.entities.Usuários.Vendedor;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 public class VendedorPersistence implements Persistence<Vendedor> {
@@ -45,7 +44,6 @@ public class VendedorPersistence implements Persistence<Vendedor> {
         } else {
             this.proximoId = 1;
         }
-
     }
 
     @Override
@@ -69,5 +67,28 @@ public class VendedorPersistence implements Persistence<Vendedor> {
         this.vendedoresEmMemoria.add(novoVendedor);
         this.proximoId++;
         save(this.vendedoresEmMemoria);
+    }
+
+    public void removerVendedor(long idVendedor) {
+        boolean foiRemovido = this.vendedoresEmMemoria.removeIf(vendedor -> vendedor.getId() == idVendedor);
+
+        if(foiRemovido) {
+            save(vendedoresEmMemoria);
+
+        }
+    }
+
+    public void update(Vendedor vendedor) {
+        Vendedor vendedorAntigo = buscarPorId(vendedor.getId());
+
+        if(vendedorAntigo != null) {
+            vendedoresEmMemoria.remove(vendedorAntigo);
+            vendedoresEmMemoria.add(vendedor);
+            save(vendedoresEmMemoria);
+        }
+    }
+
+    public Vendedor buscarPorId(long idVendedor) {
+        return vendedoresEmMemoria.stream().filter(v -> v.getId() == idVendedor).findFirst().orElse(null);
     }
 }
