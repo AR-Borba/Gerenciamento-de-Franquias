@@ -9,10 +9,11 @@ public class LoginController {
     }
 
     public void realizarLogin(String email, String senha) {
-        if("adm@gmail.com".equals(email) && "1234".equals(senha))
+        if("gerente@gmail.com".equals(email) && "1234".equals(senha))
             app.mostrarTela("GERENTE");
-        else
+        else if("dono@gmail.com".equals(email) && "1234".equals(senha))
+            app.mostrarTela("DONO");
+        else if("vendedor@gmail.com".equals(email) && "1234".equals(senha))
             app.mostrarTela("VENDEDOR");
-
     }
 }

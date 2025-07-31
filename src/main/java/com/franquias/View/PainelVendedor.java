@@ -1,8 +1,8 @@
-// package com.franquias.View;
+package com.franquias.View;
 
-// import javax.swing.*;
+import javax.swing.*;
 
-// import java.awt.*;
+import java.awt.*;
 
 import java.util.List;
 
@@ -11,18 +11,18 @@ import com.franquias.Model.entities.Usuários.Vendedor;
 import com.franquias.Persistence.VendedorPersistence;
 import com.franquias.View.PaineisVendedor.*;
 
-// public class PainelVendedor extends PainelBase {
+public class PainelVendedor extends PainelBase {
 
-//     private VendedorController controller;
+    private VendedorController controller;
 
     private PainelHistoricoVenda painelHistoricoVenda;
     private PainelVenda painelVenda;
 
 
-//     public PainelVendedor(AplicacaoPrincipal app, VendedorController controller) {
-//         super(app);
-//         this.controller = controller;
-//         this.setLayout(new BorderLayout(5, 5));
+    public PainelVendedor(AplicacaoPrincipal app, VendedorController controller) {
+        super(app);
+        this.controller = controller;
+        this.setLayout(new BorderLayout(5, 5));
 
         VendedorPersistence vendedorPersistence = new VendedorPersistence();
         Vendedor vendedor = vendedorPersistence.buscarPorId(5);
@@ -30,12 +30,12 @@ import com.franquias.View.PaineisVendedor.*;
 
         construirLayout();
 
-//         this.setVisible(true);
-//     }
+        this.setVisible(true);
+    }
 
-//     @Override
-//     public JMenu getMenu() {
-//         JMenu menuVendas = new JMenu("Vendas");
+    @Override
+    public JMenu getMenu() {
+        JMenu menuVendas = new JMenu("Vendas");
 
         JMenuItem itemNovaVenda = new JMenuItem("Nova Venda");
         JMenuItem itemMinhasVendas = new JMenuItem("Minhas Vendas");
@@ -46,11 +46,11 @@ import com.franquias.View.PaineisVendedor.*;
             mostrarSubPainel("HISTORICO_VENDAS");
         });
 
-//         menuVendas.add(itemNovaVenda);
-//         menuVendas.add(itemMinhasVendas);
+        menuVendas.add(itemNovaVenda);
+        menuVendas.add(itemMinhasVendas);
 
-//         return menuVendas;
-//     }
+        return menuVendas;
+    }
 
     @Override
     protected void registrarSubPaineis(JPanel painelDeCards) {

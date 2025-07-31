@@ -1,16 +1,16 @@
-// package com.franquias.View.PaineisVendedor;
+package com.franquias.View.PaineisVendedor;
 
-// import java.awt.BorderLayout;
-// import java.awt.FlowLayout;
-// import java.util.List;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.util.List;
 
-// import javax.swing.JButton;
-// import javax.swing.JFrame;
-// import javax.swing.JOptionPane;
-// import javax.swing.JPanel;
-// import javax.swing.JScrollPane;
-// import javax.swing.JTable;
-// import javax.swing.table.DefaultTableModel;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 import com.franquias.Controller.PedidoController;
 import com.franquias.Controller.VendedorController;
@@ -22,8 +22,8 @@ public class PainelHistoricoVenda extends JPanel {
     private VendedorController controller;
     private PedidoController pedidoController;
 
-//     private JTable tabelaPedidos;
-//     private DefaultTableModel modeloTabelaPedidos;
+    private JTable tabelaPedidos;
+    private DefaultTableModel modeloTabelaPedidos;
 
     public PainelHistoricoVenda(VendedorController controller, JFrame framePrincipal) {
         this.framePrincipal = framePrincipal;
@@ -36,67 +36,67 @@ public class PainelHistoricoVenda extends JPanel {
         criarPainelAcoes();
     }
 
-//     private void criarTabelaPedidos() {
-//         modeloTabelaPedidos = new DefaultTableModel();
-//         modeloTabelaPedidos.addColumn("ID");
-//         modeloTabelaPedidos.addColumn("Cliente");
-//         modeloTabelaPedidos.addColumn("Valor Total");
-//         modeloTabelaPedidos.addColumn("Status");
+    private void criarTabelaPedidos() {
+        modeloTabelaPedidos = new DefaultTableModel();
+        modeloTabelaPedidos.addColumn("ID");
+        modeloTabelaPedidos.addColumn("Cliente");
+        modeloTabelaPedidos.addColumn("Valor Total");
+        modeloTabelaPedidos.addColumn("Status");
 
-//         tabelaPedidos = new JTable(modeloTabelaPedidos);
-//         add(new JScrollPane(tabelaPedidos), BorderLayout.CENTER);
-//     }
+        tabelaPedidos = new JTable(modeloTabelaPedidos);
+        add(new JScrollPane(tabelaPedidos), BorderLayout.CENTER);
+    }
 
     public void carregarDadosNaTabela() {
         modeloTabelaPedidos.setRowCount(0);
 
         List<Pedido> pedidos = controller.getPedidosVendedor(); 
 
-//         for(Pedido pedido : pedidos) {
-//             Object[] rowData = {
-//                 pedido.getId(),
-//                 pedido.getCliente(),
-//                 pedido.getValorTotal(),
-//                 pedido.getStatusPedido()
-//             };
-//             modeloTabelaPedidos.addRow(rowData);
-//         }
-//     }
+        for(Pedido pedido : pedidos) {
+            Object[] rowData = {
+                pedido.getId(),
+                pedido.getCliente(),
+                pedido.getValorTotal(),
+                pedido.getStatusPedido()
+            };
+            modeloTabelaPedidos.addRow(rowData);
+        }
+    }
 
-//     private void criarPainelOpcoes() {
-//         JPanel painelOpcoes = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 5));
+    private void criarPainelOpcoes() {
+        JPanel painelOpcoes = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 5));
 
-//         JButton btnVerTodosOsPedidos = new JButton("Todos os Pedidos");
-//         JButton btnPedidosComEstoqueBaixo = new JButton("Pedidos Aguardando Alteração");
+        JButton btnVerTodosOsPedidos = new JButton("Todos os Pedidos");
+        JButton btnPedidosComEstoqueBaixo = new JButton("Pedidos Aguardando Alteração");
 
-//         btnVerTodosOsPedidos.addActionListener(e -> carregarDadosNaTabela());
-//         btnPedidosComEstoqueBaixo.addActionListener(e -> carregarDadosNaTabela());
+        btnVerTodosOsPedidos.addActionListener(e -> carregarDadosNaTabela());
+        btnPedidosComEstoqueBaixo.addActionListener(e -> carregarDadosNaTabela());
 
-//         painelOpcoes.add(btnVerTodosOsPedidos);
-//         painelOpcoes.add(btnPedidosComEstoqueBaixo);
+        painelOpcoes.add(btnVerTodosOsPedidos);
+        painelOpcoes.add(btnPedidosComEstoqueBaixo);
 
-//         add(painelOpcoes, BorderLayout.NORTH);
-//     }
+        add(painelOpcoes, BorderLayout.NORTH);
+    }
 
 
-//     private void criarPainelAcoes() {
-//         JPanel painelAcoes = new JPanel();
-//         painelAcoes.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 5));
+    private void criarPainelAcoes() {
+        JPanel painelAcoes = new JPanel();
+        painelAcoes.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 5));
         
-//         JButton btnSolicitarExclusao = new JButton("SolicitarExclusao");
-//         JButton btnEditar = new JButton("Editar");
-//         JButton btnnSolicitarAlteracao = new JButton("SolicitarAlteracao");
+        JButton btnSolicitarExclusao = new JButton("SolicitarExclusao");
+        JButton btnEditar = new JButton("Editar");
+        JButton btnnSolicitarAlteracao = new JButton("SolicitarAlteracao");
 
         btnSolicitarExclusao.addActionListener(e -> solicitarExclusao());
         btnEditar.addActionListener(e -> editarPedidoselecionado());
         btnnSolicitarAlteracao.addActionListener(e -> solicitarAlteracaoPedido());
         
-//         painelAcoes.add(btnSolicitarExclusao);
-//         painelAcoes.add(btnEditar);
-//         painelAcoes.add(btnnSolicitarAlteracao);
+        painelAcoes.add(btnSolicitarExclusao);
+        painelAcoes.add(btnEditar);
+        painelAcoes.add(btnnSolicitarAlteracao);
         
-//         add(painelAcoes, BorderLayout.SOUTH);
-//     }
+        add(painelAcoes, BorderLayout.SOUTH);
+    }
 
     private void solicitarExclusao() {
         int selectedRow = tabelaPedidos.getSelectedRow();
@@ -106,7 +106,7 @@ public class PainelHistoricoVenda extends JPanel {
         }
         Object idObject = modeloTabelaPedidos.getValueAt(selectedRow, 0);
 
-//         long idPedido = ((Number) idObject).longValue();
+        long idPedido = ((Number) idObject).longValue();
 
         Pedido pedidoParaExcluir = controller.buscarPedidoPorId(idPedido);
         
@@ -126,9 +126,9 @@ public class PainelHistoricoVenda extends JPanel {
         }
         Object idObject = modeloTabelaPedidos.getValueAt(selectedRow, 0);
 
-//         long idPedido = ((Number) idObject).longValue();
+        long idPedido = ((Number) idObject).longValue();
 
-//         Pedido pedidoParaAlterar = controller.buscarPedidoPorId(idPedido);
+        Pedido pedidoParaAlterar = controller.buscarPedidoPorId(idPedido);
         
         if(pedidoParaAlterar != null && pedidoParaAlterar.getStatusPedido() == StatusPedido.EM_ALTERACAO) {
             DialogAlterarPedido dialog = new DialogAlterarPedido(framePrincipal, pedidoParaAlterar, pedidoController);
