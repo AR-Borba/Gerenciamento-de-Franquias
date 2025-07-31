@@ -56,7 +56,7 @@ public class AplicacaoPrincipal {
         painelDeConteudo.add(painelDono, "DONO");
         
         telaPricipal.add(painelDeConteudo);
-        mostrarTela("GERENTE");
+        mostrarTela("VENDEDOR");
 
         telaPricipal.setLocationRelativeTo(null);
         telaPricipal.setVisible(true);

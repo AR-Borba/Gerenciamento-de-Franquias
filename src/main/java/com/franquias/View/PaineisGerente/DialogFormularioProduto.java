@@ -47,7 +47,7 @@ public class DialogFormularioProduto extends JDialog {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        this.produto = produto;
+        // this.produto = produto;
         
         NumberFormat integerFormat = NumberFormat.getIntegerInstance();
         DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");

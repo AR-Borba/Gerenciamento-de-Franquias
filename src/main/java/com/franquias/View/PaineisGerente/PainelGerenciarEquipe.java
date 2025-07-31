@@ -2,6 +2,7 @@ package com.franquias.View.PaineisGerente;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -49,10 +50,12 @@ public class PainelGerenciarEquipe extends JPanel {
         List<Vendedor> vendedores = controller.getEquipeDeVendasOrdenadaPorVendas();
 
         for (Vendedor vendedor : vendedores) {
+            BigDecimal totalVendas = controller.calcularTotalVendasPorVendedor(vendedor);
+
             Object[] rowData = {
                 vendedor.getId(),
                 vendedor.getNome(),
-                vendedor.calcularTotalVendas()
+                totalVendas
             };
             modeloTabelaRanking.addRow(rowData);
         }

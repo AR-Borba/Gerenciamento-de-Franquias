@@ -1,11 +1,14 @@
 package com.franquias.Controller;
 
 import java.util.List;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import com.franquias.Model.Produto;
 import com.franquias.Model.entities.Pedido;
 import com.franquias.Model.entities.Usuários.Vendedor;
+import com.franquias.Model.enums.StatusPedido;
+import com.franquias.Persistence.PedidoPersistence;
 import com.franquias.Persistence.ProdutoPersistence;
 import com.franquias.Persistence.VendedorPersistence;
 
@@ -14,11 +17,13 @@ public class GerenteController {
     private AplicacaoPrincipal app;
     private VendedorPersistence vendedorPersistence;
     private ProdutoPersistence produtoPersistence;
+    private PedidoPersistence pedidoPersistence;
 
     public GerenteController(AplicacaoPrincipal app) {
         this.app = app;
         this.vendedorPersistence = new VendedorPersistence();
         this.produtoPersistence = new ProdutoPersistence();
+        this.pedidoPersistence = new PedidoPersistence();
     }
 
     public List<Vendedor> getEquipeDeVendasOrdenadaPorVendas() {
@@ -72,5 +77,23 @@ public class GerenteController {
 
     public Produto buscarProdutoPorId(long idProduto) {
         return produtoPersistence.buscarPorId(idProduto);
+    }
+
+    public BigDecimal calcularTotalVendasPorVendedor(Vendedor vendedor) {
+        if (vendedor.getListaIdPedidos() == null) {
+            return BigDecimal.ZERO;
+        }
+
+        BigDecimal total = BigDecimal.ZERO;
+        for (Long idPedido : vendedor.getListaIdPedidos()) {
+            // Busca o pedido UMA VEZ por iteração
+            Pedido pedido = pedidoPersistence.buscarPorId(idPedido);
+            
+            // Verifica se o pedido foi encontrado e se está concluído
+            if (pedido != null && pedido.getStatusPedido() == StatusPedido.CONCLUIDO) {
+                total = total.add(pedido.getValorTotal());
+            }
+        }
+        return total;
     }
 }
