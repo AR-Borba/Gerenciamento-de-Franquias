@@ -14,6 +14,9 @@ public class FranquiaPersistence implements Persistence<Franquia> {
     private static final String PATH = "data" + File.separator + "franquias.json";
     private final Gson gson = new Gson();
 
+    private List<Franquia> franquiasEmMemoria;
+    private long proximoId;
+
     @Override
     public void save(List<Franquia> itens) {
         String json = gson.toJson(itens);
@@ -38,5 +41,34 @@ public class FranquiaPersistence implements Persistence<Franquia> {
                     itens = new ArrayList<>();
         }
         return itens;
+    }
+
+    public void adicionarFranquia(Franquia novaFranquia) {
+        novaFranquia.setId(this.proximoId);
+        this.franquiasEmMemoria.add(novaFranquia);
+        this.proximoId++;
+        save(this.franquiasEmMemoria);
+    }
+
+    public void removerFranquia(long idfranquia) {
+        boolean foiRemovido = this.franquiasEmMemoria.removeIf(franquia -> franquia.getId() == idfranquia);
+
+        if(foiRemovido) {
+            save(franquiasEmMemoria);
+        }
+    }
+
+    public void update(Franquia franquia) {
+        Franquia franquiaAntigo = buscarPorId(franquia.getId());
+
+        if(franquiaAntigo != null) {
+            franquiasEmMemoria.remove(franquiaAntigo);
+            franquiasEmMemoria.add(franquia);
+            save(franquiasEmMemoria);
+        }
+    }
+
+    public Franquia buscarPorId(long idfranquia) {
+        return franquiasEmMemoria.stream().filter(v -> v.getId() == idfranquia).findFirst().orElse(null);
     }
 }

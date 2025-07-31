@@ -1,7 +1,7 @@
 package com.franquias.exceptions;
 
-public class CPFException extends Exception{
-    public CPFException(){
+public class CpfException extends Exception{
+    public CpfException(){
         super("CPF invélido!");
     }
 }

@@ -14,6 +14,9 @@ public class GerentePersistence implements Persistence<Gerente> {
     private static final String PATH = "data" + File.separator + "gerente.json";
     private final Gson gson = new Gson();
 
+    private List<Gerente> gerentesEmMemoria;
+    private long proximoId;
+
     @Override
     public void save(List<Gerente> itens) {
         String json = gson.toJson(itens);
@@ -39,4 +42,34 @@ public class GerentePersistence implements Persistence<Gerente> {
         }
         return itens;
     }
+
+    public void adicionarGerente(Gerente novoGerente) {
+        novoGerente.setId(this.proximoId);
+        this.gerentesEmMemoria.add(novoGerente);
+        this.proximoId++;
+        save(this.gerentesEmMemoria);
+    }
+
+    public void removerGerente(long idgerente) {
+        boolean foiRemovido = this.gerentesEmMemoria.removeIf(gerente -> gerente.getId() == idgerente);
+
+        if(foiRemovido) {
+            save(gerentesEmMemoria);
+        }
+    }
+
+    public void update(Gerente gerente) {
+        Gerente gerenteAntigo = buscarPorId(gerente.getId());
+
+        if(gerenteAntigo != null) {
+            gerentesEmMemoria.remove(gerenteAntigo);
+            gerentesEmMemoria.add(gerente);
+            save(gerentesEmMemoria);
+        }
+    }
+
+    public Gerente buscarPorId(long idgerente) {
+        return gerentesEmMemoria.stream().filter(v -> v.getId() == idgerente).findFirst().orElse(null);
+    }
+
 }

@@ -1,53 +1,53 @@
-package com.franquias.View;
+// package com.franquias.View;
 
-import javax.swing.*;
+// import javax.swing.*;
 
-import java.awt.*;
+// import java.awt.*;
 
-import com.franquias.Controller.*;
-import com.franquias.View.PaineisVendedor.PainelHistoricoVenda;
-import com.franquias.View.PaineisVendedor.PainelNovaVenda;
+// import com.franquias.Controller.*;
+// import com.franquias.View.PaineisVendedor.PainelHistoricoVenda;
+// import com.franquias.View.PaineisVendedor.PainelNovaVenda;
 
-public class PainelVendedor extends PainelBase {
+// public class PainelVendedor extends PainelBase {
 
-    private VendedorController controller;
+//     private VendedorController controller;
 
-    JLabel lblTotalValor;
-    // private final int V_GAP = 10;
-    // private final int H_GAP = 5;
+//     JLabel lblTotalValor;
+//     // private final int V_GAP = 10;
+//     // private final int H_GAP = 5;
 
-    public PainelVendedor(AplicacaoPrincipal app, VendedorController controller) {
-        super(app);
-        this.controller = controller;
-        this.setLayout(new BorderLayout(5, 5));
+//     public PainelVendedor(AplicacaoPrincipal app, VendedorController controller) {
+//         super(app);
+//         this.controller = controller;
+//         this.setLayout(new BorderLayout(5, 5));
 
-        construirLayout();
+//         construirLayout();
 
-        this.setVisible(true);
-    }
+//         this.setVisible(true);
+//     }
 
-    @Override
-    public JMenu getMenu() {
-        JMenu menuVendas = new JMenu("Vendas");
+//     @Override
+//     public JMenu getMenu() {
+//         JMenu menuVendas = new JMenu("Vendas");
 
-        JMenuItem itemNovaVenda = new JMenuItem("Nova Venda");
-        JMenuItem itemMinhasVendas = new JMenuItem("Minhas Vendas");
-        itemNovaVenda.addActionListener(e -> mostrarSubPainel("NOVA_VENDA"));
-        itemMinhasVendas.addActionListener(e -> mostrarSubPainel("HISTORICO_VENDAS"));
+//         JMenuItem itemNovaVenda = new JMenuItem("Nova Venda");
+//         JMenuItem itemMinhasVendas = new JMenuItem("Minhas Vendas");
+//         itemNovaVenda.addActionListener(e -> mostrarSubPainel("NOVA_VENDA"));
+//         itemMinhasVendas.addActionListener(e -> mostrarSubPainel("HISTORICO_VENDAS"));
 
-        menuVendas.add(itemNovaVenda);
-        menuVendas.add(itemMinhasVendas);
+//         menuVendas.add(itemNovaVenda);
+//         menuVendas.add(itemMinhasVendas);
 
-        return menuVendas;
-    }
+//         return menuVendas;
+//     }
 
-    @Override
-    protected void registrarSubPaineis(JPanel painelDeCards) {
-        PainelNovaVenda painelNovaVenda = new PainelNovaVenda(controller);
-        PainelHistoricoVenda painelHistoricoVenda = new PainelHistoricoVenda(controller);
+//     @Override
+//     protected void registrarSubPaineis(JPanel painelDeCards) {
+//         PainelNovaVenda painelNovaVenda = new PainelNovaVenda(controller);
+//         //PainelHistoricoVenda painelHistoricoVenda = new PainelHistoricoVenda(controller, framePrincipal);
 
-        painelDeCards.add(painelNovaVenda, "NOVA_VENDA");
-        painelDeCards.add(painelHistoricoVenda, "HISTORICO_VENDAS");
-    }
-}
+//         painelDeCards.add(painelNovaVenda, "NOVA_VENDA");
+//         //painelDeCards.add(painelHistoricoVenda, "HISTORICO_VENDAS");
+//     }
+// }
     

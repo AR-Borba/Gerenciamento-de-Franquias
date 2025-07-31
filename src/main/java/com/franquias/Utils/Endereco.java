@@ -2,6 +2,8 @@ package com.franquias.Utils;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.franquias.exceptions.CepException;
+
 public class Endereco {
     private String rua;
     private String numero;
@@ -9,11 +11,21 @@ public class Endereco {
     private String estado;
     private String cep;
 
-    // Construtor, getters e setters (omiti para brevidade)
+    public Endereco (String rua, String numero, String cidade, String estado, String CEP){
+        this.rua = rua;
+        this.numero = numero;
+        this.cidade = cidade;
+        this.estado = estado;
+        this.cep = CEP;
+    }
 
-    public boolean validarCep() {
-        // Implementar validação do CEP usando expressões regulares ou outra lógica
-        return StringUtils.isNotBlank(this.cep) && this.cep.matches("\\d{5}-\\d{3}");
+    public boolean validarCep() throws CepException {
+        try {    
+            return StringUtils.isNotBlank(this.cep) && this.cep.matches("\\d{5}-\\d{3}");
+        } catch (Exception e) {
+            System.out.print("deu erro aqui ó!");
+            return false;
+        }
     }
 
     public String formatarEndereco() {

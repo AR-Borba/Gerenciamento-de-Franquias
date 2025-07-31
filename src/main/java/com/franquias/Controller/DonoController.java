@@ -12,38 +12,26 @@ import com.franquias.Utils.Endereco;
 import com.franquias.Persistence.FranquiaPersistence;
 
 public class DonoController {
-
+    private FranquiaPersistence franquiaPersistence;
+    private GerentePersistence gerentePersistence;
     private AplicacaoPrincipal app;
-
+    
     public DonoController(AplicacaoPrincipal app){
+        this.franquiaPersistence = new FranquiaPersistence();
         this.app = app;
     }
     
     public void cadastrarGerente(Gerente gerente) {        
         GerentePersistence gerentePersistence = new GerentePersistence();
-       
+        
         List<Gerente> novosGerentes;
         novosGerentes = List.of(gerente);
        
         gerentePersistence.save(novosGerentes);
     }
 
-    public void removerGerente(Gerente gerenteParaRemover) {
-        FranquiaPersistence franquiaPersistence = new FranquiaPersistence();
-        List<Franquia> todasFranquias = franquiaPersistence.findAll();
-        
-        for (Franquia franquia : todasFranquias) {
-            if (franquia.getGerente() != null && franquia.getGerente().equals(gerenteParaRemover)) {
-                franquia.setGerente(null);
-            }
-        }
-        
-        GerentePersistence gerentePersistence = new GerentePersistence();
-        List<Gerente> todosGerentes = gerentePersistence.findAll();
-        todosGerentes.remove(gerenteParaRemover);
-        
-        gerentePersistence.save(todosGerentes);
-        franquiaPersistence.save(todasFranquias);
+    public void removerGerente(long idGerente) {
+        gerentePersistence.removerGerente(idGerente);
     }
 
     public List<Gerente> getGerentes(){
@@ -52,11 +40,11 @@ public class DonoController {
         return gerentes;
     }
 
-    public void cadastrarFranquia(String nome, Endereco endereco, Gerente gerenteResponsavel) {
+    public void cadastrarFranquia(Endereco endereco, Gerente gerenteResponsavel) {
         FranquiaPersistence franquiaPersistence = new FranquiaPersistence();
         List<Franquia> todasFranquias = franquiaPersistence.findAll();
         
-        Franquia novaFranquia = new Franquia(nome, endereco, gerenteResponsavel);
+        Franquia novaFranquia = new Franquia(endereco, gerenteResponsavel);
         
         todasFranquias.add(novaFranquia);
         franquiaPersistence.save(todasFranquias);
@@ -73,6 +61,28 @@ public class DonoController {
             }
         }
         return franquiasSemGerente;
+    }
+
+    public List<Franquia> getUnidades() {
+        List<Franquia> franquias;
+        franquias = franquiaPersistence.findAll();
+        return franquias;
+    }
+
+    public void cadastrarFranquia(Franquia novaFranquia) {
+        franquiaPersistence.adicionarFranquia(novaFranquia);
+    }
+
+    public Gerente buscarGerentePorId(long id) {
+        return null;
+    }
+
+    public void editarGerente(Gerente gerenteParaEditar) {
+        gerentePersistence.update(gerenteParaEditar);
+    }
+
+    public void removerFranquia(long franquia) {
+        franquiaPersistence.removerFranquia(franquia);
     }
 
     // public RelatorioDesempenhoUnidade gerarRelatorioParaFranquia(Franquia franquia) {

@@ -25,36 +25,36 @@ public class PainelDono extends PainelBase{
     public JMenu getMenu() {
         JMenu menuOpcoes = new JMenu("Opções");
 
-        JMenuItem itemGerenciarEquipe = new JMenuItem("Gerenciar Gerentes");
-        itemGerenciarEquipe.addActionListener(e -> mostrarSubPainel("GERENCIAR_GERENTES"));
+        JMenuItem itemGerenciarGerentes = new JMenuItem("Gerenciar Gerentes");
+        itemGerenciarGerentes.addActionListener(e -> mostrarSubPainel("GERENCIAR_GERENTES"));
         
-        JMenuItem itemControlarPedidos = new JMenuItem("Gerenciar Franquias");
-        itemControlarPedidos.addActionListener(e -> mostrarSubPainel("GERENCIAR_FRANQUIAS"));
+        JMenuItem itemGerenciarFranquias = new JMenuItem("Gerenciar Franquias");
+        itemGerenciarFranquias.addActionListener(e -> mostrarSubPainel("GERENCIAR_FRANQUIAS"));
         
-        JMenuItem itemRelatorios = new JMenuItem("Indicadores Financeiros");
-        itemRelatorios.addActionListener(e -> mostrarSubPainel("INDICADORES_FINANCEIROS"));
+        JMenuItem itemIndicadoresFinanceiros = new JMenuItem("Indicadores Financeiros");
+        itemIndicadoresFinanceiros.addActionListener(e -> mostrarSubPainel("INDICADORES_FINANCEIROS"));
 
-        JMenuItem itemEstoque = new JMenuItem("Ranking Vendedores");
-        itemEstoque.addActionListener(e -> mostrarSubPainel("RANKING_VENDEDORES"));
+        JMenuItem itemRankingVendedores = new JMenuItem("Ranking Vendedores");
+        itemRankingVendedores.addActionListener(e -> mostrarSubPainel("RANKING_VENDEDORES"));
         
-        menuOpcoes.add(itemGerenciarEquipe);
-        menuOpcoes.add(itemControlarPedidos);
-        menuOpcoes.add(itemEstoque);
-        menuOpcoes.add(itemRelatorios);
+        menuOpcoes.add(itemGerenciarGerentes);
+        menuOpcoes.add(itemGerenciarFranquias);
+        menuOpcoes.add(itemRankingVendedores);
+        menuOpcoes.add(itemIndicadoresFinanceiros);
 
         return menuOpcoes;
     }
 
     @Override
     protected void registrarSubPaineis(JPanel painelDeCards) {
-        PainelGerenciarGerentes painelGerenciarEquipe = new PainelGerenciarGerentes(controller, app.getFramePrincipal());
-        //PainelGerenciarFranquias painelControlarPedidos = new PainelGerenciarFranquias(controller, app.getFramePrincipal());
-        PainelIndicadoresFinanceiros painelGerenciarEstoque = new PainelIndicadoresFinanceiros(controller);
-        PainelRankingVendedores painelGerarRelatorios = new PainelRankingVendedores(controller);
+        PainelGerenciarGerentes painelGerenciarGerentes = new PainelGerenciarGerentes(controller, app.getFramePrincipal());
+        PainelGerenciarFranquias painelGerenciarFranquias = new PainelGerenciarFranquias(controller, app.getFramePrincipal());
+        PainelIndicadoresFinanceiros painelIndicadoresFinanceiros = new PainelIndicadoresFinanceiros(controller);
+        PainelRankingVendedores painelRankingVendedores = new PainelRankingVendedores(controller);
 
-        painelDeCards.add(painelGerenciarEquipe, "GERENCIAR_GERENTES");
-        //painelDeCards.add(painelControlarPedidos, "GERENCIAR_FRANQUIAS");
-        painelDeCards.add(painelGerenciarEstoque, "INDICADORES_FINANCEIROS");
-        painelDeCards.add(painelGerarRelatorios, "RANKING_VENDEDORES");
+        painelDeCards.add(painelGerenciarGerentes, "GERENCIAR_GERENTES");
+        painelDeCards.add(painelGerenciarFranquias, "GERENCIAR_FRANQUIAS");
+        painelDeCards.add(painelIndicadoresFinanceiros, "INDICADORES_FINANCEIROS");
+        painelDeCards.add(painelRankingVendedores, "RANKING_VENDEDORES");
     }
 }

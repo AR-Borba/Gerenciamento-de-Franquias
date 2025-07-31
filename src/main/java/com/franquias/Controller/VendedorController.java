@@ -1,5 +1,7 @@
 package com.franquias.Controller;
 
+import java.util.List;
+
 import com.franquias.Model.Produto;
 import com.franquias.Model.entities.Pedido;
 import com.franquias.Model.entities.Usuários.Vendedor;
@@ -45,5 +47,15 @@ public class VendedorController {
 
     public Pedido getPedidoAtual() {
         return pedidoAtual;
+    }
+
+    public List<Pedido> getPedidos() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getPedidos'");
+    }
+
+    public Pedido buscarPedidoPorId(long idPedido) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'buscarPedidoPorId'");
     }
 }

@@ -12,10 +12,7 @@ import com.google.gson.reflect.TypeToken;
 public class VendedorPersistence implements Persistence<Vendedor> {
 
     private static final String PATH = "data" + File.separator + "vendedor.json";
-    private final Gson gson = new GsonBuilder()
-                                .registerTypeAdapterFactory(new JavaTimeTypeAdapterFactory())
-                                .setPrettyPrinting() // Opcional: deixa o JSON no arquivo mais legível
-                                .create();
+    private final Gson gson = new Gson();
     private List<Vendedor> vendedoresEmMemoria;
     private long proximoId;
 
@@ -74,7 +71,6 @@ public class VendedorPersistence implements Persistence<Vendedor> {
 
         if(foiRemovido) {
             save(vendedoresEmMemoria);
-
         }
     }
 

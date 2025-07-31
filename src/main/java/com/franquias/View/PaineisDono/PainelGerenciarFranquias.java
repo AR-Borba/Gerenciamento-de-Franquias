@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -14,7 +15,7 @@ import javax.swing.table.DefaultTableModel;
 import com.franquias.Controller.DonoController;
 import com.franquias.Model.entities.Franquia;
 
-public class PainelGerenciarFranquias extends JPanel{
+public class PainelGerenciarFranquias extends JPanel {
     private JFrame framePrincipal;
     private DonoController controller;
     private JTable tabelaFranquias;
@@ -35,6 +36,7 @@ public class PainelGerenciarFranquias extends JPanel{
         modeloTabelaFranquias.addColumn("Estado");
         modeloTabelaFranquias.addColumn("Cidade");
         modeloTabelaFranquias.addColumn("Gerente");
+        modeloTabelaFranquias.addColumn("Receita acumulada");
 
         tabelaFranquias = new JTable(modeloTabelaFranquias);
         add(new JScrollPane(tabelaFranquias), BorderLayout.CENTER);
@@ -43,11 +45,14 @@ public class PainelGerenciarFranquias extends JPanel{
     public void carregarDadosNaTabela() {
         modeloTabelaFranquias.setRowCount(0); // Limpa a tabela antes de adicionar novos dados
 
-        List<Franquia> gerentes = controller.getGerentes();
+        List<Franquia> franquias = controller.getUnidades();
 
-        for (Franquia gerente : gerentes) {
+        for (Franquia franquia : franquias) {
             Object[] rowData = {
-                gerente.getNome(),
+                    franquia.getEstado(),
+                    franquia.getCidade(),
+                    franquia.getGerente(),
+                    franquia.getReceita(),
             };
             modeloTabelaFranquias.addRow(rowData);
         }
@@ -61,36 +66,41 @@ public class PainelGerenciarFranquias extends JPanel{
         JButton btnRemover = new JButton("Remover");
         JButton btnnAdicionar = new JButton("Adicionar");
 
-        //btnEditar.addActionListener(e -> editaGerente());
-        //btnRemover.addActionListener(e -> removeGerente());
-        btnnAdicionar.addActionListener(e -> adicionaGerente());
-        
+        btnEditar.addActionListener(e -> editaFranquia());
+        btnRemover.addActionListener(e -> removeFranquia());
+        btnnAdicionar.addActionListener(e -> adicionaFranquia());
+
         painelAcoes.add(btnEditar);
         painelAcoes.add(btnRemover);
         painelAcoes.add(btnnAdicionar);
-        
+
         add(painelAcoes, BorderLayout.SOUTH);
     }
-   
-    private void adicionaGerente(){
-        DialogCadastroGerente dialog = new DialogCadastroGerente(framePrincipal);
+
+    private void adicionaFranquia() {
+        DialogCadastroFranquia dialog = new DialogCadastroFranquia(framePrincipal);
         dialog.setVisible(true);
-        
-        Franquia novoGerente = dialog.getGerente();
-        if(novoGerente != null){
-            controller.cadastrarGerente(novoGerente);
+
+        Franquia novaFranquia = dialog.getFranquia();
+        if (novaFranquia != null) {
+            controller.cadastrarFranquia(novaFranquia);
         }
     }
 
-    // private void removeGerente() {
-    //     int selectedRow = tabelaRankingGerentes.getSelectedRow();
-    //     if (selectedRow != -1) {
-    //         Gerente gerente = modeloTabelaRanking.getValueAt(selectedRow, 0);
-    //         controller.removerGerente(gerente);
-    //         modeloTabelaRanking.removeRow(selectedRow);
-    //     } else {
-    //         JOptionPane.showMessageDialog(framePrincipal, "Nenhum vendedor selecionado para remoção.", "Erro", JOptionPane.ERROR_MESSAGE);
-    //     }
-    // }
+    private void removeFranquia() {
+        int selectedRow = tabelaFranquias.getSelectedRow();
+        if (selectedRow != -1) {
+            long idFranquia = (long) modeloTabelaFranquias.getValueAt(selectedRow, 0);
+            controller.removerFranquia(idFranquia);
+            modeloTabelaFranquias.removeRow(selectedRow);
+        } else {
+            JOptionPane.showMessageDialog(framePrincipal, "Nenhuma franquia selecionado para remoção.", "Erro",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
 
+    private void editaFranquia() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'editaFranquia'");
+    }
 }

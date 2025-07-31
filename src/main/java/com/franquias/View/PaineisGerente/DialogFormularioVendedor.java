@@ -51,7 +51,7 @@ public class DialogFormularioVendedor extends JDialog {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        this.vendedor = vendedor;
+        //this.vendedor = vendedor;
         
         setLocationRelativeTo(null);
         

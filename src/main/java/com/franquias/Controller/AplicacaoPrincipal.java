@@ -46,12 +46,12 @@ public class AplicacaoPrincipal {
         DonoController donoController = new DonoController(this);
 
         PainelLogin painelLogin = new PainelLogin(loginController);
-        PainelVendedor painelVendedor = new PainelVendedor(this, vendedorController);
+        //PainelVendedor painelVendedor = new PainelVendedor(this, vendedorController);
         PainelGerente painelGerente = new PainelGerente(this, gerenteController);
         PainelDono painelDono = new PainelDono(this, donoController);
         
         painelDeConteudo.add(painelLogin, "LOGIN");
-        painelDeConteudo.add(painelVendedor, "VENDEDOR");
+        //painelDeConteudo.add(painelVendedor, "VENDEDOR");
         painelDeConteudo.add(painelGerente, "GERENTE");
         painelDeConteudo.add(painelDono, "DONO");
         
