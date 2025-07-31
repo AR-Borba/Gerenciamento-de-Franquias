@@ -75,12 +75,18 @@ public class VendedorPersistence implements Persistence<Vendedor> {
         }
     }
 
-    public void update(Vendedor vendedor) {
-        Vendedor vendedorAntigo = buscarPorId(vendedor.getId());
+    public void update(Vendedor vendedorAtualizando) {
+        int index = -1;
 
-        if(vendedorAntigo != null) {
-            vendedoresEmMemoria.remove(vendedorAntigo);
-            vendedoresEmMemoria.add(vendedor);
+        for(int i = 0; i < vendedoresEmMemoria.size(); i++) {
+            if(vendedoresEmMemoria.get(i).getId() == vendedorAtualizando.getId()) {
+                index = i;
+                break;
+            }
+        }
+
+        if(index != -1) {
+            vendedoresEmMemoria.set(index, vendedorAtualizando);
             save(vendedoresEmMemoria);
         }
     }

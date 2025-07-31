@@ -3,6 +3,8 @@ package com.franquias.Model.entities;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import com.franquias.Model.*;
@@ -12,21 +14,21 @@ import com.franquias.Model.enums.*;
 public class Pedido {
     private long id;
     private Map<Produto, Integer> produtos;
-    private String cliente;
     private transient LocalDateTime dataHora;
     private String dataHoraFormatada;
+    private String cliente;
     private FormaDePagamento formaDePagamento;
     private BigDecimal taxas;
-    private BigDecimal valorTotal;
     private ModalidadeEntrega modalidadeDeEntrega;
     private StatusPedido statusPedido;
+    private BigDecimal valorTotal;
 
     public Pedido() {
-
+        this.produtos = new HashMap<Produto, Integer>();
     }
 
     public Pedido(Vendedor vendedor) {
-        this.produtos = Map.of(); // Inicializa com um mapa vazio
+        this.produtos = new HashMap<>(); // Inicializa com um mapa vazio
         this.cliente = "";
         this.dataHora = LocalDateTime.now();
         atualizarDataHoraFormatada();
@@ -63,16 +65,41 @@ public class Pedido {
         }
     }
 
-    public Map<Produto, Integer> getProdutos() {
+    public Map<Produto, Integer> getItens() {
         return produtos;
+    }
+
+    public void adicionarItem(Produto produto, int quantidade) {
+        this.produtos.merge(produto, quantidade, Integer::sum);
+    }
+
+    public void removerItem(Produto produto) {
+        if(produtos.get(produto) != null)
+            this.produtos.remove(produto);
     }
 
     public String getCliente() {
         return cliente;
     }
 
+    public void setCliente(String cliente) {
+        this.cliente = cliente;
+    }
+
     public long getId() {
         return this.id;
+    }
+
+    public void setId(long idPedido) {
+        this.id = idPedido;
+    }
+
+    public BigDecimal getTaxa() {
+        return this.taxas;
+    }
+
+    public void setTaxa(BigDecimal taxa) {
+        this.taxas = taxa;
     }
 
     public LocalDateTime getDatahora() {
@@ -91,6 +118,10 @@ public class Pedido {
         return formaDePagamento;
     }
 
+    public void setFormaDePagamento(FormaDePagamento formaDePagamento) {
+        this.formaDePagamento = formaDePagamento;
+    }
+
     public BigDecimal getTaxas() {
         return taxas;
     }
@@ -103,8 +134,16 @@ public class Pedido {
         return modalidadeDeEntrega;
     }
 
+    public void setModalidadeDeEntrega(ModalidadeEntrega modalidadeEntrega) {
+        this.modalidadeDeEntrega = modalidadeEntrega;
+    }
+
     public StatusPedido getStatusPedido() {
         return statusPedido;
+    }
+
+    public void setStatusPedido(StatusPedido statusPedido) {
+        this.statusPedido = statusPedido;
     }
 
     public void calcularEAtualizaValorTotal() {
@@ -121,10 +160,22 @@ public class Pedido {
             subtotalItens = subtotalItens.add(subtotal);
         }
 
-        this.valorTotal = subtotalItens.add(taxas);
+        BigDecimal taxasAtuais =  (this.taxas == null) ? BigDecimal.ZERO : taxas;
+        this.valorTotal = subtotalItens.add(taxasAtuais);
     }
 
-    public void setStatusPedido(StatusPedido statusPedido) {
-        this.statusPedido = statusPedido;
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == null || getClass() != obj.getClass())
+            return false;
+
+        Pedido outro = (Pedido) obj;
+
+        return this.id == outro.getId();
+    }
+
+    @Override
+    public int hashCode() {
+        return java.util.Objects.hash(id);
     }
 }

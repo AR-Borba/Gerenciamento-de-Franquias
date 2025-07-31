@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "produtos": [
+      [
+        {
+          "id": 1,
+          "produto": "Arthur",
+          "preco": 12,
+          "quantidadeEstoque": 1
+        },
+        4
+      ]
+    ],
+    "dataHoraFormatada": "2025-07-31T10:43:16.1103387",
+    "cliente": "Enzo",
+    "formaDePagamento": "PIX",
+    "taxas": 12,
+    "modalidadeDeEntrega": "RETIRADA_NA_LOJA",
+    "statusPedido": "CONCLUIDO",
+    "valorTotal": 60
+  }
+]
