@@ -4,7 +4,9 @@ import java.io.File;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import com.franquias.Model.entities.Pedido;
 import com.franquias.Model.entities.Usuários.Vendedor;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -92,5 +94,11 @@ public class VendedorPersistence implements Persistence<Vendedor> {
 
     public Vendedor buscarPorId(long idVendedor) {
         return vendedoresEmMemoria.stream().filter(v -> v.getId() == idVendedor).findFirst().orElse(null);
+    }
+
+    public List<Vendedor> findByFranquia(long franquiaId) {
+        return vendedoresEmMemoria.stream()
+                               .filter(vendedor -> vendedor.getFranquiaId() == franquiaId)
+                               .collect(Collectors.toList());
     }
 }

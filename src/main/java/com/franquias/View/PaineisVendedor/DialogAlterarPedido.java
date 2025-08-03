@@ -235,6 +235,7 @@ public class DialogAlterarPedido extends JDialog{
         pedido.setTaxa((BigDecimal) tfTaxas.getValue());
         pedido.setModalidadeDeEntrega(modalidadeEntrega);
         pedido.setFormaDePagamento(formaDePagamento);
+        pedido.setStatusPedido(StatusPedido.CONCLUIDO);
 
         pedidoController.solicitarAlteracao(pedido);
 

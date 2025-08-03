@@ -12,8 +12,9 @@ import java.util.concurrent.ArrayBlockingQueue;
 import com.franquias.Controller.GerenteController;
 import com.franquias.Model.Produto;
 import com.franquias.Model.entities.Usuários.Vendedor;
+import com.franquias.View.PainelAtualizavel;
 
-public class PainelGerenciarEstoque extends JPanel {
+public class PainelGerenciarEstoque extends JPanel implements PainelAtualizavel{
 
     private JFrame framePrincipal;
     private GerenteController controller;
@@ -30,7 +31,7 @@ public class PainelGerenciarEstoque extends JPanel {
         criarTabelaProdutos();
         criarPainelAcoes();
 
-        carregarDadosNaTabela();
+        carregarDados();
     }
 
     private void criarTabelaProdutos() {
@@ -44,7 +45,8 @@ public class PainelGerenciarEstoque extends JPanel {
         add(new JScrollPane(tabelaProdutos), BorderLayout.CENTER);
     }
 
-    private void carregarDadosNaTabela() {
+    @Override
+    public void carregarDados() {
         modeloTabelaProdutos.setRowCount(0);
 
         List<Produto> produtos = controller.getProdutos(); 
@@ -66,8 +68,8 @@ public class PainelGerenciarEstoque extends JPanel {
         JButton btnVerTodosOsProdutos = new JButton("Todos os Produtos");
         JButton btnProdutosComEstoqueBaixo = new JButton("Produtos com Estoque Baixo");
 
-        btnVerTodosOsProdutos.addActionListener(e -> carregarDadosNaTabela());
-        btnProdutosComEstoqueBaixo.addActionListener(e -> carregarDadosNaTabela());
+        btnVerTodosOsProdutos.addActionListener(e -> carregarDados());
+        btnProdutosComEstoqueBaixo.addActionListener(e -> carregarDados());
 
         painelOpcoes.add(btnVerTodosOsProdutos);
         painelOpcoes.add(btnProdutosComEstoqueBaixo);
@@ -115,7 +117,7 @@ public class PainelGerenciarEstoque extends JPanel {
 
             if(dialog.foiSalvo()) {
                 controller.editarProduto(ProdutoParaEditar);
-                carregarDadosNaTabela();
+                carregarDados();
                 JOptionPane.showMessageDialog(this, "Produto editado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
             }
         }
@@ -127,7 +129,7 @@ public class PainelGerenciarEstoque extends JPanel {
         if (selectedRow != -1) {
             long idProduto = (long) tabelaProdutos.getValueAt(selectedRow, 0);
             controller.removerProduto(idProduto);
-            carregarDadosNaTabela();
+            carregarDados();
         } else {
             // Exibir mensagem de erro ou aviso
             JOptionPane.showMessageDialog(framePrincipal, "Nenhum Produto selecionado para remoção.", "Erro", JOptionPane.ERROR_MESSAGE);
@@ -141,7 +143,7 @@ public class PainelGerenciarEstoque extends JPanel {
         Produto novoProduto = dialog.getProduto();
         if(novoProduto != null) {
             controller.adicionarProduto(novoProduto);
-            carregarDadosNaTabela();
+            carregarDados();
         }
     }
 }

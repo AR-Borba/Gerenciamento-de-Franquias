@@ -22,12 +22,16 @@ public class Pedido {
     private ModalidadeEntrega modalidadeDeEntrega;
     private StatusPedido statusPedido;
     private BigDecimal valorTotal;
+    private Vendedor vendedorResponsavel;
+    private long franquiaId;
 
     public Pedido() {
         this.produtos = new HashMap<Produto, Integer>();
     }
 
     public Pedido(Vendedor vendedor) {
+        this.vendedorResponsavel = vendedor;
+        this.franquiaId = vendedor.getFranquiaId();
         this.produtos = new HashMap<>(); // Inicializa com um mapa vazio
         this.cliente = "";
         this.dataHora = LocalDateTime.now();
@@ -92,6 +96,10 @@ public class Pedido {
 
     public void setId(long idPedido) {
         this.id = idPedido;
+    }
+
+    public long getFranquiaId() {
+        return this.franquiaId;
     }
 
     public BigDecimal getTaxa() {

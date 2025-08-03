@@ -3,6 +3,9 @@ package com.franquias.Controller;
 import javax.swing.*;
 import java.awt.*;
 
+import com.franquias.Persistence.PedidoPersistence;
+import com.franquias.Persistence.ProdutoPersistence;
+import com.franquias.Persistence.VendedorPersistence;
 import com.franquias.View.*;
 
 public class AplicacaoPrincipal {
@@ -14,6 +17,9 @@ public class AplicacaoPrincipal {
     public JPanel painelDeConteudo;
     public CardLayout cardLayout;
 
+    private VendedorPersistence vendedorPersistence = new VendedorPersistence();
+    private ProdutoPersistence produtoPersistence = new ProdutoPersistence();
+    private PedidoPersistence pedidoPersistence = new PedidoPersistence();
 
     public final int WIDTH = 600;
     public final int HEIGHT = 400;
@@ -39,12 +45,13 @@ public class AplicacaoPrincipal {
         painelDeConteudo = new JPanel(cardLayout);
 
         LoginController loginController = new LoginController(this);
-        VendedorController vendedorController = new VendedorController(this);
-        GerenteController gerenteController = new GerenteController(this);
+        VendedorController vendedorController = new VendedorController(this, pedidoPersistence, produtoPersistence, vendedorPersistence);
+        GerenteController gerenteController = new GerenteController(this, vendedorPersistence, produtoPersistence, pedidoPersistence);
         DonoController donoController = new DonoController(this);
+        PedidoController pedidoController = new PedidoController(pedidoPersistence, produtoPersistence);
 
         PainelLogin painelLogin = new PainelLogin(loginController);
-        PainelVendedor painelVendedor = new PainelVendedor(this, vendedorController);
+        PainelVendedor painelVendedor = new PainelVendedor(this, vendedorController, pedidoController);
         PainelGerente painelGerente = new PainelGerente(this, gerenteController);
         PainelDono painelDono = new PainelDono(this, donoController);
         

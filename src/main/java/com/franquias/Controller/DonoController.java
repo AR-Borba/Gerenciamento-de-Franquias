@@ -46,6 +46,10 @@ public class DonoController {
         
         Franquia novaFranquia = new Franquia(endereco, gerenteResponsavel);
         
+        gerenteResponsavel.setFranquiaId(novaFranquia.getId());
+
+        gerentePersistence.update(gerenteResponsavel);
+
         todasFranquias.add(novaFranquia);
         franquiaPersistence.save(todasFranquias);
     }

@@ -1,27 +1,20 @@
 package com.franquias.Model.entities.Usuários;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.Map;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.franquias.Model.Produto;
 import com.franquias.Model.entities.Pedido;
-import com.franquias.Model.enums.FormaDePagamento;
-import com.franquias.Model.enums.ModalidadeEntrega;
-import com.franquias.Model.enums.StatusPedido;
-import com.franquias.Persistence.PedidoPersistence;
 
 public class Vendedor extends Usuario {
     private long id;
     private List<Long> idPedidos;
+    private long franquiaId;
     
-    public Vendedor(String nome, String email, String senha, String cpf){
+    public Vendedor(String nome, String email, String senha, String cpf, long franquiaId){
         super(nome, email, senha, cpf);
-        this.id = id;
+        this.id = 0;
         this.idPedidos = new ArrayList<>();
-        idPedidos.add((long) 1);
+        this.franquiaId = franquiaId;
     }
 
     public Vendedor() {
@@ -34,6 +27,10 @@ public class Vendedor extends Usuario {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public long getFranquiaId() {
+        return this.franquiaId;
     }
 
     // public void cadastrarPedido(Map<Produto, Integer> produtos, String cliente, LocalDateTime datahora, FormaDePagamento formaDePagamento, BigDecimal taxas, ModalidadeEntrega modalidadeDeEntrega, StatusPedido statusPedido){
@@ -64,19 +61,8 @@ public class Vendedor extends Usuario {
     }
 
     public List<Long> getListaIdPedidos() {
+        if(this.idPedidos == null) 
+            this.idPedidos = new ArrayList<>();
         return this.idPedidos;
     }
-
-    // public BigDecimal calcularTotalVendas() {
-
-    //     if(idPedidos == null)
-    //         return BigDecimal.ZERO;
-    //     BigDecimal total = BigDecimal.ZERO;
-    //     for (Long idPedido : idPedidos) {
-    //         if (pedidoPersistence.buscarPorId(idPedido).getStatusPedido() == StatusPedido.CONCLUIDO) {
-    //             total = total.add(pedidoPersistence.buscarPorId(idPedido).getValorTotal());
-    //         }
-    //     }
-    //     return total;
-    // }
 }

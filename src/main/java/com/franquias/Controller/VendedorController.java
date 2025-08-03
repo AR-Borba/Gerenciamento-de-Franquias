@@ -29,11 +29,11 @@ public class VendedorController {
     private PedidoPersistence pedidoPersistence;
     private ProdutoPersistence produtoPersistence;
 
-    public VendedorController(AplicacaoPrincipal app) {
+    public VendedorController(AplicacaoPrincipal app, PedidoPersistence pedidoPersistence, ProdutoPersistence produtoPersistence, VendedorPersistence vendedorPersistence) {
         this.app = app;
-        this.pedidoPersistence = new PedidoPersistence();
-        this.produtoPersistence = new ProdutoPersistence();
-        this.vendedorPersistence = new VendedorPersistence();
+        this.pedidoPersistence = pedidoPersistence;
+        this.produtoPersistence = produtoPersistence;
+        this.vendedorPersistence = vendedorPersistence;
 
         this.pedidoAtual = new Pedido();
 
@@ -54,6 +54,7 @@ public class VendedorController {
         
         if(produto == null) {
             // throw new ProdutoNaoEncontradoException("Produto com id " + String.formatted(codProduto) + "não encontrado!");
+            System.out.println("Produto null");
             return;
         }
 
@@ -90,6 +91,25 @@ public class VendedorController {
             pedidoId = pedidoPersistence.buscarPorId(idPedido);
 
             if(pedidoId != null)
+                pedidosVendedor.add(pedidoId);
+        }
+
+        return pedidosVendedor;
+    }
+
+    public List<Pedido> getPedidosVendedorPendentesAlteracao() {
+        List<Long> idPedidos = vendedorLogado.getListaIdPedidos();
+
+        if(idPedidos == null)
+            return new ArrayList<>();
+
+        List<Pedido> pedidosVendedor = new ArrayList<>();
+
+        Pedido pedidoId;
+        for(Long idPedido : idPedidos) {
+            pedidoId = pedidoPersistence.buscarPorId(idPedido);
+
+            if(pedidoId != null && pedidoId.getStatusPedido() == StatusPedido.EM_ALTERACAO) 
                 pedidosVendedor.add(pedidoId);
         }
 

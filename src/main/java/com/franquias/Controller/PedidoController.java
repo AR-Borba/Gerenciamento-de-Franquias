@@ -11,9 +11,9 @@ public class PedidoController {
     private PedidoPersistence pedidoPersistence;
     private ProdutoPersistence produtoPersistence;
 
-    public PedidoController() {
-        this.pedidoPersistence = new PedidoPersistence();
-        this.produtoPersistence = new ProdutoPersistence();
+    public PedidoController(PedidoPersistence pedidoPersistence, ProdutoPersistence produtoPersistence) {
+        this.pedidoPersistence = pedidoPersistence;
+        this.produtoPersistence = produtoPersistence;
     }
 
     public void solicitarAlteracao(Pedido pedido) {

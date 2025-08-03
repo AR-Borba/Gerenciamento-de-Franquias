@@ -3,11 +3,14 @@ package com.franquias.Controller;
 import java.util.List;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 import com.franquias.Model.Produto;
 import com.franquias.Model.entities.Pedido;
+import com.franquias.Model.entities.Usuários.Gerente;
 import com.franquias.Model.entities.Usuários.Vendedor;
 import com.franquias.Model.enums.StatusPedido;
+import com.franquias.Persistence.GerentePersistence;
 import com.franquias.Persistence.PedidoPersistence;
 import com.franquias.Persistence.ProdutoPersistence;
 import com.franquias.Persistence.VendedorPersistence;
@@ -15,21 +18,40 @@ import com.franquias.Persistence.VendedorPersistence;
 public class GerenteController {
 
     private AplicacaoPrincipal app;
+    private GerentePersistence gerentePersistence;
     private VendedorPersistence vendedorPersistence;
     private ProdutoPersistence produtoPersistence;
     private PedidoPersistence pedidoPersistence;
+    private Gerente gerenteLogado;
 
-    public GerenteController(AplicacaoPrincipal app) {
+    public GerenteController(AplicacaoPrincipal app, 
+                             VendedorPersistence vendedorPersistence,
+                             ProdutoPersistence produtoPersistence,
+                             PedidoPersistence pedidoPersistence) {
         this.app = app;
-        this.vendedorPersistence = new VendedorPersistence();
-        this.produtoPersistence = new ProdutoPersistence();
-        this.pedidoPersistence = new PedidoPersistence();
+        this.gerentePersistence = new GerentePersistence();
+        this.vendedorPersistence = vendedorPersistence;
+        this.produtoPersistence = produtoPersistence;
+        this.pedidoPersistence = pedidoPersistence;
+    }
+
+    public void iniciarSessao(Gerente gerente) {
+        this.gerenteLogado = gerente;
     }
 
     public List<Vendedor> getEquipeDeVendasOrdenadaPorVendas() {
-        List<Vendedor> vendedores;
+        if(gerenteLogado == null)
+            return new ArrayList<>();
 
-        vendedores = vendedorPersistence.findAll();
+        long idFranquia = gerenteLogado.getFranquiaId();
+
+        List<Vendedor> vendedores = vendedorPersistence.findByFranquia  (idFranquia);
+
+        Comparator<Vendedor> comparadorPorVendas = Comparator.comparing(
+            vendedor -> calcularTotalVendasPorVendedor(vendedor)
+        );
+
+        vendedores.sort(comparadorPorVendas);
 
         return vendedores;
     }
@@ -48,11 +70,57 @@ public class GerenteController {
 
     public void adicionarVendedor(Vendedor vendedor) {
         vendedorPersistence.adicionarVendedor(vendedor);
+
+        gerenteLogado.adicionarVendedor(vendedor);
+
+        gerentePersistence.update(gerenteLogado);
+    }
+
+     public void autorizarAlteracaoPedido(Pedido pedido) {
+        if (pedido != null && pedido.getStatusPedido() == StatusPedido.PENDENTE_ALTERACAO) {
+            pedido.setStatusPedido(StatusPedido.EM_ALTERACAO);
+            pedidoPersistence.update(pedido); // Salva a alteração
+        }
+    }
+    
+    public void autorizarExclusaoPedido(Pedido pedido) {
+        if (pedido != null && pedido.getStatusPedido() == StatusPedido.PENDENTE_EXCLUSAO) {
+            pedido.setStatusPedido(StatusPedido.CANCELADO);
+            pedidoPersistence.update(pedido); // Salva a alteração
+        }
     }
 
     public List<Pedido> getPedidos() {
-        // Implementar lógica para obter a lista de pedidos
-        return new ArrayList<Pedido>();
+
+        if(gerenteLogado == null)
+            return new ArrayList<>();
+
+
+        long idFranquia = gerenteLogado.getFranquiaId();
+
+        return pedidoPersistence.findByFranquia(idFranquia);
+    }
+
+    public List<Pedido> getPedidosPendentes() {
+        if(gerenteLogado == null)
+            return new ArrayList<>();
+
+
+        long idFranquia = gerenteLogado.getFranquiaId();
+
+        List<Pedido> pedidosFranquia = pedidoPersistence.findByFranquia(idFranquia);
+
+        List<Pedido> pedidosFranquiaPendentes = new ArrayList<>();
+
+        for(Pedido pedido : pedidosFranquia)
+            if(pedido.getStatusPedido() == StatusPedido.PENDENTE_ALTERACAO || pedido.getStatusPedido() == StatusPedido.PENDENTE_EXCLUSAO)
+                pedidosFranquiaPendentes.add(pedido);
+
+        return pedidosFranquiaPendentes;
+    }
+
+    public Pedido buscarPedidoPorId(long idPedido) {
+        return pedidoPersistence.buscarPorId(idPedido);
     }
 
     public List<Produto> getProdutos() {

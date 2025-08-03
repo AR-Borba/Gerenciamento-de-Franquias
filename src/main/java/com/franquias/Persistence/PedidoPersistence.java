@@ -4,6 +4,7 @@ import java.io.File;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.franquias.Model.Produto;
 import com.franquias.Model.entities.Pedido;
@@ -92,5 +93,16 @@ public class PedidoPersistence implements Persistence<Pedido>{
                 break;
             }
         }
+
+        if(index != -1) {
+            pedidosEmMemoria.set(index, pedido);
+            save(this.pedidosEmMemoria);
+        }
+    }
+
+    public List<Pedido> findByFranquia(long franquiaId) {
+        return pedidosEmMemoria.stream()
+                               .filter(pedido -> pedido.getFranquiaId() == franquiaId)
+                               .collect(Collectors.toList());
     }
 }

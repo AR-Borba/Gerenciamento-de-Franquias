@@ -37,4 +37,8 @@ public abstract class PainelBase extends JPanel {
     public abstract JMenu getMenu();
 
     protected abstract void registrarSubPaineis(JPanel painelDeCards);
+
+    public void aoExibirPainel() {
+        
+    }
 }
