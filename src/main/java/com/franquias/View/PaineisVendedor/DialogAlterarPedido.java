@@ -27,6 +27,7 @@ import com.franquias.Model.Produto;
 import com.franquias.Model.entities.Pedido;
 import com.franquias.Model.enums.FormaDePagamento;
 import com.franquias.Model.enums.ModalidadeEntrega;
+import com.franquias.Model.enums.StatusPedido;
 
 public class DialogAlterarPedido extends JDialog{
     private JTextField tfCliente;

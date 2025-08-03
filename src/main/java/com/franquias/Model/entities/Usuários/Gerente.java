@@ -52,35 +52,8 @@ public class Gerente extends Usuario {
         return this.idVendedores;
     }
 
-    public void cadastrarVendedor(){
-
-    }
-
-    public void editarVendedor(){
-
-    }
-
-    public void removerVendedor(){
-    
-    }
-
-    public void visualizarVendedores(){
-
-    }
-
-    public void visualizarPedidos(){
-
-    }
-
-    public void editarPedidos(){
-
-    }
-
-    public void cadastrarProduto(){
-
-    }
-
-    public void historicoVendas(){
-
+    @Override
+    public String toString() {
+        return getNome(); 
     }
 }

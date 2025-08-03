@@ -4,6 +4,7 @@ import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.text.ParseException;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -14,6 +15,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.text.MaskFormatter;
 
+import com.franquias.Controller.DonoController;
 import com.franquias.Model.entities.Franquia;
 import com.franquias.Model.entities.Usuários.Gerente;
 import com.franquias.Model.enums.Estados;
@@ -25,30 +27,29 @@ public class DialogCadastroFranquia extends JDialog {
     private JTextField numeroField;
     private JTextField cidadeField;
     private JTextField cepField;
-    private JTextField gerenteField;
-    private JComboBox<Estados> estadoField; 
+    private JComboBox<Gerente> gerentesComboBox;
+    private JComboBox<Estados> estadoField;
 
-    private Gerente gerente;
     private Endereco endereco;
     private Franquia franquia;
     private boolean salvo;
 
-    public DialogCadastroFranquia(Frame parent){
+    public DialogCadastroFranquia(Frame parent, DonoController controller){
         super(parent, "Criando Franquia", true);
         endereco = new Endereco();
         franquia = new Franquia();
-        configurarUI();
+        configurarUI(controller);
     }
 
-    public DialogCadastroFranquia(Frame parent, Franquia franquiaSendoEditada){
+    public DialogCadastroFranquia(Frame parent, Franquia franquiaSendoEditada, DonoController controller){
         super(parent, "Editando Franquia", true);
         this.endereco = franquiaSendoEditada.endereco;
         this.franquia = franquiaSendoEditada;
-        configurarUI();
+        configurarUI(controller);
         preencherCampos();
     }
 
-    public void configurarUI() {
+    public void configurarUI(DonoController controller) {
         setSize(400, 300);
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -70,7 +71,8 @@ public class DialogCadastroFranquia extends JDialog {
         numeroField = new JTextField(20);
         cidadeField = new JTextField(20);
         estadoField = new JComboBox<>(Estados.values());
-        gerenteField = new JTextField(20);
+        List<Gerente> gerentesDisponiveis = controller.getGerentes();
+        gerentesComboBox = new JComboBox<>(gerentesDisponiveis.toArray(new Gerente[0]));
         
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -109,7 +111,7 @@ public class DialogCadastroFranquia extends JDialog {
         gbc.gridx = 0;
         add(new JLabel("Gerente:"), gbc);
         gbc.gridx = 1;
-        add(gerenteField, gbc);
+        add(gerentesComboBox, gbc);
 
         JButton salvarButton = new JButton("Salvar");
         salvarButton.addActionListener(e -> onSalvar());
@@ -126,25 +128,25 @@ public class DialogCadastroFranquia extends JDialog {
     }
 
     private void preencherCampos () {
-        ruaField.getText();
-        numeroField.getText();
-        cidadeField.getText();
-        // estadoField.getText();
-        cepField.getText();
-        gerenteField.getText();
-
+        ruaField.setText(endereco.getRua());
+        numeroField.setText(endereco.getNumero());
+        cidadeField.setText(endereco.getCidade());
+        estadoField.setSelectedItem(Estados.valueOf(endereco.getEstado()));
+        cepField.setText(endereco.getCep());
     }
 
     private void onSalvar() {
         String rua    = ruaField.getText(); 
         String numero = numeroField.getText(); 
         String cidade = cidadeField.getText(); 
-        String estado = (String) estadoField.getSelectedItem(); 
+        String estado = ((Estados) estadoField.getSelectedItem()).name(); 
         String cep    = cepField.getText(); 
+        Gerente gerenteSelecionado = (Gerente) gerentesComboBox.getSelectedItem();
 
-        if(rua.isBlank() || numero.isBlank() || cidade.isBlank() || estado.isBlank() || cep.isBlank())
+        if(rua.isBlank() || numero.isBlank() || cidade.isBlank() || estado.isBlank() || cep.isBlank() ||  gerenteSelecionado == null)
         {
             JOptionPane.showMessageDialog(this, "Todos os campos são obrigatórios", "Erro de validação", JOptionPane.ERROR_MESSAGE);
+            return;
         }
 
         this.endereco.setRua(rua);
@@ -155,7 +157,7 @@ public class DialogCadastroFranquia extends JDialog {
         
         this.franquia = new Franquia(
             this.endereco,
-            this.gerente);
+            gerenteSelecionado);
 
         this.salvo = true;
         dispose();
