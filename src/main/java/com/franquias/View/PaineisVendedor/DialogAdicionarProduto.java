@@ -55,6 +55,8 @@ public class DialogAdicionarProduto extends JDialog{
 
     private void onCancelar() {
         this.salvo = false;
+        idField = null;
+        qtdField = null;
         dispose();
     }
 

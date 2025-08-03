@@ -4,57 +4,40 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.franquias.Model.entities.Usuários.Gerente;
-import com.franquias.Model.entities.Usuários.Vendedor;
 import com.franquias.Model.entities.Franquia;
-import com.franquias.Model.entities.Pedido;
 import com.franquias.Persistence.GerentePersistence;
-import com.franquias.Utils.Endereco;
 import com.franquias.Persistence.FranquiaPersistence;
 
 public class DonoController {
     private FranquiaPersistence franquiaPersistence;
     private GerentePersistence gerentePersistence;
-    private AplicacaoPrincipal app;
-    
-    public DonoController(AplicacaoPrincipal app){
+    // private AplicacaoPrincipal app;
+
+    public DonoController(AplicacaoPrincipal app) {
         this.franquiaPersistence = new FranquiaPersistence();
-        this.app = app;
+        this.gerentePersistence = new GerentePersistence();
+        // this.app = app; 
     }
-    
-    public void cadastrarGerente(Gerente gerente) {        
-        GerentePersistence gerentePersistence = new GerentePersistence();
-        
-        List<Gerente> novosGerentes;
-        novosGerentes = List.of(gerente);
-       
-        gerentePersistence.save(novosGerentes);
+
+    public void cadastrarGerente(Gerente gerente) {
+        gerentePersistence.adicionarGerente(gerente);
     }
 
     public void removerGerente(long idGerente) {
         gerentePersistence.removerGerente(idGerente);
     }
 
-    public List<Gerente> getGerentes(){
+    public List<Gerente> getGerentes() {
         GerentePersistence gerentePersistence = new GerentePersistence();
         List<Gerente> gerentes = gerentePersistence.findAll();
         return gerentes;
-    }
-
-    public void cadastrarFranquia(Endereco endereco, Gerente gerenteResponsavel) {
-        FranquiaPersistence franquiaPersistence = new FranquiaPersistence();
-        List<Franquia> todasFranquias = franquiaPersistence.findAll();
-        
-        Franquia novaFranquia = new Franquia(endereco, gerenteResponsavel);
-        
-        todasFranquias.add(novaFranquia);
-        franquiaPersistence.save(todasFranquias);
     }
 
     public List<Franquia> verificarFranquiasSemGerente() {
         FranquiaPersistence franquiaPersistence = new FranquiaPersistence();
         List<Franquia> todasFranquias = franquiaPersistence.findAll();
         List<Franquia> franquiasSemGerente = new ArrayList<>();
-        
+
         for (Franquia franquia : todasFranquias) {
             if (franquia.getGerente() == null) {
                 franquiasSemGerente.add(franquia);
@@ -64,9 +47,7 @@ public class DonoController {
     }
 
     public List<Franquia> getUnidades() {
-        List<Franquia> franquias;
-        franquias = franquiaPersistence.findAll();
-        return franquias;
+        return franquiaPersistence.findAll();
     }
 
     public void cadastrarFranquia(Franquia novaFranquia) {
@@ -74,35 +55,48 @@ public class DonoController {
     }
 
     public Gerente buscarGerentePorId(long id) {
-        return null;
+        return gerentePersistence.buscarPorId(id);
     }
 
     public void editarGerente(Gerente gerenteParaEditar) {
         gerentePersistence.update(gerenteParaEditar);
     }
 
-    public void removerFranquia(long franquia) {
-        franquiaPersistence.removerFranquia(franquia);
+    public void removerFranquia(long idFranquia) {
+        franquiaPersistence.removerFranquia(idFranquia);
     }
 
-    // public RelatorioDesempenhoUnidade gerarRelatorioParaFranquia(Franquia franquia) {
-    //     double faturamentoBruto = 0.0;
-    //     int numeroDePedidos = franquia.getPedidos().size();
+    public Franquia buscarFranquiaPorId(long idFranquia) {
+        return franquiaPersistence.buscarPorId(idFranquia);
+    }
 
-    //     for (Pedido pedido : franquia.getPedidos()) {
-    //         faturamentoBruto += pedido.getValorTotal();
-    //     }
+    public void editarFranquia(Franquia franquiaParaEditar) {
+        franquiaPersistence.update(franquiaParaEditar);
+    }
 
-    //     double ticketMedio = (numeroDePedidos > 0) ? faturamentoBruto / numeroDePedidos : 0;
+    // public RelatorioDesempenhoUnidade gerarRelatorioParaFranquia(Franquia
+    // franquia) {
+    // double faturamentoBruto = 0.0;
+    // int numeroDePedidos = franquia.getPedidos().size();
 
-    //     return new RelatorioDesempenhoUnidade(faturamentoBruto, numeroDePedidos, ticketMedio);
+    // for (Pedido pedido : franquia.getPedidos()) {
+    // faturamentoBruto += pedido.getValorTotal();
+    // }
+
+    // double ticketMedio = (numeroDePedidos > 0) ? faturamentoBruto /
+    // numeroDePedidos : 0;
+
+    // return new RelatorioDesempenhoUnidade(faturamentoBruto, numeroDePedidos,
+    // ticketMedio);
     // }
 
     // public List<Vendedor> getRankingVendedores(Franquia franquia) {
-    //     List<Vendedor> vendedoresDaFranquia = new ArrayList<>(franquia.getVendedores());
-        
-    //     vendedoresDaFranquia.sort((v1, v2) -> Double.compare(v2.getValorTotalVendas(), v1.getValorTotalVendas()));
-        
-    //     return vendedoresDaFranquia;
+    // List<Vendedor> vendedoresDaFranquia = new
+    // ArrayList<>(franquia.getVendedores());
+
+    // vendedoresDaFranquia.sort((v1, v2) ->
+    // Double.compare(v2.getValorTotalVendas(), v1.getValorTotalVendas()));
+
+    // return vendedoresDaFranquia;
     // }
 }

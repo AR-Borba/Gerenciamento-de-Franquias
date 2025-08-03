@@ -17,6 +17,33 @@ public class GerentePersistence implements Persistence<Gerente> {
     private List<Gerente> gerentesEmMemoria;
     private long proximoId;
 
+    public GerentePersistence() {
+        this.gerentesEmMemoria = new ArrayList<>();
+        carregarDoArquivo();
+        determinarProximoId();
+    }
+
+    private void carregarDoArquivo() {
+        String json = Arquivo.le(PATH);
+        if (json != null && !json.trim().isEmpty()) {
+            Type tipoLista = new TypeToken<List<Gerente>>() {}.getType();
+            List<Gerente> gerentesDoArquivo = gson.fromJson(json, tipoLista);
+            if (gerentesDoArquivo != null) {
+                this.gerentesEmMemoria.addAll(gerentesDoArquivo);
+            }
+        }
+    }
+
+    private void determinarProximoId() {
+        if(!this.gerentesEmMemoria.isEmpty()) {
+            long maiorId = this.gerentesEmMemoria.stream().mapToLong(Gerente::getId).max().getAsLong();
+
+            this.proximoId = maiorId + 1;
+        } else {
+            this.proximoId = 1;
+        }
+    }
+
     @Override
     public void save(List<Gerente> itens) {
         String json = gson.toJson(itens);

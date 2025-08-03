@@ -159,6 +159,7 @@ public class DialogFormularioVendedor extends JDialog {
 
     private void onCancelar() {
         this.salvo = false;
+        this.vendedor = null;
         dispose();
     }
 

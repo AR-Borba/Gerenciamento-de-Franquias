@@ -83,7 +83,7 @@ public class PainelGerenciarGerentes extends JPanel {
             carregarDadosNaTabela();
         }
     }
-    
+
     private void removeGerente() {
         int selectedRow = tabelaRankingGerentes.getSelectedRow();
         if (selectedRow != -1) {
@@ -106,7 +106,7 @@ public class PainelGerenciarGerentes extends JPanel {
         Gerente gerenteParaEditar = controller.buscarGerentePorId(idGerente);
 
         if(gerenteParaEditar != null) {
-            DialogFormularioGerente dialog = new DialogFormularioGerente(framePrincipal, gerenteParaEditar);
+            DialogCadastroGerente dialog = new DialogCadastroGerente(framePrincipal, gerenteParaEditar);
             dialog.setVisible(true);
 
             if(dialog.foiSalvo()) {

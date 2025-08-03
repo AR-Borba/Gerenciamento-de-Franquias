@@ -17,6 +17,33 @@ public class FranquiaPersistence implements Persistence<Franquia> {
     private List<Franquia> franquiasEmMemoria;
     private long proximoId;
 
+    public FranquiaPersistence() {
+        this.franquiasEmMemoria = new ArrayList<>();
+        carregarDoArquivo();
+        determinarProximoId();
+    }
+
+    private void carregarDoArquivo() {
+        String json = Arquivo.le(PATH);
+        if (json != null && !json.trim().isEmpty()) {
+            Type tipoLista = new TypeToken<List<Franquia>>() {}.getType();
+            List<Franquia> franquiasDoArquivo = gson.fromJson(json, tipoLista);
+            if (franquiasDoArquivo != null) {
+                this.franquiasEmMemoria.addAll(franquiasDoArquivo);
+            }
+        }
+    }
+
+    private void determinarProximoId() {
+        if(!this.franquiasEmMemoria.isEmpty()) {
+            long maiorId = this.franquiasEmMemoria.stream().mapToLong(Franquia::getId).max().getAsLong();
+
+            this.proximoId = maiorId + 1;
+        } else {
+            this.proximoId = 1;
+        }
+    }
+
     @Override
     public void save(List<Franquia> itens) {
         String json = gson.toJson(itens);

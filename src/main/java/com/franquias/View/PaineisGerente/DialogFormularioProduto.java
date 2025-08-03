@@ -126,6 +126,7 @@ public class DialogFormularioProduto extends JDialog {
 
     private void onCancelar() {
         this.salvo = false;
+        this.produto = null;
         dispose();
     }
 

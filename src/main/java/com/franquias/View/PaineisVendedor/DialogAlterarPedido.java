@@ -8,7 +8,6 @@ import java.awt.GridBagLayout;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.Map;
-import java.util.concurrent.Flow;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -20,7 +19,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.NumberFormatter;
 
@@ -29,7 +27,6 @@ import com.franquias.Model.Produto;
 import com.franquias.Model.entities.Pedido;
 import com.franquias.Model.enums.FormaDePagamento;
 import com.franquias.Model.enums.ModalidadeEntrega;
-import com.franquias.Model.enums.StatusPedido;
 
 public class DialogAlterarPedido extends JDialog{
     private JTextField tfCliente;

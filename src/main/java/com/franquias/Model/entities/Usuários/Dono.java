@@ -1,7 +1,5 @@
 package com.franquias.Model.entities.Usuários;
 
-import com.franquias.Utils.Endereco;
-
 public class Dono extends Usuario{
 
     public Dono(String nome, String cpf, String email, String senha) {
