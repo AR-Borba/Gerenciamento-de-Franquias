@@ -6,6 +6,7 @@ import java.util.List;
 import com.franquias.Model.entities.Usuários.Gerente;
 import com.franquias.Model.entities.Franquia;
 import com.franquias.Persistence.GerentePersistence;
+import com.franquias.Utils.Endereco;
 import com.franquias.Persistence.FranquiaPersistence;
 
 public class DonoController {
@@ -31,6 +32,20 @@ public class DonoController {
         GerentePersistence gerentePersistence = new GerentePersistence();
         List<Gerente> gerentes = gerentePersistence.findAll();
         return gerentes;
+    }
+
+    public void cadastrarFranquia(Endereco endereco, Gerente gerenteResponsavel) {
+        FranquiaPersistence franquiaPersistence = new FranquiaPersistence();
+        List<Franquia> todasFranquias = franquiaPersistence.findAll();
+        
+        Franquia novaFranquia = new Franquia(endereco, gerenteResponsavel);
+        
+        gerenteResponsavel.setFranquiaId(novaFranquia.getId());
+
+        gerentePersistence.update(gerenteResponsavel);
+
+        todasFranquias.add(novaFranquia);
+        franquiaPersistence.save(todasFranquias);
     }
 
     public List<Franquia> verificarFranquiasSemGerente() {

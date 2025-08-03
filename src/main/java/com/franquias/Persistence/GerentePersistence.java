@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.franquias.Model.entities.Usuários.Gerente;
+import com.franquias.Model.entities.Usuários.Vendedor;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -96,7 +97,7 @@ public class GerentePersistence implements Persistence<Gerente> {
     }
 
     public Gerente buscarPorId(long idgerente) {
-        return gerentesEmMemoria.stream().filter(v -> v.getId() == idgerente).findFirst().orElse(null);
+        return gerentesEmMemoria.stream().filter(g -> g.getId() == idgerente).findFirst().orElse(null);
     }
 
 }

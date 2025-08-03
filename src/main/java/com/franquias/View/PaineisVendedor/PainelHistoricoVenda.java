@@ -16,8 +16,9 @@ import com.franquias.Controller.PedidoController;
 import com.franquias.Controller.VendedorController;
 import com.franquias.Model.entities.Pedido;
 import com.franquias.Model.enums.StatusPedido;
+import com.franquias.View.PainelAtualizavel;
 
-public class PainelHistoricoVenda extends JPanel {
+public class PainelHistoricoVenda extends JPanel implements PainelAtualizavel {
     private JFrame framePrincipal;
     private VendedorController controller;
     private PedidoController pedidoController;
@@ -25,10 +26,10 @@ public class PainelHistoricoVenda extends JPanel {
     private JTable tabelaPedidos;
     private DefaultTableModel modeloTabelaPedidos;
 
-    public PainelHistoricoVenda(VendedorController controller, JFrame framePrincipal) {
+    public PainelHistoricoVenda(VendedorController controller, JFrame framePrincipal, PedidoController pedidoController) {
         this.framePrincipal = framePrincipal;
         this.controller = controller;
-        this.pedidoController = new PedidoController();
+        this.pedidoController = pedidoController;
         this.setLayout(new BorderLayout(5, 5));
 
         criarPainelOpcoes();
@@ -47,10 +48,27 @@ public class PainelHistoricoVenda extends JPanel {
         add(new JScrollPane(tabelaPedidos), BorderLayout.CENTER);
     }
 
-    public void carregarDadosNaTabela() {
+    @Override
+    public void carregarDados() {
         modeloTabelaPedidos.setRowCount(0);
 
         List<Pedido> pedidos = controller.getPedidosVendedor(); 
+
+        for(Pedido pedido : pedidos) {
+            Object[] rowData = {
+                pedido.getId(),
+                pedido.getCliente(),
+                pedido.getValorTotal(),
+                pedido.getStatusPedido()
+            };
+            modeloTabelaPedidos.addRow(rowData);
+        }
+    }
+    
+    private void carregarPedidosPendentesNaTabela() {
+        modeloTabelaPedidos.setRowCount(0);
+
+        List<Pedido> pedidos = controller.getPedidosVendedorPendentesAlteracao(); 
 
         for(Pedido pedido : pedidos) {
             Object[] rowData = {
@@ -69,15 +87,14 @@ public class PainelHistoricoVenda extends JPanel {
         JButton btnVerTodosOsPedidos = new JButton("Todos os Pedidos");
         JButton btnPedidosComEstoqueBaixo = new JButton("Pedidos Aguardando Alteração");
 
-        btnVerTodosOsPedidos.addActionListener(e -> carregarDadosNaTabela());
-        btnPedidosComEstoqueBaixo.addActionListener(e -> carregarDadosNaTabela());
+        btnVerTodosOsPedidos.addActionListener(e -> carregarDados());
+        btnPedidosComEstoqueBaixo.addActionListener(e -> carregarPedidosPendentesNaTabela());
 
         painelOpcoes.add(btnVerTodosOsPedidos);
         painelOpcoes.add(btnPedidosComEstoqueBaixo);
 
         add(painelOpcoes, BorderLayout.NORTH);
     }
-
 
     private void criarPainelAcoes() {
         JPanel painelAcoes = new JPanel();
@@ -133,6 +150,14 @@ public class PainelHistoricoVenda extends JPanel {
         if(pedidoParaAlterar != null && pedidoParaAlterar.getStatusPedido() == StatusPedido.EM_ALTERACAO) {
             DialogAlterarPedido dialog = new DialogAlterarPedido(framePrincipal, pedidoParaAlterar, pedidoController);
             dialog.setVisible(true);
+
+            if(dialog.foiSalvo()) {
+                controller.atualizarPedido(pedidoParaAlterar);
+                carregarDados();
+            }
+        }
+        else {
+            JOptionPane.showMessageDialog(this, "Este pedido não está autorizado para edição. Solicite a alteração primeiro.", "Aviso", JOptionPane.WARNING_MESSAGE);
         }
     }
 
@@ -151,7 +176,7 @@ public class PainelHistoricoVenda extends JPanel {
             pedidoParaAlterar.setStatusPedido(StatusPedido.PENDENTE_ALTERACAO);
 
             controller.atualizarPedido(pedidoParaAlterar);
-            carregarDadosNaTabela();
+            carregarDados();
 
             JOptionPane.showMessageDialog(framePrincipal, "Pedido Para Alteração Enviado ao Gerente", "Solicita Alteração", JOptionPane.INFORMATION_MESSAGE);
         }

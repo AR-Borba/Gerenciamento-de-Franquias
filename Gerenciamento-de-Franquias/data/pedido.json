@@ -7,17 +7,117 @@
           "id": 1,
           "produto": "Arthur",
           "preco": 12,
-          "quantidadeEstoque": 1
+          "quantidadeEstoque": 11
         },
-        4
+        1
       ]
     ],
-    "dataHoraFormatada": "2025-07-31T10:43:16.1103387",
+    "dataHoraFormatada": "2025-08-03T12:17:45.9116851",
     "cliente": "Enzo",
     "formaDePagamento": "PIX",
     "taxas": 12,
     "modalidadeDeEntrega": "RETIRADA_NA_LOJA",
     "statusPedido": "CONCLUIDO",
-    "valorTotal": 60
+    "valorTotal": 24,
+    "franquiaId": 0
+  },
+  {
+    "id": 2,
+    "produtos": [
+      [
+        {
+          "id": 2,
+          "produto": "prod2",
+          "preco": 12,
+          "quantidadeEstoque": 119
+        },
+        1
+      ]
+    ],
+    "dataHoraFormatada": "2025-08-03T14:57:13.0806658",
+    "cliente": "Enzo",
+    "formaDePagamento": "PIX",
+    "taxas": 0,
+    "modalidadeDeEntrega": "RETIRADA_NA_LOJA",
+    "statusPedido": "CONCLUIDO",
+    "valorTotal": 12,
+    "vendedorResponsavel": {
+      "id": 1,
+      "idPedidos": [],
+      "franquiaId": 0,
+      "nome": "Enzo",
+      "email": "enzo@gmail.com",
+      "senha": "1234",
+      "cpf": "125.147.406-30"
+    },
+    "franquiaId": 0
+  },
+  {
+    "id": 3,
+    "produtos": [
+      [
+        {
+          "id": 2,
+          "produto": "prod2",
+          "preco": 12,
+          "quantidadeEstoque": 118
+        },
+        1
+      ]
+    ],
+    "dataHoraFormatada": "2025-08-03T15:37:07.1728465",
+    "cliente": "E",
+    "formaDePagamento": "PIX",
+    "taxas": 1,
+    "modalidadeDeEntrega": "RETIRADA_NA_LOJA",
+    "statusPedido": "PENDENTE_ALTERACAO",
+    "valorTotal": 13,
+    "vendedorResponsavel": {
+      "id": 1,
+      "idPedidos": [
+        2
+      ],
+      "franquiaId": 0,
+      "nome": "Enzo",
+      "email": "enzo@gmail.com",
+      "senha": "1234",
+      "cpf": "125.147.406-30"
+    },
+    "franquiaId": 0
+  },
+  {
+    "id": 4,
+    "produtos": [
+      [
+        {
+          "id": 2,
+          "produto": "prod2",
+          "preco": 12,
+          "quantidadeEstoque": 115
+        },
+        3
+      ]
+    ],
+    "dataHoraFormatada": "2025-08-03T15:50:22.3692973",
+    "cliente": "E",
+    "formaDePagamento": "PIX",
+    "taxas": 1,
+    "modalidadeDeEntrega": "RETIRADA_NA_LOJA",
+    "statusPedido": "CONCLUIDO",
+    "valorTotal": 37,
+    "vendedorResponsavel": {
+      "id": 1,
+      "idPedidos": [
+        2,
+        3,
+        4
+      ],
+      "franquiaId": 0,
+      "nome": "Enzo",
+      "email": "enzo@gmail.com",
+      "senha": "1234",
+      "cpf": "125.147.406-30"
+    },
+    "franquiaId": 0
   }
 ]

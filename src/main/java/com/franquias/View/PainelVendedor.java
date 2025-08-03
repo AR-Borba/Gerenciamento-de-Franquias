@@ -16,14 +16,18 @@ public class PainelVendedor extends PainelBase {
     private PainelHistoricoVenda painelHistoricoVenda;
     private PainelVenda painelVenda;
 
+    PedidoController pedidoController;
 
-    public PainelVendedor(AplicacaoPrincipal app, VendedorController controller) {
+
+    public PainelVendedor(AplicacaoPrincipal app, VendedorController controller, PedidoController pedidoController) {
         super(app);
         this.controller = controller;
         this.setLayout(new BorderLayout(5, 5));
 
+        this.pedidoController = pedidoController;
+
         VendedorPersistence vendedorPersistence = new VendedorPersistence();
-        Vendedor vendedor = vendedorPersistence.buscarPorId(5);
+        Vendedor vendedor = vendedorPersistence.buscarPorId(1);
         controller.iniciarSessao(vendedor);
 
         construirLayout();
@@ -40,7 +44,7 @@ public class PainelVendedor extends PainelBase {
         itemNovaVenda.addActionListener(e -> mostrarSubPainel("NOVA_VENDA"));
         itemMinhasVendas.addActionListener(e -> {
             if(painelHistoricoVenda != null)
-                painelHistoricoVenda.carregarDadosNaTabela();
+                painelHistoricoVenda.carregarDados();
             mostrarSubPainel("HISTORICO_VENDAS");
         });
 
@@ -53,7 +57,7 @@ public class PainelVendedor extends PainelBase {
     @Override
     protected void registrarSubPaineis(JPanel painelDeCards) {
         this.painelVenda = new PainelVenda(controller, app.getFramePrincipal());
-        this.painelHistoricoVenda = new PainelHistoricoVenda(controller, app.getFramePrincipal());
+        this.painelHistoricoVenda = new PainelHistoricoVenda(controller, app.getFramePrincipal(), pedidoController);
 
         painelDeCards.add(painelVenda, "NOVA_VENDA");
         painelDeCards.add(painelHistoricoVenda, "HISTORICO_VENDAS");

@@ -6,15 +6,26 @@ import javax.swing.JPanel;
 
 import com.franquias.Controller.AplicacaoPrincipal;
 import com.franquias.Controller.GerenteController;
+import com.franquias.Model.entities.Usuários.Gerente;
+import com.franquias.Persistence.GerentePersistence;
 import com.franquias.View.PaineisGerente.*;
 
 public class PainelGerente extends PainelBase {
 
     private GerenteController controller;
 
+    private PainelControlarPedidos painelControlarPedidos;
+    // private PainelGerarRelatorios painelGerarRelatorios;
+    private PainelGerenciarEquipe painelGerenciarEquipe;
+    private PainelGerenciarEstoque painelGerenciarEstoque;
+
     public PainelGerente(AplicacaoPrincipal app, GerenteController controller) {
         super(app);
         this.controller = controller;
+
+        GerentePersistence gerentePersistence = new GerentePersistence();
+        Gerente gerente = gerentePersistence.buscarPorId(0);
+        controller.iniciarSessao(gerente);
 
         construirLayout();
     }
@@ -24,13 +35,22 @@ public class PainelGerente extends PainelBase {
         JMenu menuOpcoes = new JMenu("Opções");
 
         JMenuItem itemGerenciarEquipe = new JMenuItem("Gerenciar Equipe");
-        itemGerenciarEquipe.addActionListener(e -> mostrarSubPainel("GERENCIAR_EQUIPE"));
+        itemGerenciarEquipe.addActionListener(e -> {
+            if(painelGerenciarEquipe != null) painelGerenciarEquipe.carregarDados();
+            mostrarSubPainel("GERENCIAR_EQUIPE");
+        });
         
         JMenuItem itemControlarPedidos = new JMenuItem("Controlar Pedidos");
-        itemControlarPedidos.addActionListener(e -> mostrarSubPainel("CONTROLAR_PEDIDOS"));
+        itemControlarPedidos.addActionListener(e -> {
+            if(painelControlarPedidos != null) painelControlarPedidos.carregarDados();
+            mostrarSubPainel("CONTROLAR_PEDIDOS");
+        });
         
         JMenuItem itemEstoque = new JMenuItem("Gerenciar Estoque");
-        itemEstoque.addActionListener(e -> mostrarSubPainel("GERENCIAR_ESTOQUE"));
+        itemEstoque.addActionListener(e -> {
+            if(painelGerenciarEstoque != null) painelGerenciarEstoque.carregarDados();
+            mostrarSubPainel("GERENCIAR_ESTOQUE");
+        });
         
         JMenuItem itemRelatorios = new JMenuItem("Gerar Relatórios");
         itemRelatorios.addActionListener(e -> mostrarSubPainel("GERAR_RELATORIOS"));

@@ -15,8 +15,9 @@ import javax.swing.table.DefaultTableModel;
 
 import com.franquias.Controller.GerenteController;
 import com.franquias.Model.entities.Usuários.Vendedor;
+import com.franquias.View.PainelAtualizavel;
 
-public class PainelGerenciarEquipe extends JPanel {
+public class PainelGerenciarEquipe extends JPanel implements PainelAtualizavel {
     
     private JFrame framePrincipal;
 
@@ -31,7 +32,7 @@ public class PainelGerenciarEquipe extends JPanel {
 
         criarTabelaRankingEquipe();
         criarPainelAcoes();
-        carregarDadosNaTabela();
+        carregarDados();
     }
 
     public void criarTabelaRankingEquipe() {
@@ -44,7 +45,8 @@ public class PainelGerenciarEquipe extends JPanel {
         add(new JScrollPane(tabelaRankingEquipe), BorderLayout.CENTER);
     }
 
-    public void carregarDadosNaTabela() { // lembrar de carregar ordenado por vendas
+    @Override
+    public void carregarDados() { // lembrar de carregar ordenado por vendas
         modeloTabelaRanking.setRowCount(0); // Limpa a tabela antes de adicionar novos dados
 
         List<Vendedor> vendedores = controller.getEquipeDeVendasOrdenadaPorVendas();
@@ -87,7 +89,7 @@ public class PainelGerenciarEquipe extends JPanel {
         Vendedor novoVendedor = dialog.getVendedor();
         if(novoVendedor != null) {
             controller.adicionarVendedor(novoVendedor);
-            carregarDadosNaTabela();
+            carregarDados();
         }
     }
 
@@ -96,7 +98,7 @@ public class PainelGerenciarEquipe extends JPanel {
         if (selectedRow != -1) {
             long idVendedor = (long) modeloTabelaRanking.getValueAt(selectedRow, 0);
             controller.removerVendedor(idVendedor);
-            carregarDadosNaTabela();
+            carregarDados();
         } else {
             // Exibir mensagem de erro ou aviso
             JOptionPane.showMessageDialog(framePrincipal, "Nenhum vendedor selecionado para remoção.", "Erro", JOptionPane.ERROR_MESSAGE);
@@ -121,7 +123,7 @@ public class PainelGerenciarEquipe extends JPanel {
 
             if(dialog.foiSalvo()) {
                 controller.editarVendedor(vendedorParaEditar);
-                carregarDadosNaTabela();
+                carregarDados();
                 JOptionPane.showMessageDialog(this, "Vendedor editado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
             }
         }
