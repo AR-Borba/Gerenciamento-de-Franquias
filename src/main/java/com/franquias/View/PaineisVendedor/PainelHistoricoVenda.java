@@ -169,18 +169,20 @@ public class PainelHistoricoVenda extends JPanel implements PainelAtualizavel {
         }
 
         long idPedido = (long) modeloTabelaPedidos.getValueAt(selectedRow, 0);
-
         Pedido pedidoParaAlterar = controller.buscarPedidoPorId(idPedido);
         
         if(pedidoParaAlterar != null) {
+            if(pedidoParaAlterar.getStatusPedido() != StatusPedido.CONCLUIDO) {
+                JOptionPane.showMessageDialog(this, "Só é possível solicitar alteração de pedidos com status 'ATIVO'.", "Ação Inválida", JOptionPane.WARNING_MESSAGE);
+                return; 
+            }
+
             pedidoParaAlterar.setStatusPedido(StatusPedido.PENDENTE_ALTERACAO);
 
             controller.atualizarPedido(pedidoParaAlterar);
             carregarDados();
 
-            JOptionPane.showMessageDialog(framePrincipal, "Pedido Para Alteração Enviado ao Gerente", "Solicita Alteração", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(framePrincipal, "Solicitação de Alteração Enviado ao Gerente", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
         }
-        else
-            JOptionPane.showMessageDialog(framePrincipal, "Pedido Para Alteração Enviado", "Solicita Alteração", JOptionPane.ERROR_MESSAGE);
     }
 }

@@ -17,6 +17,8 @@ import java.math.BigDecimal;
 
 import com.franquias.Controller.VendedorController;
 import com.franquias.Model.Produto;
+import com.franquias.Model.entities.Cliente;
+import com.franquias.Model.entities.Pedido;
 import com.franquias.Model.enums.FormaDePagamento;
 import com.franquias.Model.enums.ModalidadeEntrega;
 import com.franquias.exceptions.EstoqueInsuficienteException;
@@ -27,7 +29,7 @@ public class PainelVenda extends JPanel {
 
     private JTable tabelaProdutosPedido;
     private DefaultTableModel modeloTabelaProdutosNoPedido;
-    private String cliente;
+    private Cliente cliente;
     private FormaDePagamento formaDePagamento;
     private BigDecimal taxas;
     private ModalidadeEntrega modalidadeDeEntrega;
@@ -85,14 +87,34 @@ public class PainelVenda extends JPanel {
         gbc.gridy = 2;
         gbc.gridx = 0;
         gbc.gridwidth = 4;
-        gbc.anchor = GridBagConstraints.CENTER;
-        JButton btAdicionar = new JButton("Adicionar Produto");
+        gbc.anchor = GridBagConstraints.WEST;
+        JButton btRemover = new JButton("Remover");
+        JButton btAdicionar = new JButton("Adicionar");
         
+        btRemover.addActionListener(e -> removerProdutoDoPedido());
         btAdicionar.addActionListener(e -> adicionarProdutoAoPedido());
 
+        painelFormulario.add(btRemover, gbc);
+        gbc.anchor = GridBagConstraints.EAST;
         painelFormulario.add(btAdicionar, gbc);
 
         this.add(painelFormulario, BorderLayout.WEST);
+    }
+
+    private void removerProdutoDoPedido() {
+        int selectedRow = tabelaProdutosPedido.getSelectedRow();
+        if(selectedRow == -1) {
+            JOptionPane.showMessageDialog(framePrincipal, "Nenhum Pedido selecionado para edição.", "Erro", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        Object idObject = tabelaProdutosPedido.getValueAt(selectedRow, 0);
+
+        long idProduto = ((Number) idObject).longValue();
+
+        controller.removerItemDoPedido(idProduto);
+
+        carregarDadosNaTabela();
+        atualizarValorTotal();
     }
 
     private void adicionarProdutoAoPedido() {
@@ -134,6 +156,7 @@ public class PainelVenda extends JPanel {
 
     private void desenhaTabelaDeProdutos(JPanel painelProdutos) {
         modeloTabelaProdutosNoPedido = new DefaultTableModel();
+        modeloTabelaProdutosNoPedido.addColumn("ID");
         modeloTabelaProdutosNoPedido.addColumn("Qtd");
         modeloTabelaProdutosNoPedido.addColumn("Produto");
         modeloTabelaProdutosNoPedido.addColumn("Preço");
@@ -149,6 +172,7 @@ public class PainelVenda extends JPanel {
 
         for(Map.Entry<Produto, Integer> produtoEqtd : produtosNoPedido.entrySet()) {
             Object[] rowData = {
+                produtoEqtd.getKey().getId(),
                 produtoEqtd.getValue(),
                 produtoEqtd.getKey().getProduto(),
                 produtoEqtd.getKey().getPreco(),
@@ -203,7 +227,7 @@ public class PainelVenda extends JPanel {
             return;
         }
 
-        DialogFecharPedido dialog = new DialogFecharPedido(framePrincipal);
+        DialogFecharPedido dialog = new DialogFecharPedido(framePrincipal, controller);
         dialog.setVisible(true);
 
         
@@ -219,47 +243,5 @@ public class PainelVenda extends JPanel {
 
             JOptionPane.showMessageDialog(this, "Venda finalizada e registrada com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
         }
-        // controller.adicionar()
     }
-
-//     private void atualizarTela() {
-//     Pedido pedidoAtual = controller.getPedidoAtual();
-    
-//     // 2. Limpa a lista visual para prepará-la para os novos dados.
-//     // Isso garante que não teremos itens duplicados na tela.
-//     // listModel.clear();
-    
-//     // 3. Verifica se existe um pedido ativo e se ele tem itens.
-//     if (pedidoAtual != null && pedidoAtual.getItens() != null) {
-        
-//         // 4. Itera sobre os itens do Map<Produto, Integer> do pedido.
-//         for (Map.Entry<Produto, Integer> entrada : pedidoAtual.getItens().entrySet()) {
-//             Produto p = entrada.getKey();
-//             Integer qtd = entrada.getValue();
-            
-//             // Calcula o subtotal apenas para exibição na linha
-//             BigDecimal subtotal = p.getPreco().multiply(BigDecimal.valueOf(qtd));
-            
-//             // Formata uma String amigável para ser exibida na JList
-//             String itemFormatado = String.format(
-//                 "%dx %s (R$ %.2f) - Subtotal: R$ %.2f", 
-//                 qtd, 
-//                 p.getProduto(), // Supondo que Produto tenha um método getNome()
-//                 p.getPreco(), 
-//                 subtotal
-//             );
-            
-//             // Adiciona a string formatada ao modelo da lista, o que a exibe na tela.
-//             listModel.addElement(itemFormatado);
-//         }
-        
-//         // 5. Atualiza o valor total no JLabel do rodapé.
-//         // O cálculo já foi feito e atualizado no controller, aqui apenas exibimos o resultado.
-//         lblTotalValor.setText(String.format("R$ %.2f", pedidoAtual.getValorTotal()));
-        
-//     } else {
-//         // Se, por algum motivo, não houver um pedido, garante que o total seja zerado.
-//         lblTotalValor.setText("R$ 0,00");
-//     }
-// }
 }

@@ -1,11 +1,15 @@
 package com.franquias.Controller;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 
 import com.franquias.Model.Produto;
+import com.franquias.Model.entities.Cliente;
 import com.franquias.Model.entities.Pedido;
 import com.franquias.Model.entities.Usuários.Gerente;
 import com.franquias.Model.entities.Usuários.Vendedor;
@@ -163,5 +167,21 @@ public class GerenteController {
             }
         }
         return total;
+    }
+
+    public Map<Cliente, Long> getContagemDePedidosPorCliente() {
+        List<Pedido> todosOsPedidos = pedidoPersistence.findAll();
+
+        if (todosOsPedidos == null || todosOsPedidos.isEmpty()) {
+            return new HashMap<>(); // Retorna mapa vazio se não houver pedidos
+        }
+
+        // Agrupa os pedidos pelo objeto Cliente e conta quantos existem em cada grupo
+        return todosOsPedidos.stream()
+            .filter(pedido -> pedido.getCliente() != null) // Garante que não haja pedidos sem cliente
+            .collect(Collectors.groupingBy(
+                Pedido::getCliente,
+                Collectors.counting()
+            ));
     }
 }
