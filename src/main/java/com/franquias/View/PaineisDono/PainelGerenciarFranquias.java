@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -19,7 +20,7 @@ public class PainelGerenciarFranquias extends JPanel {
     private JFrame framePrincipal;
     private DonoController controller;
     private JTable tabelaFranquias;
-    private DefaultTableModel modeloTabelaFranquias;
+    private DefaultTableModel modeloTabelaFranquias;    
 
     public PainelGerenciarFranquias(DonoController controller, JFrame framePrincipal) {
         this.framePrincipal = framePrincipal;
@@ -33,6 +34,7 @@ public class PainelGerenciarFranquias extends JPanel {
 
     public void criarTabelaFranquias() {
         modeloTabelaFranquias = new DefaultTableModel();
+        modeloTabelaFranquias.addColumn("ID");
         modeloTabelaFranquias.addColumn("Estado");
         modeloTabelaFranquias.addColumn("Cidade");
         modeloTabelaFranquias.addColumn("Gerente");
@@ -49,6 +51,7 @@ public class PainelGerenciarFranquias extends JPanel {
 
         for (Franquia franquia : franquias) {
             Object[] rowData = {
+                    franquia.getId(),
                     franquia.getEstado(),
                     franquia.getCidade(),
                     franquia.getGerente(),
@@ -84,6 +87,7 @@ public class PainelGerenciarFranquias extends JPanel {
         Franquia novaFranquia = dialog.getFranquia();
         if (novaFranquia != null) {
             controller.cadastrarFranquia(novaFranquia);
+            carregarDadosNaTabela();
         }
     }
 
@@ -94,13 +98,29 @@ public class PainelGerenciarFranquias extends JPanel {
             controller.removerFranquia(idFranquia);
             modeloTabelaFranquias.removeRow(selectedRow);
         } else {
-            JOptionPane.showMessageDialog(framePrincipal, "Nenhuma franquia selecionado para remoção.", "Erro",
-                    JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(framePrincipal, "Nenhuma franquia selecionado para remoção.", "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }
 
     private void editaFranquia() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'editaFranquia'");
+        int selectedRow = tabelaFranquias.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(framePrincipal, "Nenhuma franquia selecionada para edição.", "Erro", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        long idFranquia = (long) modeloTabelaFranquias.getValueAt(selectedRow, 0);
+
+        Franquia franquiaParaEditar = controller.buscarFranquiaPorId(idFranquia);
+
+        if(franquiaParaEditar != null) {
+            DialogCadastroFranquia dialog = new DialogCadastroFranquia(framePrincipal, franquiaParaEditar);
+            dialog.setVisible(true);
+
+            if(dialog.foiSalvo()) {
+                controller.editarFranquia(franquiaParaEditar);
+                carregarDadosNaTabela();
+                JOptionPane.showMessageDialog(this, "Franquia editada com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
     }
 }

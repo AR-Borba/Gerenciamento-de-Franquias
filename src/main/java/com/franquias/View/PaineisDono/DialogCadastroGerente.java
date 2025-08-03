@@ -62,13 +62,10 @@ public class DialogCadastroGerente extends JDialog {
             cpfField = new JFormattedTextField();
         }
 
-        // Inicializar campos de texto
         nomeField = new JTextField(20);
         emailField = new JTextField(30);
         senhaField = new JPasswordField(20);
         
-        // Adicionar componentes ao diálogo (layout e outros componentes omitidos)
-
         gbc.gridx = 0;
         gbc.gridy = 0;
         add(new JLabel("Nome:"), gbc);
@@ -104,7 +101,6 @@ public class DialogCadastroGerente extends JDialog {
         gbc.gridx = 1;
         add(salvarButton, gbc);
 
-        // Exibir o diálogo
         pack();
     }
 
@@ -153,6 +149,7 @@ public class DialogCadastroGerente extends JDialog {
 
     private void onCancelar() {
         this.salvo = false;
+        this.gerente = null;
         dispose();
     }
 

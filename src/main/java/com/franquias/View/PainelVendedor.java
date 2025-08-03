@@ -4,8 +4,6 @@ import javax.swing.*;
 
 import java.awt.*;
 
-import java.util.List;
-
 import com.franquias.Controller.*;
 import com.franquias.Model.entities.Usuários.Vendedor;
 import com.franquias.Persistence.VendedorPersistence;

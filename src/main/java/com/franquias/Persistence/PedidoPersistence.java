@@ -6,9 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.franquias.Model.Produto;
 import com.franquias.Model.entities.Pedido;
-import com.franquias.Model.entities.Usuários.Vendedor;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -85,7 +83,6 @@ public class PedidoPersistence implements Persistence<Pedido>{
     }
 
     public void update(Pedido pedido) {
-        
         int index = -1;
         for(int i = 0; i < pedidosEmMemoria.size(); i++) {
             if(pedidosEmMemoria.get(i).equals(pedido)) {

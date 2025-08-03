@@ -4,9 +4,13 @@ import com.franquias.Model.entities.Usuários.Gerente;
 import com.franquias.Utils.Endereco;
 
 public class Franquia {
-    Endereco endereco;
-    Gerente gerente;
+    public Endereco endereco;
+    public Gerente gerente;
     long id;
+
+    public Franquia(){
+
+    }
     
     public Franquia(Endereco endereco, Gerente gerente){
         this.endereco = endereco;
@@ -19,31 +23,27 @@ public class Franquia {
     }
 
     public Gerente getGerente() {
-        return gerente;
+        return this.gerente;
     }
 
-    public Object getEstado() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getEstado'");
+    public String getEstado() {
+        return this.endereco.getEstado();
     }
 
-    public Object getCidade() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getCidade'");
+    public String getCidade() {
+        return this.endereco.getCidade();
     }
 
-    public Object getReceita() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getReceita'");
-    }
-
-    public void setId(long proximoId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setId'");
+    public double getReceita() {
+        return 20.35;
     }
 
     public long getId() {
         return this.id;
+    }
+
+    public void setId(long proximoId) {
+        this.id = proximoId;
     }
 
 

@@ -63,7 +63,7 @@ public class AplicacaoPrincipal {
         painelDeConteudo.add(painelDono, "DONO");
         
         telaPricipal.add(painelDeConteudo);
-        mostrarTela("LOGIN");
+        mostrarTela("DONO");
 
         telaPricipal.setLocationRelativeTo(null);
         telaPricipal.setVisible(true);

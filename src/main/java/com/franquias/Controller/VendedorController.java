@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import javax.swing.JOptionPane;
-
 import com.franquias.Model.Produto;
 import com.franquias.Model.entities.Cliente;
 import com.franquias.Model.entities.Pedido;
@@ -20,7 +18,6 @@ import com.franquias.Persistence.PedidoPersistence;
 import com.franquias.Persistence.ProdutoPersistence;
 import com.franquias.Persistence.VendedorPersistence;
 import com.franquias.exceptions.EstoqueInsuficienteException;
-import com.franquias.exceptions.ProdutoNaoEncontradoException;
 
 public class VendedorController {
     
