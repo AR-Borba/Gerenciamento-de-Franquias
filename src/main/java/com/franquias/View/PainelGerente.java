@@ -15,7 +15,7 @@ public class PainelGerente extends PainelBase {
     private GerenteController controller;
 
     private PainelControlarPedidos painelControlarPedidos;
-    // private PainelGerarRelatorios painelGerarRelatorios;
+    private PainelGerarRelatorios painelGerarRelatorios;
     private PainelGerenciarEquipe painelGerenciarEquipe;
     private PainelGerenciarEstoque painelGerenciarEstoque;
 
@@ -53,7 +53,10 @@ public class PainelGerente extends PainelBase {
         });
         
         JMenuItem itemRelatorios = new JMenuItem("Gerar Relatórios");
-        itemRelatorios.addActionListener(e -> mostrarSubPainel("GERAR_RELATORIOS"));
+        itemRelatorios.addActionListener (e -> {
+            if (painelGerarRelatorios != null) painelGerarRelatorios.carregarDados();
+            mostrarSubPainel("GERAR_RELATORIOS");
+        });
         
         menuOpcoes.add(itemGerenciarEquipe);
         menuOpcoes.add(itemControlarPedidos);
@@ -65,10 +68,10 @@ public class PainelGerente extends PainelBase {
 
     @Override
     protected void registrarSubPaineis(JPanel painelDeCards) {
-        PainelGerenciarEquipe painelGerenciarEquipe = new PainelGerenciarEquipe(controller, app.getFramePrincipal());
-        PainelControlarPedidos painelControlarPedidos = new PainelControlarPedidos(controller, app.getFramePrincipal());
-        PainelGerenciarEstoque painelGerenciarEstoque = new PainelGerenciarEstoque(controller, app.getFramePrincipal());
-        PainelGerarRelatorios painelGerarRelatorios = new PainelGerarRelatorios(controller, app.getFramePrincipal());
+        this.painelGerenciarEquipe = new PainelGerenciarEquipe(controller, app.getFramePrincipal());
+        this.painelControlarPedidos = new PainelControlarPedidos(controller, app.getFramePrincipal());
+        this.painelGerenciarEstoque = new PainelGerenciarEstoque(controller, app.getFramePrincipal());
+        this.painelGerarRelatorios = new PainelGerarRelatorios(controller, app.getFramePrincipal());
 
         painelDeCards.add(painelGerenciarEquipe, "GERENCIAR_EQUIPE");
         painelDeCards.add(painelControlarPedidos, "CONTROLAR_PEDIDOS");

@@ -15,7 +15,7 @@ public class Pedido {
     private Map<Produto, Integer> produtos;
     private transient LocalDateTime dataHora;
     private String dataHoraFormatada;
-    private String cliente;
+    private Cliente cliente;
     private FormaDePagamento formaDePagamento;
     private BigDecimal taxas;
     private ModalidadeEntrega modalidadeDeEntrega;
@@ -32,7 +32,7 @@ public class Pedido {
         this.vendedorResponsavel = vendedor;
         this.franquiaId = vendedor.getFranquiaId();
         this.produtos = new HashMap<>(); // Inicializa com um mapa vazio
-        this.cliente = "";
+        this.cliente = new Cliente();
         this.dataHora = LocalDateTime.now();
         atualizarDataHoraFormatada();
         this.formaDePagamento = FormaDePagamento.DINHEIRO; // Valor padrão
@@ -41,7 +41,7 @@ public class Pedido {
         this.statusPedido = StatusPedido.ATIVO; // Valor padrão
     }
 
-    public Pedido(Map<Produto, Integer> produtos, String cliente, LocalDateTime datahora,
+    public Pedido(Map<Produto, Integer> produtos, Cliente cliente, LocalDateTime datahora,
             FormaDePagamento formaDePagamento, BigDecimal taxas, ModalidadeEntrega modalidadeDeEntrega,
             StatusPedido statusPedido) {
         this.produtos = produtos;
@@ -81,11 +81,11 @@ public class Pedido {
             this.produtos.remove(produto);
     }
 
-    public String getCliente() {
+    public Cliente getCliente() {
         return cliente;
     }
 
-    public void setCliente(String cliente) {
+    public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
 

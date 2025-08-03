@@ -7,11 +7,13 @@ import java.util.List;
 import java.util.Map;
 
 import com.franquias.Model.Produto;
+import com.franquias.Model.entities.Cliente;
 import com.franquias.Model.entities.Pedido;
 import com.franquias.Model.entities.Usuários.Vendedor;
 import com.franquias.Model.enums.FormaDePagamento;
 import com.franquias.Model.enums.ModalidadeEntrega;
 import com.franquias.Model.enums.StatusPedido;
+import com.franquias.Persistence.ClientePersistence;
 import com.franquias.Persistence.PedidoPersistence;
 import com.franquias.Persistence.ProdutoPersistence;
 import com.franquias.Persistence.VendedorPersistence;
@@ -25,12 +27,14 @@ public class VendedorController {
     private VendedorPersistence vendedorPersistence;
     private PedidoPersistence pedidoPersistence;
     private ProdutoPersistence produtoPersistence;
+    private ClientePersistence clientePersistence;
 
-    public VendedorController(AplicacaoPrincipal app, PedidoPersistence pedidoPersistence, ProdutoPersistence produtoPersistence, VendedorPersistence vendedorPersistence) {
+    public VendedorController(AplicacaoPrincipal app, PedidoPersistence pedidoPersistence, ProdutoPersistence produtoPersistence, VendedorPersistence vendedorPersistence, ClientePersistence clientePersistence) {
         this.app = app;
         this.pedidoPersistence = pedidoPersistence;
         this.produtoPersistence = produtoPersistence;
         this.vendedorPersistence = vendedorPersistence;
+        this.clientePersistence = clientePersistence;
 
         this.pedidoAtual = new Pedido();
 
@@ -60,6 +64,12 @@ public class VendedorController {
         }
 
         pedidoAtual.adicionarItem(produto, quantidade);
+    }
+
+    public void removerItemDoPedido(long idProduto) {
+        Produto produto = produtoPersistence.buscarPorId(idProduto);
+
+        pedidoAtual.removerItem(produto);
     }
 
     public void finalizaPedido() {
@@ -117,7 +127,7 @@ public class VendedorController {
         pedidoPersistence.update(pedido);
     }
 
-    public void finalizarPedido(String cliente, BigDecimal taxa, ModalidadeEntrega modalidadeEntrega, FormaDePagamento formaDePagamento) {
+    public void finalizarPedido(Cliente cliente, BigDecimal taxa, ModalidadeEntrega modalidadeEntrega, FormaDePagamento formaDePagamento) {
         this.pedidoAtual.setCliente(cliente);
         this.pedidoAtual.setTaxa(taxa);
         this.pedidoAtual.setModalidadeDeEntrega(modalidadeEntrega);
@@ -144,5 +154,13 @@ public class VendedorController {
         vendedorPersistence.update(vendedorLogado);
 
         iniciarNovoPedido();
+    }
+
+    public List<Cliente> getClientesDisponiveis() {
+        return clientePersistence.findAll();
+    }
+
+    public void adicionarCliente(Cliente cliente) {
+        clientePersistence.add(cliente);
     }
 }

@@ -17,7 +17,7 @@ import com.franquias.Controller.GerenteController;
 import com.franquias.Model.entities.Usuários.Vendedor;
 import com.franquias.View.PainelAtualizavel;
 
-public class PainelGerenciarEquipe extends JPanel implements PainelAtualizavel {
+public class PainelGerenciarEquipe extends JPanel {
     
     private JFrame framePrincipal;
 
@@ -45,7 +45,6 @@ public class PainelGerenciarEquipe extends JPanel implements PainelAtualizavel {
         add(new JScrollPane(tabelaRankingEquipe), BorderLayout.CENTER);
     }
 
-    @Override
     public void carregarDados() { // lembrar de carregar ordenado por vendas
         modeloTabelaRanking.setRowCount(0); // Limpa a tabela antes de adicionar novos dados
 

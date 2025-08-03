@@ -212,7 +212,7 @@ public class DialogAlterarPedido extends JDialog{
     }
 
     private void preencherCampos() {
-        tfCliente.setText(pedido.getCliente());
+        tfCliente.setText(pedido.getCliente().getNome());
         tfTaxas.setValue(pedido.getTaxa());
         fieldModalidadeEntrega.setSelectedItem(pedido.getModalidadeDeEntrega());
         fieldFormaPagamento.setSelectedItem(pedido.getFormaDePagamento());
@@ -229,7 +229,7 @@ public class DialogAlterarPedido extends JDialog{
             return;
         }
 
-        pedido.setCliente(tfCliente.getText());
+        // pedido.setCliente(tfCliente.getText());
         pedido.setTaxa((BigDecimal) tfTaxas.getValue());
         pedido.setModalidadeDeEntrega(modalidadeEntrega);
         pedido.setFormaDePagamento(formaDePagamento);

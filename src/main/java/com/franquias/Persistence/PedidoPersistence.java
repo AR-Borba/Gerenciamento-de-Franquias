@@ -14,7 +14,7 @@ import com.google.gson.reflect.TypeToken;
 
 public class PedidoPersistence implements Persistence<Pedido>{
     
-    private static final String PATH = DIRECTORY + File.separator + "pedido.json";
+    private static final String PATH = "data" + File.separator + "pedido.json";
     private final Gson gson = new GsonBuilder()
                                 .enableComplexMapKeySerialization() // << ESTA É A LINHA CHAVE
                                 .setPrettyPrinting() // Opcional, mas recomendado para legibilidade do JSON
