@@ -51,7 +51,7 @@ public class GerenteController {
             vendedor -> calcularTotalVendasPorVendedor(vendedor)
         );
 
-        vendedores.sort(comparadorPorVendas);
+        vendedores.sort(comparadorPorVendas.reversed());
 
         return vendedores;
     }

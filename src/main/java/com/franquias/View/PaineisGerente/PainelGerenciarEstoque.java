@@ -14,7 +14,7 @@ import com.franquias.Model.Produto;
 import com.franquias.Model.entities.Usuários.Vendedor;
 import com.franquias.View.PainelAtualizavel;
 
-public class PainelGerenciarEstoque extends JPanel implements PainelAtualizavel{
+public class PainelGerenciarEstoque extends JPanel {
 
     private JFrame framePrincipal;
     private GerenteController controller;
@@ -45,7 +45,6 @@ public class PainelGerenciarEstoque extends JPanel implements PainelAtualizavel{
         add(new JScrollPane(tabelaProdutos), BorderLayout.CENTER);
     }
 
-    @Override
     public void carregarDados() {
         modeloTabelaProdutos.setRowCount(0);
 
@@ -61,6 +60,24 @@ public class PainelGerenciarEstoque extends JPanel implements PainelAtualizavel{
             modeloTabelaProdutos.addRow(rowData);
         }
     }
+    
+    private void carregarDadosEstoqueBaixo() {
+        modeloTabelaProdutos.setRowCount(0);
+
+        List<Produto> produtos = controller.getProdutos(); 
+
+        for(Produto produto : produtos) {
+            if(produto.getQuantidadeEstoque() < 11) {
+                Object[] rowData = {
+                    produto.getId(),
+                    produto.getQuantidadeEstoque(),
+                    produto.getProduto(),
+                    produto.getPreco()
+                };
+                modeloTabelaProdutos.addRow(rowData);
+            }
+        }
+    }
 
     private void criarPainelOpcoes() {
         JPanel painelOpcoes = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 5));
@@ -69,7 +86,7 @@ public class PainelGerenciarEstoque extends JPanel implements PainelAtualizavel{
         JButton btnProdutosComEstoqueBaixo = new JButton("Produtos com Estoque Baixo");
 
         btnVerTodosOsProdutos.addActionListener(e -> carregarDados());
-        btnProdutosComEstoqueBaixo.addActionListener(e -> carregarDados());
+        btnProdutosComEstoqueBaixo.addActionListener(e -> carregarDadosEstoqueBaixo());
 
         painelOpcoes.add(btnVerTodosOsProdutos);
         painelOpcoes.add(btnProdutosComEstoqueBaixo);
