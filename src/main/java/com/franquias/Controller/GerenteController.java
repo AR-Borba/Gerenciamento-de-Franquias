@@ -49,11 +49,9 @@ public class GerenteController {
 
         long idFranquia = gerenteLogado.getFranquiaId();
 
-        List<Vendedor> vendedores = vendedorPersistence.findByFranquia  (idFranquia);
+        List<Vendedor> vendedores = vendedorPersistence.findByFranquia(idFranquia);
 
-        Comparator<Vendedor> comparadorPorVendas = Comparator.comparing(
-            vendedor -> calcularTotalVendasPorVendedor(vendedor)
-        );
+        Comparator<Vendedor> comparadorPorVendas = Comparator.comparing(vendedor -> calcularTotalVendasPorVendedor(vendedor));
 
         vendedores.sort(comparadorPorVendas.reversed());
 

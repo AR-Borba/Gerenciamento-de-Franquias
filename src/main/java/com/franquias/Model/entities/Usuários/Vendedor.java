@@ -1,9 +1,11 @@
 package com.franquias.Model.entities.Usuários;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.franquias.Model.entities.Pedido;
+import com.franquias.Persistence.PedidoPersistence;
 
 public class Vendedor extends Usuario {
     private long id;
@@ -64,5 +66,15 @@ public class Vendedor extends Usuario {
         if(this.idPedidos == null) 
             this.idPedidos = new ArrayList<>();
         return this.idPedidos;
+    }
+
+    public BigDecimal getReceita() {
+        PedidoPersistence pedidoPersistence = new PedidoPersistence();
+        pedidoPersistence.findAll();
+        BigDecimal acumulado = BigDecimal.ZERO;
+        for(long indice : this.idPedidos) {
+            acumulado.add((pedidoPersistence.buscarPorId(indice)).getValorTotal());
+        }
+        return acumulado;
     }
 }
