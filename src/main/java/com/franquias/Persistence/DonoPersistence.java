@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.franquias.Model.entities.Usuários.Dono;
+import com.franquias.Model.entities.Usuários.Gerente;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -38,6 +39,12 @@ public class DonoPersistence implements Persistence<Dono> {
                     itens = new ArrayList<>();
         }
         return itens;
+    }
+
+    public void adicionarDono(Dono novoDono) {
+        List<Dono> donos = new ArrayList<>();
+        donos.add(novoDono);
+        save(donos);
     }
 
     public boolean hasDono() {

@@ -8,15 +8,18 @@ import com.franquias.Model.entities.Usuários.Gerente;
 import com.franquias.Model.entities.Franquia;
 import com.franquias.Persistence.GerentePersistence;
 import com.franquias.Utils.Endereco;
+import com.franquias.Persistence.DonoPersistence;
 import com.franquias.Persistence.FranquiaPersistence;
 
 public class DonoController {
+    private DonoPersistence donoPersistence;
     private FranquiaPersistence franquiaPersistence;
     private GerentePersistence gerentePersistence;
     private AplicacaoPrincipal app;
     private Dono donoLogado;
 
-    public DonoController(AplicacaoPrincipal app, FranquiaPersistence franquiaPersistence, GerentePersistence gerentePersistence) {
+    public DonoController(AplicacaoPrincipal app, DonoPersistence donoPersistence, FranquiaPersistence franquiaPersistence, GerentePersistence gerentePersistence) {
+        this.donoPersistence = donoPersistence;
         this.franquiaPersistence = franquiaPersistence;
         this.gerentePersistence = gerentePersistence;
         this.app = app; 
@@ -27,6 +30,11 @@ public class DonoController {
         System.out.println("Sessão iniciada para o Dono: " + donoLogado.getNome());
         
         // verificarFranquiasSemGerenteEnotificar();
+    }
+
+    public void cadastrarDono(String nome, String cpf, String email, String senha) {
+        Dono novoDono = new Dono(nome, cpf, email, senha);
+        donoPersistence.adicionarDono(novoDono);
     }
 
     public void cadastrarGerente(Gerente gerente) {

@@ -101,4 +101,12 @@ public class VendedorPersistence implements Persistence<Vendedor> {
                                .filter(vendedor -> vendedor.getFranquiaId() == franquiaId)
                                .collect(Collectors.toList());
     }
+
+    public Vendedor findByEmailAndPassword(String email, String senha) {
+
+        return vendedoresEmMemoria.stream()
+            .filter(v -> v.getEmail().equalsIgnoreCase(email) && v.getSenha().equals(senha))
+            .findFirst()
+            .orElse(null);
+    }
 }

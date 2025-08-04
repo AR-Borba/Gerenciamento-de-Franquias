@@ -38,8 +38,6 @@ public class AplicacaoPrincipal {
     
     public final int WIDTH = 600;
     public final int HEIGHT = 400;
-    // private final int V_GAP = 10;
-    // private final int H_GAP = 5;
     
     public void iniciar() {
         telaPricipal = new JFrame("Franquia");
@@ -62,13 +60,16 @@ public class AplicacaoPrincipal {
         loginController = new LoginController(this, donoPersistence, gerentePersistence, vendedorPersistence);
         vendedorController = new VendedorController(this, pedidoPersistence, produtoPersistence, vendedorPersistence, clientePersistence);
         gerenteController = new GerenteController(this, vendedorPersistence, produtoPersistence, pedidoPersistence);
-        donoController = new DonoController(this, franquiaPersistence, gerentePersistence);
+        donoController = new DonoController(this, donoPersistence, franquiaPersistence, gerentePersistence);
         pedidoController = new PedidoController(pedidoPersistence, produtoPersistence);
         
         PainelLogin painelLogin = new PainelLogin(loginController);
         PainelVendedor painelVendedor = new PainelVendedor(this, vendedorController, pedidoController);
         PainelGerente painelGerente = new PainelGerente(this, gerenteController, pedidoController);
         PainelDono painelDono = new PainelDono(this, donoController);
+
+        PainelCadastroDono painelCadastroDono = new PainelCadastroDono(this, donoController);
+        painelDeConteudo.add(painelCadastroDono, "CADASTRO_DONO");
         
         painelDeConteudo.add(painelLogin, "LOGIN");
         painelDeConteudo.add(painelVendedor, "VENDEDOR");
@@ -76,7 +77,7 @@ public class AplicacaoPrincipal {
         painelDeConteudo.add(painelDono, "DONO");
         
         telaPricipal.add(painelDeConteudo);
-        mostrarTela("DONO");
+        mostrarTela("LOGIN");
         
         telaPricipal.setLocationRelativeTo(null);
         telaPricipal.setVisible(true);

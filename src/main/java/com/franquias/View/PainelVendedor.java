@@ -26,9 +26,9 @@ public class PainelVendedor extends PainelBase {
 
         this.pedidoController = pedidoController;
 
-        VendedorPersistence vendedorPersistence = new VendedorPersistence();
-        Vendedor vendedor = vendedorPersistence.buscarPorId(1);
-        controller.iniciarSessao(vendedor);
+        // VendedorPersistence vendedorPersistence = new VendedorPersistence();
+        // Vendedor vendedor = vendedorPersistence.buscarPorId(1);
+        // controller.iniciarSessao(vendedor);
 
         construirLayout();
 
