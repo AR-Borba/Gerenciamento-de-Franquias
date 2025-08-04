@@ -100,4 +100,11 @@ public class GerentePersistence implements Persistence<Gerente> {
         return gerentesEmMemoria.stream().filter(g -> g.getId() == idgerente).findFirst().orElse(null);
     }
 
+    public Gerente findByEmailAndPassword(String email, String senha) {
+
+        return gerentesEmMemoria.stream()
+            .filter(g -> g.getEmail().equalsIgnoreCase(email) && g.getSenha().equals(senha))
+            .findFirst()
+            .orElse(null);
+    }
 }
