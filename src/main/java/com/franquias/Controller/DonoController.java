@@ -3,6 +3,7 @@ package com.franquias.Controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.franquias.Model.entities.Usuários.Dono;
 import com.franquias.Model.entities.Usuários.Gerente;
 import com.franquias.Model.entities.Franquia;
 import com.franquias.Persistence.GerentePersistence;
@@ -12,12 +13,20 @@ import com.franquias.Persistence.FranquiaPersistence;
 public class DonoController {
     private FranquiaPersistence franquiaPersistence;
     private GerentePersistence gerentePersistence;
-    // private AplicacaoPrincipal app;
+    private AplicacaoPrincipal app;
+    private Dono donoLogado;
 
-    public DonoController(AplicacaoPrincipal app) {
-        this.franquiaPersistence = new FranquiaPersistence();
-        this.gerentePersistence = new GerentePersistence();
-        // this.app = app; 
+    public DonoController(AplicacaoPrincipal app, FranquiaPersistence franquiaPersistence, GerentePersistence gerentePersistence) {
+        this.franquiaPersistence = franquiaPersistence;
+        this.gerentePersistence = gerentePersistence;
+        this.app = app; 
+    }
+
+    public void iniciarSessao(Dono dono) {
+        this.donoLogado = dono;
+        System.out.println("Sessão iniciada para o Dono: " + donoLogado.getNome());
+        
+        // verificarFranquiasSemGerenteEnotificar();
     }
 
     public void cadastrarGerente(Gerente gerente) {
@@ -29,9 +38,7 @@ public class DonoController {
     }
 
     public List<Gerente> getGerentes() {
-        GerentePersistence gerentePersistence = new GerentePersistence();
-        List<Gerente> gerentes = gerentePersistence.findAll();
-        return gerentes;
+        return gerentePersistence.findAll();
     }
 
     public void cadastrarFranquia(Endereco endereco, Gerente gerenteResponsavel) {
@@ -49,9 +56,9 @@ public class DonoController {
     }
 
     public List<Franquia> verificarFranquiasSemGerente() {
-        FranquiaPersistence franquiaPersistence = new FranquiaPersistence();
         List<Franquia> todasFranquias = franquiaPersistence.findAll();
         List<Franquia> franquiasSemGerente = new ArrayList<>();
+
 
         for (Franquia franquia : todasFranquias) {
             if (franquia.getGerente() == null) {

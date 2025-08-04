@@ -40,6 +40,12 @@ public class DonoPersistence implements Persistence<Dono> {
         return itens;
     }
 
+    public boolean hasDono() {
+        List<Dono> donos = findAll();
+        
+        return (donos.isEmpty()) ? false : true;
+    }
+
     public Dono findByEmailAndPassword(String email, String senha) {
         
         return findAll().stream()

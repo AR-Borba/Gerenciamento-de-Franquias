@@ -5,6 +5,7 @@ import java.awt.*;
 
 import com.franquias.Persistence.ClientePersistence;
 import com.franquias.Persistence.DonoPersistence;
+import com.franquias.Persistence.FranquiaPersistence;
 import com.franquias.Persistence.GerentePersistence;
 import com.franquias.Persistence.PedidoPersistence;
 import com.franquias.Persistence.ProdutoPersistence;
@@ -21,6 +22,7 @@ public class AplicacaoPrincipal {
     public CardLayout cardLayout;
 
     private DonoPersistence donoPersistence = new DonoPersistence();
+    private FranquiaPersistence franquiaPersistence = new FranquiaPersistence();
     private GerentePersistence gerentePersistence = new GerentePersistence();
     private VendedorPersistence vendedorPersistence = new VendedorPersistence();
     private ProdutoPersistence produtoPersistence = new ProdutoPersistence();
@@ -60,7 +62,7 @@ public class AplicacaoPrincipal {
         loginController = new LoginController(this, donoPersistence, gerentePersistence, vendedorPersistence);
         vendedorController = new VendedorController(this, pedidoPersistence, produtoPersistence, vendedorPersistence, clientePersistence);
         gerenteController = new GerenteController(this, vendedorPersistence, produtoPersistence, pedidoPersistence);
-        donoController = new DonoController(this);
+        donoController = new DonoController(this, franquiaPersistence, gerentePersistence);
         pedidoController = new PedidoController(pedidoPersistence, produtoPersistence);
         
         PainelLogin painelLogin = new PainelLogin(loginController);
@@ -111,7 +113,7 @@ public class AplicacaoPrincipal {
     public JFrame getFramePrincipal() {
         return telaPricipal;
     }
-    
+
     public VendedorController getVendedorController() {
         return vendedorController;
     }
