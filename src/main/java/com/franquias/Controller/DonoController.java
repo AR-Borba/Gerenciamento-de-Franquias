@@ -24,14 +24,6 @@ public class DonoController {
     private GerentePersistence gerentePersistence;
     private VendedorPersistence vendedorPersistence;
     private PedidoPersistence pedidoPersistence;
-    // private AplicacaoPrincipal app;
-
-    public DonoController(AplicacaoPrincipal app) {
-        this.franquiaPersistence = new FranquiaPersistence();
-        this.gerentePersistence = new GerentePersistence();
-        this.vendedorPersistence = new VendedorPersistence();
-        this.pedidoPersistence = new PedidoPersistence();
-        // this.app = app; 
     private AplicacaoPrincipal app;
     private Dono donoLogado;
 
