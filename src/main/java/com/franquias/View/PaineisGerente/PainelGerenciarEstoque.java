@@ -64,18 +64,17 @@ public class PainelGerenciarEstoque extends JPanel {
     private void carregarDadosEstoqueBaixo() {
         modeloTabelaProdutos.setRowCount(0);
 
-        List<Produto> produtos = controller.getProdutos(); 
+        List<Produto> produtos = controller.getProdutosComEstoqueBaixo(11); 
 
         for(Produto produto : produtos) {
-            if(produto.getQuantidadeEstoque() < 11) {
-                Object[] rowData = {
-                    produto.getId(),
-                    produto.getQuantidadeEstoque(),
-                    produto.getProduto(),
-                    produto.getPreco()
-                };
-                modeloTabelaProdutos.addRow(rowData);
-            }
+            Object[] rowData = {
+                produto.getId(),
+                produto.getQuantidadeEstoque(),
+                produto.getProduto(),
+                produto.getPreco()
+            };
+            modeloTabelaProdutos.addRow(rowData);
+            
         }
     }
 

@@ -125,6 +125,10 @@ public class GerenteController {
         return pedidoPersistence.buscarPorId(idPedido);
     }
 
+    public void atualizarPedido(Pedido pedido) {
+        pedidoPersistence.update(pedido);
+    }
+
     public List<Produto> getProdutos() {
         List<Produto> produtos;
 
@@ -132,6 +136,14 @@ public class GerenteController {
 
         return produtos;
     }
+
+    public List<Produto> getProdutosComEstoqueBaixo(int limite) {
+    List<Produto> todosOsProdutos = produtoPersistence.findAll();
+    
+    return todosOsProdutos.stream()
+                          .filter(produto -> produto.getQuantidadeEstoque() < limite)
+                          .collect(Collectors.toList());
+}
 
     public void editarProduto(Produto produtoEditado) {
         produtoPersistence.update(produtoEditado);

@@ -56,10 +56,14 @@ public class Pedido {
         calcularEAtualizaValorTotal();
     }
 
-    private void atualizarDataHoraFormatada() {
+    public void atualizarDataHoraFormatada() {
         if (this.dataHora != null) {
             this.dataHoraFormatada = this.dataHora.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
         }
+    }
+
+    public String getDataHoraFormatada() {
+        return this.dataHoraFormatada;
     }
 
     private void atualizarDataHoraPelaString() {

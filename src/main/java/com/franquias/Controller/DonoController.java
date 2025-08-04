@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+import com.franquias.Model.entities.Usuários.Dono;
 import com.franquias.Model.entities.Usuários.Gerente;
 import com.franquias.Model.entities.Usuários.Vendedor;
 import com.franquias.Model.enums.StatusPedido;
@@ -29,6 +30,20 @@ public class DonoController {
         this.vendedorPersistence = new VendedorPersistence();
         this.pedidoPersistence = new PedidoPersistence();
         // this.app = app; 
+    private AplicacaoPrincipal app;
+    private Dono donoLogado;
+
+    public DonoController(AplicacaoPrincipal app, FranquiaPersistence franquiaPersistence, GerentePersistence gerentePersistence) {
+        this.franquiaPersistence = franquiaPersistence;
+        this.gerentePersistence = gerentePersistence;
+        this.app = app; 
+    }
+
+    public void iniciarSessao(Dono dono) {
+        this.donoLogado = dono;
+        System.out.println("Sessão iniciada para o Dono: " + donoLogado.getNome());
+        
+        // verificarFranquiasSemGerenteEnotificar();
     }
 
     public void cadastrarGerente(Gerente gerente) {
@@ -40,9 +55,7 @@ public class DonoController {
     }
 
     public List<Gerente> getGerentes() {
-        GerentePersistence gerentePersistence = new GerentePersistence();
-        List<Gerente> gerentes = gerentePersistence.findAll();
-        return gerentes;
+        return gerentePersistence.findAll();
     }
 
     public void cadastrarFranquia(Endereco endereco, Gerente gerenteResponsavel) {
@@ -60,9 +73,9 @@ public class DonoController {
     }
 
     public List<Franquia> verificarFranquiasSemGerente() {
-        FranquiaPersistence franquiaPersistence = new FranquiaPersistence();
         List<Franquia> todasFranquias = franquiaPersistence.findAll();
         List<Franquia> franquiasSemGerente = new ArrayList<>();
+
 
         for (Franquia franquia : todasFranquias) {
             if (franquia.getGerente() == null) {
