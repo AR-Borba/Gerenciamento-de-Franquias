@@ -50,7 +50,7 @@ public class PainelDono extends PainelBase{
         PainelGerenciarGerentes painelGerenciarGerentes = new PainelGerenciarGerentes(controller, app.getFramePrincipal());
         PainelGerenciarFranquias painelGerenciarFranquias = new PainelGerenciarFranquias(controller, app.getFramePrincipal());
         PainelIndicadoresFinanceiros painelIndicadoresFinanceiros = new PainelIndicadoresFinanceiros(controller);
-        PainelRankingVendedores painelRankingVendedores = new PainelRankingVendedores(controller);
+        PainelRankingVendedores painelRankingVendedores = new PainelRankingVendedores(controller, app.getFramePrincipal());
 
         painelDeCards.add(painelGerenciarGerentes, "GERENCIAR_GERENTES");
         painelDeCards.add(painelGerenciarFranquias, "GERENCIAR_FRANQUIAS");

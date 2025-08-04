@@ -1,22 +1,33 @@
 package com.franquias.Controller;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import com.franquias.Model.entities.Usuários.Gerente;
+import com.franquias.Model.entities.Usuários.Vendedor;
+import com.franquias.Model.enums.StatusPedido;
 import com.franquias.Model.entities.Franquia;
+import com.franquias.Model.entities.Pedido;
 import com.franquias.Persistence.GerentePersistence;
+import com.franquias.Persistence.PedidoPersistence;
+import com.franquias.Persistence.VendedorPersistence;
 import com.franquias.Utils.Endereco;
 import com.franquias.Persistence.FranquiaPersistence;
 
 public class DonoController {
     private FranquiaPersistence franquiaPersistence;
     private GerentePersistence gerentePersistence;
+    private VendedorPersistence vendedorPersistence;
+    private PedidoPersistence pedidoPersistence;
     // private AplicacaoPrincipal app;
 
     public DonoController(AplicacaoPrincipal app) {
         this.franquiaPersistence = new FranquiaPersistence();
         this.gerentePersistence = new GerentePersistence();
+        this.vendedorPersistence = new VendedorPersistence();
+        this.pedidoPersistence = new PedidoPersistence();
         // this.app = app; 
     }
 
@@ -89,6 +100,33 @@ public class DonoController {
         franquiaPersistence.update(franquiaParaEditar);
     }
 
+    public List<Vendedor> getRankingVendedores() {
+        List<Vendedor> vendedores = vendedorPersistence.findAll(); 
+        Comparator<Vendedor> comparadorPorVendas = Comparator.comparing(vendedor -> calcularTotalVendasPorVendedor(vendedor));
+        vendedores.sort(comparadorPorVendas.reversed());
+        return vendedores;
+    }
+
+    public BigDecimal calcularTotalVendasPorVendedor(Vendedor vendedor) {
+        if (vendedor.getListaIdPedidos() == null) {
+            return BigDecimal.ZERO;
+        }
+
+        BigDecimal total = BigDecimal.ZERO;
+        for (Long idPedido : vendedor.getListaIdPedidos()) {
+            Pedido pedido = pedidoPersistence.buscarPorId(idPedido);
+            
+            if (pedido != null && pedido.getStatusPedido() == StatusPedido.CONCLUIDO) {
+                total = total.add(pedido.getValorTotal());
+            }
+        }
+        return total;
+    }
+
+    public Number getReceita(Franquia franquia) {
+        return 10;
+    }
+    
     // public RelatorioDesempenhoUnidade gerarRelatorioParaFranquia(Franquia
     // franquia) {
     // double faturamentoBruto = 0.0;
@@ -105,13 +143,4 @@ public class DonoController {
     // ticketMedio);
     // }
 
-    // public List<Vendedor> getRankingVendedores(Franquia franquia) {
-    // List<Vendedor> vendedoresDaFranquia = new
-    // ArrayList<>(franquia.getVendedores());
-
-    // vendedoresDaFranquia.sort((v1, v2) ->
-    // Double.compare(v2.getValorTotalVendas(), v1.getValorTotalVendas()));
-
-    // return vendedoresDaFranquia;
-    // }
 }

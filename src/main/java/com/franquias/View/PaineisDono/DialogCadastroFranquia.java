@@ -136,11 +136,12 @@ public class DialogCadastroFranquia extends JDialog {
     }
 
     private void onSalvar() {
-        String rua    = ruaField.getText(); 
+        String rua = ruaField.getText(); 
         String numero = numeroField.getText(); 
         String cidade = cidadeField.getText(); 
         String estado = ((Estados) estadoField.getSelectedItem()).name(); 
-        String cep    = cepField.getText(); 
+        String cep = cepField.getText(); 
+
         Gerente gerenteSelecionado = (Gerente) gerentesComboBox.getSelectedItem();
 
         if(rua.isBlank() || numero.isBlank() || cidade.isBlank() || estado.isBlank() || cep.isBlank() ||  gerenteSelecionado == null)
@@ -154,10 +155,8 @@ public class DialogCadastroFranquia extends JDialog {
         this.endereco.setCidade(cidade);
         this.endereco.setEstado(estado);
         this.endereco.setCep(cep);
-        
-        this.franquia = new Franquia(
-            this.endereco,
-            gerenteSelecionado);
+
+        this.franquia.setGerente(gerenteSelecionado);
 
         this.salvo = true;
         dispose();
