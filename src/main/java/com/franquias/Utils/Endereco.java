@@ -63,4 +63,16 @@ public class Endereco {
     public String getEstado() {
         return this.estado;
     }
+
+    public String getRua() {
+        return this.rua;
+    }
+
+    public String getNumero() {
+        return this.numero;
+    }
+
+    public String getCep() {
+        return this.cep;
+    }
 }

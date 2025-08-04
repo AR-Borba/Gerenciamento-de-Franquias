@@ -11,7 +11,7 @@ import com.google.gson.reflect.TypeToken;
 
 public class DonoPersistence implements Persistence<Dono> {
 
-    private static final String PATH = "data" + File.separator + "gerente.json";
+    private static final String PATH = "data" + File.separator + "dono.json";
     private final Gson gson = new Gson();
 
     @Override

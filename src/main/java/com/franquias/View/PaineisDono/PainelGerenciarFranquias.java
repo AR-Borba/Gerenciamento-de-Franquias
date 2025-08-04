@@ -5,7 +5,6 @@ import java.awt.FlowLayout;
 import java.util.List;
 
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -81,7 +80,7 @@ public class PainelGerenciarFranquias extends JPanel {
     }
 
     private void adicionaFranquia() {
-        DialogCadastroFranquia dialog = new DialogCadastroFranquia(framePrincipal);
+        DialogCadastroFranquia dialog = new DialogCadastroFranquia(framePrincipal, controller);
         dialog.setVisible(true);
 
         Franquia novaFranquia = dialog.getFranquia();
@@ -113,7 +112,7 @@ public class PainelGerenciarFranquias extends JPanel {
         Franquia franquiaParaEditar = controller.buscarFranquiaPorId(idFranquia);
 
         if(franquiaParaEditar != null) {
-            DialogCadastroFranquia dialog = new DialogCadastroFranquia(framePrincipal, franquiaParaEditar);
+            DialogCadastroFranquia dialog = new DialogCadastroFranquia(framePrincipal, franquiaParaEditar, controller);
             dialog.setVisible(true);
 
             if(dialog.foiSalvo()) {
