@@ -3,49 +3,31 @@ package com.franquias.View.PaineisGerente;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Frame;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.math.BigDecimal;
-import java.text.DecimalFormat;
+import java.awt.GridLayout;
 import java.util.Map;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JDialog;
-import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.text.NumberFormatter;
 
 import com.franquias.Controller.PedidoController;
 import com.franquias.Model.Produto;
 import com.franquias.Model.entities.Pedido;
-import com.franquias.Model.enums.FormaDePagamento;
-import com.franquias.Model.enums.ModalidadeEntrega;
 
 public class DialogVisualizarPedido extends JDialog{
-private JTextField tfCliente;
-    private JFormattedTextField tfTaxas;
-    private JComboBox<ModalidadeEntrega> fieldModalidadeEntrega;
-    private JComboBox<FormaDePagamento> fieldFormaPagamento;
 
     private Map<Produto, Integer> produtosNoPedido;
     private JTable tabelaProdutosPedido;
     private DefaultTableModel modeloTabelaProdutosNoPedido;
-    private String cliente;
-    private BigDecimal taxa;
-    private ModalidadeEntrega modalidadeEntrega;
-    private FormaDePagamento formaDePagamento;
     
     PedidoController pedidoController;
     Pedido pedido;
-
-    boolean salvo;
 
     public DialogVisualizarPedido(Frame parent, Pedido pedidoSendoEditado, PedidoController pedidoController) {
         super(parent, "Editando Pedido ID: " + pedidoSendoEditado.getId(), true);
@@ -53,61 +35,33 @@ private JTextField tfCliente;
         this.pedidoController = pedidoController;
 
         configurarUI();
-        preencherCampos();
+        carregarDadosNaTabela();
     }
 
     private void configurarUI() {
-        setSize(400, 300);
         setLayout(new BorderLayout(10, 10));
+        ((JPanel) getContentPane()).setBorder(new EmptyBorder(10, 10, 10, 10));
         
-        this.add(dadosCliente(), BorderLayout.WEST);
-        this.add(criarPainelProdutos());
-        this.add(painelAcoes());
+        add(criarPainelDadosGerais(), BorderLayout.NORTH);
+        add(criarPainelProdutos(), BorderLayout.CENTER);
+        add(criarPainelAcoes(), BorderLayout.SOUTH);
 
         pack();
+        setMinimumSize(getSize());
         setLocationRelativeTo(getParent());
     }
 
-    private JPanel dadosCliente() {
-        JPanel painelCliente = new JPanel();
+    private JPanel criarPainelDadosGerais() {
+        JPanel painel = new JPanel(new GridLayout(0, 1, 0, 5)); // GridLayout para empilhar verticalmente
+        painel.setBorder(BorderFactory.createTitledBorder("Dados do Pedido"));
 
-        painelCliente.setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.fill = GridBagConstraints.HORIZONTAL;
+        painel.add(new JLabel("Cliente: " + pedido.getCliente().getNome()));
+        painel.add(new JLabel("Data/Hora: " + pedido.getDataHoraFormatada()));
+        painel.add(new JLabel("Modalidade de Entrega: " + pedido.getModalidadeDeEntrega()));
+        painel.add(new JLabel("Forma de Pagamento: " + pedido.getFormaDePagamento()));
+        painel.add(new JLabel(String.format("Taxas: R$ %.2f", pedido.getTaxas())));
         
-        setLocationRelativeTo(null);
-        
-        DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
-
-        NumberFormatter decimalFormatter = new NumberFormatter(decimalFormat);
-        decimalFormatter.setValueClass(BigDecimal.class); // << A CLASSE É BigDecimal
-        decimalFormatter.setAllowsInvalid(false);
-
-        tfTaxas = new JFormattedTextField(decimalFormatter);
-        tfCliente = new JTextField(20);
-        fieldModalidadeEntrega = new JComboBox<>(ModalidadeEntrega.values());
-        fieldFormaPagamento = new JComboBox<>(FormaDePagamento.values());
-
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        painelCliente.add(new JLabel("Cliente:"), gbc);
-        gbc.gridx = 1;
-        painelCliente.add(tfCliente, gbc);
-
-        gbc.gridy = 1;
-        gbc.gridx = 0;
-        painelCliente.add(new JLabel("Taxas:"), gbc);
-        gbc.gridx = 1;
-        painelCliente.add(tfTaxas, gbc);
-
-        gbc.gridy = 2;
-        gbc.gridx = 0;
-        painelCliente.add(fieldModalidadeEntrega, gbc);
-
-        gbc.gridx = 1;
-        painelCliente.add(fieldFormaPagamento, gbc);
-
-        return painelCliente;
+        return painel;
     }
 
     private JPanel criarPainelProdutos() {
@@ -120,15 +74,6 @@ private JTextField tfCliente;
 
         tabelaProdutosPedido = new JTable(modeloTabelaProdutosNoPedido);
         painelProdutos.add(new JScrollPane(tabelaProdutosPedido), BorderLayout.CENTER);
-
-        JButton btnExcluir = new JButton("Excluir Item");
-        btnExcluir.addActionListener(e -> excluir());
-
-        JPanel painelBotoes = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-
-        painelBotoes.add(btnExcluir, BorderLayout.SOUTH);
-
-        painelProdutos.add(painelBotoes, BorderLayout.SOUTH);
 
         return painelProdutos;
     }
@@ -148,98 +93,16 @@ private JTextField tfCliente;
         }
     }
 
-    private JPanel painelAcoes() {
+    private JPanel criarPainelAcoes() {
         JPanel painelBotoes = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
         
-        JButton btnCancelar = new JButton("Cancelar");
-        btnCancelar.addActionListener(e -> dispose());
-        JButton btnSalvar = new JButton("Salvar");
-        btnSalvar.addActionListener(e -> onSalvar());
+        JButton btnFechar = new JButton("Fechar");
+        btnFechar.addActionListener(e -> dispose());
 
         
-        painelBotoes.add(btnCancelar);
-        painelBotoes.add(btnSalvar);
+        painelBotoes.add(btnFechar);
     
         return painelBotoes;
-    }
-
-    private void excluir() {
-
-        int selectedRow = tabelaProdutosPedido.getSelectedRow();
-        if(selectedRow == -1) {
-            JOptionPane.showMessageDialog(this, "Selecione uma linha", "Erro de validação", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        String nomePordutoSelecionado = (String) modeloTabelaProdutosNoPedido.getValueAt(selectedRow, 1);
-        
-        Produto produtoParaRemover = null;
-        for(Produto produto : produtosNoPedido.keySet()) {
-            if(produto.getProduto().equals(nomePordutoSelecionado)) {
-                produtoParaRemover = produto;
-                break;
-            }
-        }
-
-        if(produtoParaRemover != null) {
-            produtosNoPedido.remove(produtoParaRemover);
-
-            carregarDadosNaTabela();
-
-            pedido.calcularEAtualizaValorTotal();
-
-            JOptionPane.showMessageDialog(this, "Produto removido com sucesso", "Remoção de Produto", JOptionPane.INFORMATION_MESSAGE);
-            // atualizar estoque?
-        }
-    }
-
-    private void preencherCampos() {
-        tfCliente.setText(pedido.getCliente().getNome());
-        tfTaxas.setValue(pedido.getTaxa());
-        fieldModalidadeEntrega.setSelectedItem(pedido.getModalidadeDeEntrega());
-        fieldFormaPagamento.setSelectedItem(pedido.getFormaDePagamento());
-    }
-
-    private void onSalvar() {
-        this.cliente = tfCliente.getText();
-        this.taxa = (BigDecimal) tfTaxas.getValue();
-        this.formaDePagamento = (FormaDePagamento) this.fieldFormaPagamento.getSelectedItem();
-        this.modalidadeEntrega = (ModalidadeEntrega) this.fieldModalidadeEntrega.getSelectedItem();
-
-        if(cliente.isBlank() || taxa == null || formaDePagamento == null || modalidadeEntrega == null) {
-            JOptionPane.showMessageDialog(this, "Todos os campos são obrigatórios", "Erro de validação", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        // pedido.setCliente(tfCliente.getText());
-        pedido.setTaxa((BigDecimal) tfTaxas.getValue());
-        pedido.setModalidadeDeEntrega(modalidadeEntrega);
-        pedido.setFormaDePagamento(formaDePagamento);
-
-        pedidoController.solicitarAlteracao(pedido);
-
-        this.salvo = true;
-        dispose();
-    }
-
-    public boolean foiSalvo() {
-        return this.salvo;
-    }
-
-    public String getCliente() {
-        return this.cliente;
-    }
-
-    public BigDecimal getTaxa() {
-        return this.taxa;
-    }
-
-    public ModalidadeEntrega getModalidadeEntrega() {
-        return this.modalidadeEntrega;
-    }
-
-    public FormaDePagamento getFormaDePagamento() {
-        return this.formaDePagamento;
     }
 }

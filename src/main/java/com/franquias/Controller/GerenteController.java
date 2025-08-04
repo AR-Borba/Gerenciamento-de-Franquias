@@ -127,6 +127,10 @@ public class GerenteController {
         return pedidoPersistence.buscarPorId(idPedido);
     }
 
+    public void atualizarPedido(Pedido pedido) {
+        pedidoPersistence.update(pedido);
+    }
+
     public List<Produto> getProdutos() {
         List<Produto> produtos;
 

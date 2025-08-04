@@ -43,7 +43,8 @@ public class PedidoController {
 
     public void salvarAlteracoes(Pedido pedido) {
         pedido.calcularEAtualizaValorTotal();
-        
+        pedido.setStatusPedido(StatusPedido.CONCLUIDO);
+
         pedidoPersistence.update(pedido);
     }
 

@@ -13,20 +13,24 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import com.franquias.Controller.GerenteController;
+import com.franquias.Controller.PedidoController;
 import com.franquias.Model.entities.Pedido;
 import com.franquias.Model.enums.StatusPedido;
+import com.franquias.View.PaineisVendedor.DialogAlterarPedido;
 
 public class PainelControlarPedidos extends JPanel {
 
     private JFrame framePrincipal;
     private GerenteController controller;
+    private PedidoController pedidoController;
 
     private JTable tabelaPedidos;
     private DefaultTableModel modeloTabelaPedidos;
 
-    public PainelControlarPedidos(GerenteController controller, JFrame framePrincipal) {
+    public PainelControlarPedidos(GerenteController controller, JFrame framePrincipal, PedidoController pedidoController) {
         this.framePrincipal = framePrincipal;
         this.controller = controller;
+        this.pedidoController = pedidoController;
         this.setLayout(new BorderLayout());
 
         criarPainelOpcoes();
@@ -101,8 +105,12 @@ public class PainelControlarPedidos extends JPanel {
         JButton btnVisualizarPedido = new JButton("Visualizar Pedido");
         btnVisualizarPedido.addActionListener(e -> visualizarPedido());
 
+        JButton btnEditaPedido = new JButton("Editar Pedido");
+        btnEditaPedido.addActionListener(e -> editaPedido());
+
         painelAcoes.add(btnAutorizar);
         painelAcoes.add(btnVisualizarPedido);
+        painelAcoes.add(btnEditaPedido);
         add(painelAcoes, BorderLayout.SOUTH);
     }
 
@@ -138,9 +146,36 @@ public class PainelControlarPedidos extends JPanel {
         int selectedRow = tabelaPedidos.getSelectedRow();
         if (selectedRow != -1) {
             Pedido pedido = controller.getPedidos().get(selectedRow);
-            
+            DialogVisualizarPedido dialog = new DialogVisualizarPedido(framePrincipal, pedido, pedidoController);
+            dialog.setVisible(true);
         }
         else
             JOptionPane.showMessageDialog(framePrincipal, "Selecione um pedido para visualizar.", "Aviso", JOptionPane.WARNING_MESSAGE);
+    }
+
+    private void editaPedido() {
+        int selectedRow = tabelaPedidos.getSelectedRow();
+        if(selectedRow == -1) {
+            JOptionPane.showMessageDialog(framePrincipal, "Nenhum Pedido selecionado para edição.", "Erro", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        Object idObject = modeloTabelaPedidos.getValueAt(selectedRow, 0);
+
+        long idPedido = ((Number) idObject).longValue();
+
+        Pedido pedidoParaAlterar = controller.buscarPedidoPorId(idPedido);
+        
+        if(pedidoParaAlterar != null && pedidoParaAlterar.getStatusPedido() == StatusPedido.EM_ALTERACAO) {
+            DialogAlterarPedido dialog = new DialogAlterarPedido(framePrincipal, pedidoParaAlterar, pedidoController);
+            dialog.setVisible(true);    
+
+            if(dialog.foiSalvo()) {
+                controller.atualizarPedido(pedidoParaAlterar);
+                carregarDados();
+            }
+        }
+        else {
+            JOptionPane.showMessageDialog(this, "Este pedido não está autorizado para edição. Solicite a alteração primeiro.", "Aviso", JOptionPane.WARNING_MESSAGE);
+        }
     }
 }

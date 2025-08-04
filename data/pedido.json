@@ -1,7 +1,17 @@
 [
   {
     "id": 1,
-    "produtos": {},
+    "produtos": [
+      [
+        {
+          "id": 1,
+          "produto": "Arthur",
+          "preco": 0.99,
+          "quantidadeEstoque": 8
+        },
+        3
+      ]
+    ],
     "dataHoraFormatada": "2025-08-03T19:14:35.857192",
     "cliente": {
       "id": 1,
@@ -12,8 +22,8 @@
     "formaDePagamento": "PIX",
     "taxas": 0,
     "modalidadeDeEntrega": "RETIRADA_NA_LOJA",
-    "statusPedido": "EM_ALTERACAO",
-    "valorTotal": 0,
+    "statusPedido": "CONCLUIDO",
+    "valorTotal": 2.97,
     "vendedorResponsavel": {
       "id": 1,
       "idPedidos": [],

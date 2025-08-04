@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 
 import com.franquias.Controller.AplicacaoPrincipal;
 import com.franquias.Controller.GerenteController;
+import com.franquias.Controller.PedidoController;
 import com.franquias.Model.entities.Usuários.Gerente;
 import com.franquias.Persistence.GerentePersistence;
 import com.franquias.View.PaineisGerente.*;
@@ -13,15 +14,17 @@ import com.franquias.View.PaineisGerente.*;
 public class PainelGerente extends PainelBase {
 
     private GerenteController controller;
+    private PedidoController pedidoController;
 
     private PainelControlarPedidos painelControlarPedidos;
     private PainelGerarRelatorios painelGerarRelatorios;
     private PainelGerenciarEquipe painelGerenciarEquipe;
     private PainelGerenciarEstoque painelGerenciarEstoque;
 
-    public PainelGerente(AplicacaoPrincipal app, GerenteController controller) {
+    public PainelGerente(AplicacaoPrincipal app, GerenteController controller, PedidoController pedidoController) {
         super(app);
         this.controller = controller;
+        this.pedidoController = pedidoController;
 
         GerentePersistence gerentePersistence = new GerentePersistence();
         Gerente gerente = gerentePersistence.buscarPorId(0);
@@ -69,7 +72,7 @@ public class PainelGerente extends PainelBase {
     @Override
     protected void registrarSubPaineis(JPanel painelDeCards) {
         this.painelGerenciarEquipe = new PainelGerenciarEquipe(controller, app.getFramePrincipal());
-        this.painelControlarPedidos = new PainelControlarPedidos(controller, app.getFramePrincipal());
+        this.painelControlarPedidos = new PainelControlarPedidos(controller, app.getFramePrincipal(), pedidoController);
         this.painelGerenciarEstoque = new PainelGerenciarEstoque(controller, app.getFramePrincipal());
         this.painelGerarRelatorios = new PainelGerarRelatorios(controller, app.getFramePrincipal());
 

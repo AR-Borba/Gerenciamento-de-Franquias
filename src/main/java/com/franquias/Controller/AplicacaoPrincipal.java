@@ -54,7 +54,7 @@ public class AplicacaoPrincipal {
 
         PainelLogin painelLogin = new PainelLogin(loginController);
         PainelVendedor painelVendedor = new PainelVendedor(this, vendedorController, pedidoController);
-        PainelGerente painelGerente = new PainelGerente(this, gerenteController);
+        PainelGerente painelGerente = new PainelGerente(this, gerenteController, pedidoController);
         PainelDono painelDono = new PainelDono(this, donoController);
         
         painelDeConteudo.add(painelLogin, "LOGIN");
