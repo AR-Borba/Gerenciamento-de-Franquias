@@ -18,13 +18,13 @@ import javax.swing.text.NumberFormatter;
 import com.franquias.Model.Produto;
 
 public class DialogFormularioProduto extends JDialog {
-    JTextField produtoField;
-    JFormattedTextField precoField;
-    JFormattedTextField qtdEstoqueField;
+    private JTextField produtoField;
+    private JFormattedTextField precoField;
+    private JFormattedTextField qtdEstoqueField;
     
-    Produto produto;
+    private Produto produto;
 
-    boolean salvo;
+    private boolean salvo;
 
     public DialogFormularioProduto(Frame parent) {
         super(parent, "Editando produto", true);

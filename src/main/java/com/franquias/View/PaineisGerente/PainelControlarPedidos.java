@@ -138,7 +138,7 @@ public class PainelControlarPedidos extends JPanel {
         int selectedRow = tabelaPedidos.getSelectedRow();
         if (selectedRow != -1) {
             Pedido pedido = controller.getPedidos().get(selectedRow);
-
+            
         }
         else
             JOptionPane.showMessageDialog(framePrincipal, "Selecione um pedido para visualizar.", "Aviso", JOptionPane.WARNING_MESSAGE);

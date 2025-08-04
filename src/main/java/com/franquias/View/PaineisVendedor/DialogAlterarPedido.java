@@ -1,262 +1,290 @@
 package com.franquias.View.PaineisVendedor;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.Frame;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import java.awt.*;
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
 import java.util.Map;
-
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JDialog;
-import javax.swing.JFormattedTextField;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.NumberFormatter;
+import java.text.DecimalFormat;
 
 import com.franquias.Controller.PedidoController;
-import com.franquias.Model.Produto;
 import com.franquias.Model.entities.Pedido;
+import com.franquias.Model.Produto;
 import com.franquias.Model.enums.FormaDePagamento;
 import com.franquias.Model.enums.ModalidadeEntrega;
+import com.franquias.exceptions.EstoqueInsuficienteException;
 
-public class DialogAlterarPedido extends JDialog{
-    private JTextField tfCliente;
-    private JFormattedTextField tfTaxas;
-    private JComboBox<ModalidadeEntrega> fieldModalidadeEntrega;
-    private JComboBox<FormaDePagamento> fieldFormaPagamento;
-
-    private Map<Produto, Integer> produtosNoPedido;
-    private JTable tabelaProdutosPedido;
-    private DefaultTableModel modeloTabelaProdutosNoPedido;
-    private String cliente;
-    private BigDecimal taxa;
-    private ModalidadeEntrega modalidadeEntrega;
-    private FormaDePagamento formaDePagamento;
+public class DialogAlterarPedido extends JDialog {
     
-    PedidoController pedidoController;
-    Pedido pedido;
+    private PedidoController pedidoController;
+    private Pedido pedido;
 
-    boolean salvo;
+    // Componentes da UI
+    private JComboBox<FormaDePagamento> cbFormaPagamento;
+    private JComboBox<ModalidadeEntrega> cbModalidadeEntrega;
+    private JFormattedTextField tfTaxas;
+    private JTextField tfIdProduto;
+    private JTextField tfQtdProduto;
+    private JTable tabelaItens;
+    private DefaultTableModel modeloTabela;
+    private JLabel lblTotal;
 
-    public DialogAlterarPedido(Frame parent, Pedido pedidoSendoEditado, PedidoController pedidoController) {
+    private boolean salvo = false;
+
+    public DialogAlterarPedido(Frame parent, Pedido pedidoSendoEditado, PedidoController controller) {
         super(parent, "Editando Pedido ID: " + pedidoSendoEditado.getId(), true);
+        
         this.pedido = pedidoSendoEditado;
-        this.pedidoController = pedidoController;
-
+        this.pedidoController = controller;
+        
         configurarUI();
-        preencherCampos();
+        preencherCamposIniciais();
+        carregarItensNaTabela();
     }
 
     private void configurarUI() {
-        setSize(400, 300);
         setLayout(new BorderLayout(10, 10));
-        
-        this.add(dadosCliente(), BorderLayout.WEST);
-        this.add(criarPainelProdutos());
-        this.add(painelAcoes());
+
+        JPanel painelSuperior = criarPainelSuperior();
+        JPanel painelCentral = criarPainelCentral();
+        JPanel painelRodape = criarPainelRodape();
+
+        add(painelSuperior, BorderLayout.NORTH);
+        add(painelCentral, BorderLayout.CENTER);
+        add(painelRodape, BorderLayout.SOUTH);
 
         pack();
+        setMinimumSize(getSize());
         setLocationRelativeTo(getParent());
     }
 
-    private JPanel dadosCliente() {
-        JPanel painelCliente = new JPanel();
+    // --- MÉTODOS DE CONSTRUÇÃO DA UI ---
 
-        painelCliente.setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.fill = GridBagConstraints.HORIZONTAL;
+    private JPanel criarPainelSuperior() {
+        JPanel painel = new JPanel(new BorderLayout());
         
-        setLocationRelativeTo(null);
+        painel.add(criarPainelAdicionarProduto(), BorderLayout.WEST);
+        painel.add(criarPainelDadosGerais(), BorderLayout.CENTER);
+        
+        return painel;
+    }
+
+    private JPanel criarPainelAdicionarProduto() {
+        JPanel painel = new JPanel(new GridBagLayout());
+        painel.setBorder(BorderFactory.createTitledBorder("Adicionar/Editar Item"));
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.anchor = GridBagConstraints.WEST;
+
+        tfIdProduto = new JTextField(5);
+        tfQtdProduto = new JTextField("1", 5);
+        JButton btnAdicionar = new JButton("Adicionar");
+        JButton btnEditar = new JButton("Carregar p/ Edição");
+
+        btnAdicionar.addActionListener(e -> adicionarItem());
+        btnEditar.addActionListener(e -> carregarItemParaEdicao());
+
+        gbc.gridy = 0; gbc.gridx = 0; painel.add(new JLabel("ID Produto:"), gbc);
+        gbc.gridy = 0; gbc.gridx = 1; painel.add(tfIdProduto, gbc);
+        gbc.gridy = 1; gbc.gridx = 0; painel.add(new JLabel("Quantidade:"), gbc);
+        gbc.gridy = 1; gbc.gridx = 1; painel.add(tfQtdProduto, gbc);
+        
+        gbc.gridy = 2; gbc.gridx = 0; gbc.gridwidth = 2; gbc.anchor = GridBagConstraints.CENTER;
+        JPanel painelBotoes = new JPanel(new FlowLayout());
+        painelBotoes.add(btnEditar);
+        painelBotoes.add(btnAdicionar);
+        painel.add(painelBotoes, gbc);
+
+        return painel;
+    }
+
+    private JPanel criarPainelDadosGerais() {
+        JPanel painel = new JPanel(new GridBagLayout());
+        painel.setBorder(BorderFactory.createTitledBorder("Dados Gerais do Pedido"));
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5, 5, 5, 5);
+        
+        cbModalidadeEntrega = new JComboBox<>(ModalidadeEntrega.values());
+        cbFormaPagamento = new JComboBox<>(FormaDePagamento.values());
         
         DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
-
         NumberFormatter decimalFormatter = new NumberFormatter(decimalFormat);
-        decimalFormatter.setValueClass(BigDecimal.class); // << A CLASSE É BigDecimal
+        decimalFormatter.setValueClass(BigDecimal.class);
         decimalFormatter.setAllowsInvalid(false);
-
         tfTaxas = new JFormattedTextField(decimalFormatter);
-        tfCliente = new JTextField(20);
-        fieldModalidadeEntrega = new JComboBox<>(ModalidadeEntrega.values());
-        fieldFormaPagamento = new JComboBox<>(FormaDePagamento.values());
 
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        painelCliente.add(new JLabel("Cliente:"), gbc);
+        gbc.anchor = GridBagConstraints.EAST;
+        gbc.gridy = 0; gbc.gridx = 0; painel.add(new JLabel("Forma de Pagamento:"), gbc);
+        gbc.gridy = 1; gbc.gridx = 0; painel.add(new JLabel("Modalidade de Entrega:"), gbc);
+        gbc.gridy = 2; gbc.gridx = 0; painel.add(new JLabel("Taxas (R$):"), gbc);
+
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weightx = 1.0;
         gbc.gridx = 1;
-        painelCliente.add(tfCliente, gbc);
 
-        gbc.gridy = 1;
-        gbc.gridx = 0;
-        painelCliente.add(new JLabel("Taxas:"), gbc);
-        gbc.gridx = 1;
-        painelCliente.add(tfTaxas, gbc);
+        gbc.gridy = 0; painel.add(cbFormaPagamento, gbc);
+        gbc.gridy = 1; painel.add(cbModalidadeEntrega, gbc);
+        gbc.gridy = 2; painel.add(tfTaxas, gbc);
 
-        gbc.gridy = 2;
-        gbc.gridx = 0;
-        painelCliente.add(fieldModalidadeEntrega, gbc);
-
-        gbc.gridx = 1;
-        painelCliente.add(fieldFormaPagamento, gbc);
-
-        return painelCliente;
+        return painel;
     }
 
-    private JPanel criarPainelProdutos() {
-        JPanel painelProdutos = new JPanel(new BorderLayout());
-
-        modeloTabelaProdutosNoPedido = new DefaultTableModel();
-        modeloTabelaProdutosNoPedido.addColumn("Qtd");
-        modeloTabelaProdutosNoPedido.addColumn("Produto");
-        modeloTabelaProdutosNoPedido.addColumn("Preço");
-
-        tabelaProdutosPedido = new JTable(modeloTabelaProdutosNoPedido);
-        painelProdutos.add(new JScrollPane(tabelaProdutosPedido), BorderLayout.CENTER);
-
-        JButton btnExcluir = new JButton("Excluir Item");
-        btnExcluir.addActionListener(e -> excluir());
-        JButton btnAdicionar = new JButton("Adicionar Item");
-        btnAdicionar.addActionListener(e -> adicionar());
-
-        JPanel painelBotoes = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-
-        painelBotoes.add(btnExcluir, BorderLayout.SOUTH);
-        painelBotoes.add(btnAdicionar, BorderLayout.SOUTH);
-
-        painelProdutos.add(painelBotoes, BorderLayout.SOUTH);
-
-        return painelProdutos;
-    }
-
-    private void desenhaTabelaDeProdutos(JPanel painelProdutos) {
+    private JPanel criarPainelCentral() {
+        JPanel painel = new JPanel(new BorderLayout(5, 5));
+        painel.setBorder(BorderFactory.createTitledBorder("Itens no Pedido"));
         
+        String[] colunas = {"ID Produto", "Nome", "Qtd", "Subtotal (R$)"};
+        modeloTabela = new DefaultTableModel(colunas, 0) {
+            @Override public boolean isCellEditable(int row, int column) { return false; }
+        };
+        tabelaItens = new JTable(modeloTabela);
+        painel.add(new JScrollPane(tabelaItens), BorderLayout.CENTER);
+
+        JPanel painelAcoesItens = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JButton btnRemover = new JButton("Remover Item Selecionado");
+        btnRemover.addActionListener(e -> removerItem());
+        painelAcoesItens.add(btnRemover);
+        painel.add(painelAcoesItens, BorderLayout.SOUTH);
+
+        return painel;
     }
 
-    private void carregarDadosNaTabela() {
-        modeloTabelaProdutosNoPedido.setRowCount(0);
-
-        produtosNoPedido = pedido.getItens();
-
-        for(Map.Entry<Produto, Integer> produtoEqtd : produtosNoPedido.entrySet()) {
-            Object[] rowData = {
-                produtoEqtd.getValue(),
-                produtoEqtd.getKey().getProduto(),
-                produtoEqtd.getKey().getPreco(),
-            };
-            modeloTabelaProdutosNoPedido.addRow(rowData);
-        }
-    }
-
-    private JPanel painelAcoes() {
-        JPanel painelBotoes = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-
+    private JPanel criarPainelRodape() {
+        JPanel painel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        
+        lblTotal = new JLabel("Total: R$ 0.00");
+        lblTotal.setFont(lblTotal.getFont().deriveFont(Font.BOLD, 16f));
         
         JButton btnCancelar = new JButton("Cancelar");
-        btnCancelar.addActionListener(e -> dispose());
-        JButton btnSalvar = new JButton("Salvar");
+        btnCancelar.addActionListener(e -> onCancelar());
+        
+        JButton btnSalvar = new JButton("Salvar Alterações");
         btnSalvar.addActionListener(e -> onSalvar());
 
-        
-        painelBotoes.add(btnCancelar);
-        painelBotoes.add(btnSalvar);
+        painel.add(lblTotal);
+        painel.add(btnCancelar);
+        painel.add(btnSalvar);
+        return painel;
+    }
     
-        return painelBotoes;
+    private void preencherCamposIniciais() {
+        tfTaxas.setValue(pedido.getTaxas());
+        cbModalidadeEntrega.setSelectedItem(pedido.getModalidadeDeEntrega());
+        cbFormaPagamento.setSelectedItem(pedido.getFormaDePagamento());
     }
 
-    private void excluir() {
+    private void carregarItensNaTabela() {
+        modeloTabela.setRowCount(0);
+        for (Map.Entry<Produto, Integer> entrada : pedido.getItens().entrySet()) {
+            Produto p = entrada.getKey();
+            Integer qtd = entrada.getValue();
+            BigDecimal subtotal = p.getPreco().multiply(BigDecimal.valueOf(qtd));
+            modeloTabela.addRow(new Object[]{p.getId(), p.getProduto(), qtd, subtotal});
+        }
+        atualizarTotal();
+    }
+    
+    private void atualizarTotal() {
+        pedido.calcularEAtualizaValorTotal();
+        lblTotal.setText(String.format("Total: R$ %.2f", pedido.getValorTotal()));
+    }
 
-        int selectedRow = tabelaProdutosPedido.getSelectedRow();
-        if(selectedRow == -1) {
-            JOptionPane.showMessageDialog(this, "Selecione uma linha", "Erro de validação", JOptionPane.ERROR_MESSAGE);
+    private void adicionarItem() {
+        try {
+        long idProduto = Long.parseLong(tfIdProduto.getText());
+        int qtdProduto = Integer.parseInt(tfQtdProduto.getText());
+
+        if (qtdProduto <= 0) { // Alterado para <= 0, pois 0 também é inválido
+            JOptionPane.showMessageDialog(this, "A quantidade deve ser maior que zero!", "Erro de Validação", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
-        String nomePordutoSelecionado = (String) modeloTabelaProdutosNoPedido.getValueAt(selectedRow, 1);
+        pedidoController.adicionarItem(pedido, idProduto, qtdProduto);
         
-        Produto produtoParaRemover = null;
-        for(Produto produto : produtosNoPedido.keySet()) {
-            if(produto.getProduto().equals(nomePordutoSelecionado)) {
-                produtoParaRemover = produto;
-                break;
-            }
-        }
-
-        if(produtoParaRemover != null) {
-            produtosNoPedido.remove(produtoParaRemover);
-
-            carregarDadosNaTabela();
-
-            pedido.calcularEAtualizaValorTotal();
-
-            JOptionPane.showMessageDialog(this, "Produto removido com sucesso", "Remoção de Produto", JOptionPane.INFORMATION_MESSAGE);
-            // atualizar estoque?
+        carregarItensNaTabela();
+        
+        tfIdProduto.setText("");
+        tfQtdProduto.setText("1");
+        tfIdProduto.requestFocus();
+            
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Código e quantidade devem ser números!", "Erro de Validação", JOptionPane.WARNING_MESSAGE);
+        } catch (EstoqueInsuficienteException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Estoque Insuficiente!", JOptionPane.WARNING_MESSAGE);
         }
     }
 
-    private void adicionar() {
-        DialogAdicionarProduto dialog = new DialogAdicionarProduto(null);
-
-        long idNovoProduto = dialog.getId();
-        int qtdNovoProduto = dialog.getQtd();
-
-        pedidoController.adicionarItem(pedido, idNovoProduto, qtdNovoProduto);
+    private void carregarItemParaEdicao() {
+        int selectedRow = tabelaItens.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Selecione um item na tabela para editar.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        long idProduto = (long) modeloTabela.getValueAt(selectedRow, 0);
+        Integer qtdAtual = (Integer) modeloTabela.getValueAt(selectedRow, 2);
+        
+        pedidoController.removerItemDoPedido(pedido, idProduto);
+        
+        carregarItensNaTabela();
+        
+        tfIdProduto.setText(String.valueOf(idProduto));
+        tfQtdProduto.setText(String.valueOf(qtdAtual));
+        
+        tfQtdProduto.requestFocus();
+        tfQtdProduto.selectAll();
     }
-
-    private void preencherCampos() {
-        tfCliente.setText(pedido.getCliente().getNome());
-        tfTaxas.setValue(pedido.getTaxa());
-        fieldModalidadeEntrega.setSelectedItem(pedido.getModalidadeDeEntrega());
-        fieldFormaPagamento.setSelectedItem(pedido.getFormaDePagamento());
-    }
-
-    private void onSalvar() {
-        this.cliente = tfCliente.getText();
-        this.taxa = (BigDecimal) tfTaxas.getValue();
-        this.formaDePagamento = (FormaDePagamento) this.fieldFormaPagamento.getSelectedItem();
-        this.modalidadeEntrega = (ModalidadeEntrega) this.fieldModalidadeEntrega.getSelectedItem();
-
-        if(cliente.isBlank() || taxa == null || formaDePagamento == null || modalidadeEntrega == null) {
-            JOptionPane.showMessageDialog(this, "Todos os campos são obrigatórios", "Erro de validação", JOptionPane.ERROR_MESSAGE);
+    
+    private void removerItem() {
+        int selectedRow = tabelaItens.getSelectedRow();
+        
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Por favor, selecione um item na tabela para remover.", "Nenhum Item Selecionado", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
-        // pedido.setCliente(tfCliente.getText());
+        int confirmacao = JOptionPane.showConfirmDialog(
+            this, 
+            "Tem certeza que deseja remover o item selecionado do pedido?", 
+            "Confirmar Remoção", 
+            JOptionPane.YES_NO_OPTION
+        );
+
+        if (confirmacao == JOptionPane.YES_OPTION) {
+            long idProduto = (long) modeloTabela.getValueAt(selectedRow, 0);
+            
+            pedidoController.removerItemDoPedido(pedido, idProduto);
+            
+            carregarItensNaTabela();
+            
+            JOptionPane.showMessageDialog(this, "Item removido com sucesso.", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+    
+    private void onSalvar() {
+        if (tfTaxas.getValue() == null) {
+             JOptionPane.showMessageDialog(this, "Taxa é obtrigatório.", "Erro de Validação", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
         pedido.setTaxa((BigDecimal) tfTaxas.getValue());
-        pedido.setModalidadeDeEntrega(modalidadeEntrega);
-        pedido.setFormaDePagamento(formaDePagamento);
-        pedido.setStatusPedido(StatusPedido.CONCLUIDO);
-
-        pedidoController.solicitarAlteracao(pedido);
-
+        pedido.setModalidadeDeEntrega((ModalidadeEntrega) cbModalidadeEntrega.getSelectedItem());
+        pedido.setFormaDePagamento((FormaDePagamento) cbFormaPagamento.getSelectedItem());
+        
+        pedidoController.salvarAlteracoes(pedido);
+        
         this.salvo = true;
         dispose();
     }
 
+    private void onCancelar() {
+        this.salvo = false;
+        dispose();
+    }
+    
     public boolean foiSalvo() {
         return this.salvo;
-    }
-
-    public String getCliente() {
-        return this.cliente;
-    }
-
-    public BigDecimal getTaxa() {
-        return this.taxa;
-    }
-
-    public ModalidadeEntrega getModalidadeEntrega() {
-        return this.modalidadeEntrega;
-    }
-
-    public FormaDePagamento getFormaDePagamento() {
-        return this.formaDePagamento;
     }
 }
