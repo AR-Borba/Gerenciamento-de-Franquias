@@ -66,4 +66,15 @@ public class ClientePersistence implements Persistence<Cliente> {
         proximoId++;
         save(clientesEmMemoria);
     }
+
+    public Cliente findByCpf(String cpf) {
+        if(cpf == null || cpf.isBlank()) {
+            return null;
+        }
+
+        return clientesEmMemoria.stream()
+            .filter(cliente -> cliente.getCpf().equals(cpf))
+            .findFirst()
+            .orElse(null);
+    }
 }

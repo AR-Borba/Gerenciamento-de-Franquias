@@ -109,4 +109,11 @@ public class VendedorPersistence implements Persistence<Vendedor> {
             .findFirst()
             .orElse(null);
     }
+
+    public Vendedor findByEmail(String email) {
+        return vendedoresEmMemoria.stream()
+            .filter(v -> v.getEmail() != null && v.getEmail().equalsIgnoreCase(email))
+            .findFirst()
+            .orElse(null);
+    }
 }

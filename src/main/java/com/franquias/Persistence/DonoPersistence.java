@@ -60,4 +60,12 @@ public class DonoPersistence implements Persistence<Dono> {
             .findFirst()
             .orElse(null);
     }
+
+    public Dono findByEmail(String email) {
+
+        return findAll().stream()
+            .filter(d -> d.getEmail() != null && d.getEmail().equalsIgnoreCase(email))
+            .findFirst()
+            .orElse(null);
+    }
 }

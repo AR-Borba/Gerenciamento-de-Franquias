@@ -18,10 +18,11 @@ import java.math.BigDecimal;
 import com.franquias.Controller.VendedorController;
 import com.franquias.Model.Produto;
 import com.franquias.Model.entities.Cliente;
-import com.franquias.Model.entities.Pedido;
 import com.franquias.Model.enums.FormaDePagamento;
 import com.franquias.Model.enums.ModalidadeEntrega;
+import com.franquias.Utils.ValidadorNumero;
 import com.franquias.exceptions.EstoqueInsuficienteException;
+import com.franquias.exceptions.ProdutoNaoEncontradoException;
 
 public class PainelVenda extends JPanel {
     private JFrame framePrincipal;
@@ -122,7 +123,7 @@ public class PainelVenda extends JPanel {
             long idProduto = Long.parseLong(tfCodigo.getText());
             int qtdProduto = Integer.parseInt(tfQtd.getText());
 
-            if(qtdProduto < 0) {
+            if(!ValidadorNumero.intIsPositivo(qtdProduto)) {
                 JOptionPane.showMessageDialog(this, "Quantidade Inválida!", "Erro validação", JOptionPane.WARNING_MESSAGE);
                 return;
             }
@@ -140,7 +141,10 @@ public class PainelVenda extends JPanel {
             JOptionPane.showMessageDialog(this, "Código e quantidade devem ser números!", "Erro validação", JOptionPane.WARNING_MESSAGE);
         }
         catch(EstoqueInsuficienteException e) {
-            JOptionPane.showMessageDialog(this, e.getMessage(), "Estoque insuficiente!", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Erro validação", JOptionPane.WARNING_MESSAGE);
+        }
+        catch(ProdutoNaoEncontradoException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Erro validação", JOptionPane.WARNING_MESSAGE);
         }
     }
 

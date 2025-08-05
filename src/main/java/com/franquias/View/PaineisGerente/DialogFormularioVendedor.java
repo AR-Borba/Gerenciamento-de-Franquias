@@ -17,6 +17,8 @@ import javax.swing.text.MaskFormatter;
 import org.apache.commons.validator.routines.EmailValidator;
 
 import com.franquias.Model.entities.Usuários.Vendedor;
+import com.franquias.Utils.ValidadorCPF;
+import com.franquias.Utils.ValidadorTexto;
 
 import br.com.caelum.stella.validation.CPFValidator;
 import br.com.caelum.stella.validation.InvalidStateException;
@@ -127,22 +129,25 @@ public class DialogFormularioVendedor extends JDialog {
         String email = emailField.getText();
         String senha = new String(senhaField.getPassword());
 
-        if(nome.isBlank() || cpf == null || cpf.isBlank() || email.isBlank())
-        {
-            JOptionPane.showMessageDialog(this, "Todos os campos são obrigatórios", "Erro de validação", JOptionPane.ERROR_MESSAGE);
+        
+        if(!ValidadorTexto.temTamanhoMinimo(nome, 2)) {
+            JOptionPane.showMessageDialog(this, "Nome deve ter mais de 2 caracteres", "Erro de validação", JOptionPane.ERROR_MESSAGE);
+            return;
         }
-
+        
+        if(!ValidadorCPF.isValido(cpf)) {
+            JOptionPane.showMessageDialog(this, "CPF inválido", "Erro de validação", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
         EmailValidator emailValidator = EmailValidator.getInstance();
         if(!emailValidator.isValid(email)) {
             JOptionPane.showMessageDialog(this, "Email inválido", "Erro de validação", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        try {
-            CPFValidator validator = new CPFValidator();
-            validator.assertValid(cpf);
-        } catch (InvalidStateException e) {
-            JOptionPane.showMessageDialog(this, "CPF inválido", "Erro de validação", JOptionPane.ERROR_MESSAGE);
+        if(!ValidadorTexto.temTamanhoMinimo(senha, 4)) {
+            JOptionPane.showMessageDialog(this, "Senha deve ter mais de 4 caracteres", "Erro de validação", JOptionPane.ERROR_MESSAGE);
             return;
         }
 

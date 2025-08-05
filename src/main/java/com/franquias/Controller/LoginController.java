@@ -40,10 +40,6 @@ public class LoginController {
                 throw new AuthenticationException("Email e senha são obrigatórios");
             }
 
-            if(!donoPersistence.hasDono()) {
-                app.mostrarTela("CADASTRO_DONO");
-            }
-
             Dono dono = donoPersistence.findByEmailAndPassword(email, senha);
             if(dono != null) {
                 JOptionPane.showMessageDialog(null, "Bem vindo " + dono.getNome() + "!", "Autenticação Bem Sucedida!", JOptionPane.INFORMATION_MESSAGE);
@@ -73,5 +69,22 @@ public class LoginController {
         } catch(AuthenticationException e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Erro de autenticação!",JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    public boolean emailJaExiste(String email) {
+        
+        Dono dono = donoPersistence.findByEmail(email);
+        if(dono != null)
+            return true;
+
+        Gerente gerente = gerentePersistence.findByEmail(email);
+        if(gerente != null)
+            return true;
+        
+        Vendedor vendedor = vendedorPersistence.findByEmail(email);
+        if(vendedor != null)
+            return true;
+
+        return false;
     }
 }

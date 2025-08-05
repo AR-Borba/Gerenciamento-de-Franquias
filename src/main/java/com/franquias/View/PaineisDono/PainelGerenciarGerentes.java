@@ -14,6 +14,7 @@ import javax.swing.table.DefaultTableModel;
 
 import com.franquias.Controller.DonoController;
 import com.franquias.Model.entities.Usuários.Gerente;
+import com.franquias.exceptions.ValidationException;
 
 public class PainelGerenciarGerentes extends JPanel {
     private JFrame framePrincipal;
@@ -77,10 +78,18 @@ public class PainelGerenciarGerentes extends JPanel {
         DialogCadastroGerente dialog = new DialogCadastroGerente(framePrincipal);
         dialog.setVisible(true);
         
-        Gerente novoGerente = dialog.getGerente();
-        if(novoGerente != null){
-            controller.cadastrarGerente(novoGerente);
-            carregarDadosNaTabela();
+        if(dialog.foiSalvo()) {
+            Gerente novoGerente = dialog.getGerente();
+            
+            try {
+                controller.cadastrarGerente(novoGerente);
+                
+                carregarDadosNaTabela();
+                JOptionPane.showMessageDialog(this, "Gerente '" + novoGerente.getNome() + "' cadastrado com sucesso!", "Sucesso",JOptionPane.INFORMATION_MESSAGE);
+
+            } catch (ValidationException e) {
+                JOptionPane.showMessageDialog(this, e.getMessage(), "Erro de Validação", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
 

@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.validation.ValidationException;
+
 import com.franquias.Model.Produto;
 import com.franquias.Model.entities.Cliente;
 import com.franquias.Model.entities.Pedido;
@@ -18,6 +20,7 @@ import com.franquias.Persistence.PedidoPersistence;
 import com.franquias.Persistence.ProdutoPersistence;
 import com.franquias.Persistence.VendedorPersistence;
 import com.franquias.exceptions.EstoqueInsuficienteException;
+import com.franquias.exceptions.ProdutoNaoEncontradoException;
 
 public class VendedorController {
     
@@ -50,13 +53,11 @@ public class VendedorController {
         this.pedidoAtual = new Pedido(vendedorLogado);
     }
 
-    public void adicionarItemAoPedido(long codProduto, int quantidade) throws EstoqueInsuficienteException {
-        Produto produto = produtoPersistence.buscarPorId(codProduto);
+    public void adicionarItemAoPedido(long idProduto, int quantidade) throws EstoqueInsuficienteException, ProdutoNaoEncontradoException {
+        Produto produto = produtoPersistence.buscarPorId(idProduto);
         
         if(produto == null) {
-            // throw new ProdutoNaoEncontradoException("Produto com id " + String.formatted(codProduto) + "não encontrado!");
-            System.out.println("Produto null");
-            return;
+            throw new ProdutoNaoEncontradoException("Produto não encontrado!");
         }
 
         if(produto.getQuantidadeEstoque() < quantidade) {
@@ -160,7 +161,12 @@ public class VendedorController {
         return clientePersistence.findAll();
     }
 
-    public void adicionarCliente(Cliente cliente) {
+    public void adicionarCliente(Cliente cliente) throws ValidationException{
+
+        if(clientePersistence.findByCpf(cliente.getCpf()) != null) {
+            throw new ValidationException("O CPF '" + cliente.getCpf() + "' já está cadastrado no sistema.");
+        }
+
         clientePersistence.add(cliente);
     }
 }

@@ -107,4 +107,12 @@ public class GerentePersistence implements Persistence<Gerente> {
             .findFirst()
             .orElse(null);
     }
+    
+    public Gerente findByEmail(String email) {
+
+        return gerentesEmMemoria.stream()
+            .filter(g -> g.getEmail() != null && g.getEmail().equalsIgnoreCase(email))
+            .findFirst()
+            .orElse(null);
+    }
 }

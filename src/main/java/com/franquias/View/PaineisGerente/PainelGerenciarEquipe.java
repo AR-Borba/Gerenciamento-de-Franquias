@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 import java.math.BigDecimal;
 import java.util.List;
 
+import javax.naming.AuthenticationException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -16,9 +17,10 @@ import javax.swing.table.DefaultTableModel;
 import com.franquias.Controller.GerenteController;
 import com.franquias.Model.entities.Usuários.Vendedor;
 import com.franquias.View.PainelAtualizavel;
+import com.franquias.exceptions.ValidationException;
 
 public class PainelGerenciarEquipe extends JPanel {
-    
+
     private JFrame framePrincipal;
 
     private GerenteController controller;
@@ -54,9 +56,9 @@ public class PainelGerenciarEquipe extends JPanel {
             BigDecimal totalVendas = controller.calcularTotalVendasPorVendedor(vendedor);
 
             Object[] rowData = {
-                vendedor.getId(),
-                vendedor.getNome(),
-                totalVendas
+                    vendedor.getId(),
+                    vendedor.getNome(),
+                    totalVendas
             };
             modeloTabelaRanking.addRow(rowData);
         }
@@ -73,11 +75,11 @@ public class PainelGerenciarEquipe extends JPanel {
         btnEditar.addActionListener(e -> editarVendedorSelecionado());
         btnRemover.addActionListener(e -> removerVendedorSelecionado());
         btnnAdicionar.addActionListener(e -> adicionarVendedor());
-        
+
         painelAcoes.add(btnEditar);
         painelAcoes.add(btnRemover);
         painelAcoes.add(btnnAdicionar);
-        
+
         add(painelAcoes, BorderLayout.SOUTH);
     }
 
@@ -85,10 +87,19 @@ public class PainelGerenciarEquipe extends JPanel {
         DialogFormularioVendedor dialog = new DialogFormularioVendedor(framePrincipal);
         dialog.setVisible(true);
 
-        Vendedor novoVendedor = dialog.getVendedor();
-        if(novoVendedor != null) {
-            controller.adicionarVendedor(novoVendedor);
-            carregarDados();
+        if (dialog.foiSalvo()) {
+            Vendedor novoVendedor = dialog.getVendedor();
+
+            try {
+                controller.adicionarVendedor(novoVendedor);
+
+                carregarDados();
+
+                JOptionPane.showMessageDialog(this, "Vendedor '" + novoVendedor.getNome() + "' cadastrado com sucesso!", "Sucesso",JOptionPane.INFORMATION_MESSAGE);
+
+            } catch (ValidationException e) {
+                JOptionPane.showMessageDialog(this, e.getMessage(), "Erro de Validação", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
 
@@ -100,32 +111,35 @@ public class PainelGerenciarEquipe extends JPanel {
             carregarDados();
         } else {
             // Exibir mensagem de erro ou aviso
-            JOptionPane.showMessageDialog(framePrincipal, "Nenhum vendedor selecionado para remoção.", "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(framePrincipal, "Nenhum vendedor selecionado para remoção.", "Erro",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 
     private void editarVendedorSelecionado() {
         int selectedRow = tabelaRankingEquipe.getSelectedRow();
         if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(framePrincipal, "Nenhum vendedor selecionado para edição.", "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(framePrincipal, "Nenhum vendedor selecionado para edição.", "Erro",
+                    JOptionPane.ERROR_MESSAGE);
             return;
         }
         long idVendedor = (long) modeloTabelaRanking.getValueAt(selectedRow, 0);
 
         Vendedor vendedorParaEditar = controller.buscarVendedorPorId(idVendedor);
 
-        if(vendedorParaEditar != null) {
+        if (vendedorParaEditar != null) {
             DialogFormularioVendedor dialog = new DialogFormularioVendedor(framePrincipal, vendedorParaEditar);
             dialog.setVisible(true);
-            
+
             // Vendedor vendedorAtualizado = dialog.getVendedor();
 
-            if(dialog.foiSalvo()) {
+            if (dialog.foiSalvo()) {
                 controller.editarVendedor(vendedorParaEditar);
                 carregarDados();
-                JOptionPane.showMessageDialog(this, "Vendedor editado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Vendedor editado com sucesso!", "Sucesso",
+                        JOptionPane.INFORMATION_MESSAGE);
             }
         }
-            
+
     }
 }
