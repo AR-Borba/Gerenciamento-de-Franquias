@@ -3,7 +3,6 @@ package com.franquias.View.PaineisVendedor;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.util.ArrayList;
 import java.util.List;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
@@ -14,7 +13,6 @@ import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
 import javax.swing.text.NumberFormatter;
 import javax.validation.ValidationException;
 

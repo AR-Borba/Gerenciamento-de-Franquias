@@ -1,14 +1,24 @@
 package com.franquias.Utils;
 
+import javax.swing.JOptionPane;
+
 import org.apache.commons.lang3.StringUtils;
 
-import com.franquias.exceptions.CepException;
+import com.google.gson.annotations.SerializedName;
 
 public class Endereco {
+    @SerializedName("logradouro")
     private String rua;
+
     private String numero;
+
+    @SerializedName("localidade")
     private String cidade;
+    
+    @SerializedName("uf")
     private String estado;
+    
+    @SerializedName("cep")
     private String cep;
 
     public Endereco (String rua, String numero, String cidade, String estado, String CEP){
@@ -21,15 +31,6 @@ public class Endereco {
 
     public Endereco() {
 
-    }
-
-    public boolean validarCep() throws CepException {
-        try {    
-            return StringUtils.isNotBlank(this.cep) && this.cep.matches("\\d{5}-\\d{3}");
-        } catch (Exception e) {
-            System.out.print("deu erro aqui ó!");
-            return false;
-        }
     }
 
     public String formatarEndereco() {

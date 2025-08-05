@@ -1,11 +1,8 @@
 package com.franquias.View.PaineisGerente;
 
 import java.awt.BorderLayout;
-import java.math.BigDecimal;
 import java.util.Comparator;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -15,8 +12,6 @@ import javax.swing.table.DefaultTableModel;
 
 import com.franquias.Controller.GerenteController;
 import com.franquias.Model.entities.Cliente;
-import com.franquias.Model.entities.Pedido;
-import com.franquias.Model.entities.Usuários.Vendedor;
 
 public class PainelGerarRelatorios extends JPanel {
 

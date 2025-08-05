@@ -35,7 +35,6 @@ public class AplicacaoPrincipal {
     private DonoController donoController;
     private PedidoController pedidoController;
 
-    
     public final int WIDTH = 600;
     public final int HEIGHT = 400;
     

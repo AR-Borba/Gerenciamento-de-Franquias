@@ -9,7 +9,7 @@ public class Franquia {
     long id;
 
     public Franquia(){
-
+        this.endereco = new Endereco(); 
     }
     
     public Franquia(Endereco endereco, Gerente gerente){

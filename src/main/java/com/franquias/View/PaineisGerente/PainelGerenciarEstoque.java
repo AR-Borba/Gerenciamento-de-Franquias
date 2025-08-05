@@ -7,12 +7,9 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 import java.util.List;
-import java.util.concurrent.ArrayBlockingQueue;
 
 import com.franquias.Controller.GerenteController;
 import com.franquias.Model.Produto;
-import com.franquias.Model.entities.Usuários.Vendedor;
-import com.franquias.View.PainelAtualizavel;
 
 public class PainelGerenciarEstoque extends JPanel {
 

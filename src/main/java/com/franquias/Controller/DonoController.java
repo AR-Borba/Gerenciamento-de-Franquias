@@ -1,9 +1,13 @@
 package com.franquias.Controller;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.naming.AuthenticationException;
 
@@ -146,24 +150,52 @@ public class DonoController {
         return total;
     }
 
-    public Number getReceita(Franquia franquia) {
-        return 10;
+    public BigDecimal getReceita(Franquia franquia) {
+        BigDecimal total = BigDecimal.ZERO;
+        return total;
     }
 
-    // public RelatorioDesempenhoUnidade gerarRelatorioParaFranquia(Franquia
-    // franquia) {
-    // double faturamentoBruto = 0.0;
-    // int numeroDePedidos = franquia.getPedidos().size();
+    public Map<Long, BigDecimal> calcularFaturamentoPorFranquia() {
+        List<Pedido> todosOsPedidos = pedidoPersistence.findAll();
 
-    // for (Pedido pedido : franquia.getPedidos()) {
-    // faturamentoBruto += pedido.getValorTotal();
-    // }
+        return todosOsPedidos.stream()
+            .filter(pedido -> pedido.getStatusPedido() == StatusPedido.CONCLUIDO)
+            .collect(Collectors.groupingBy(
+                Pedido::getFranquiaId,
+                Collectors.mapping(Pedido::getValorTotal, 
+                                 Collectors.reducing(BigDecimal.ZERO, BigDecimal::add))
+            ));
+    }
 
-    // double ticketMedio = (numeroDePedidos > 0) ? faturamentoBruto /
-    // numeroDePedidos : 0;
+    public Map<Long, Long> calcularTotalPedidosPorFranquia() {
+        List<Pedido> todosOsPedidos = pedidoPersistence.findAll();
 
-    // return new RelatorioDesempenhoUnidade(faturamentoBruto, numeroDePedidos,
-    // ticketMedio);
-    // }
+        return todosOsPedidos.stream()
+            // .filter(pedido -> pedido.getStatusPedido() == StatusPedido.CONCLUIDO)
+            .collect(Collectors.groupingBy(
+                Pedido::getFranquiaId, 
+                Collectors.counting()
+            ));
+    }
 
+    public Map<Long, BigDecimal> calcularTicketMedioPorFranquia() {
+        Map<Long, BigDecimal> faturamentoPorFranquia = calcularFaturamentoPorFranquia();
+        Map<Long, Long> totalPedidosPorFranquia = calcularTotalPedidosPorFranquia();
+
+        Map<Long, BigDecimal> ticketMedioPorFranquia = new HashMap<>();
+
+        for (Long franquiaId : faturamentoPorFranquia.keySet()) {
+            BigDecimal faturamento = faturamentoPorFranquia.get(franquiaId);
+            Long contagemPedidos = totalPedidosPorFranquia.getOrDefault(franquiaId, 0L);
+
+            if (contagemPedidos > 0) {
+                BigDecimal contagemBigDecimal = new BigDecimal(contagemPedidos);
+                
+                BigDecimal ticketMedio = faturamento.divide(contagemBigDecimal, 2, RoundingMode.HALF_UP);
+                
+                ticketMedioPorFranquia.put(franquiaId, ticketMedio);
+            }
+        }
+        return ticketMedioPorFranquia;
+    }
 }

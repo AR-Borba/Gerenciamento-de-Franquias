@@ -2,10 +2,11 @@ package com.franquias.View.PaineisDono;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.BoxLayout;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -41,30 +42,43 @@ public class PainelIndicadoresFinanceiros extends JPanel {
 
     private ChartPanel criarPainelFaturamentoBruto() {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        
+        Map<Long, BigDecimal> faturamentoPorFranquia = controller.calcularFaturamentoPorFranquia();
         List<Franquia> franquias = controller.getUnidades();
-        for(Franquia franquia : franquias) {
+
+        for (Franquia franquia : franquias) {
             if (franquia.getGerente() != null) {
-                String nomeGerente = franquia.getGerente().getNome();
-                dataset.setValue(controller.getReceita(franquia), "Faturamento", nomeGerente);
+                BigDecimal faturamento = faturamentoPorFranquia.getOrDefault(franquia.getId(), BigDecimal.ZERO);
+                
+                dataset.setValue(faturamento, "Faturamento", franquia.getCidade());
             }
         }
 
-        JFreeChart chart = ChartFactory.createBarChart("Faturamento Bruto", "Franquia", "Valor (R$)",
+        JFreeChart chart = ChartFactory.createBarChart(
+                "Faturamento Bruto por Unidade", "Franquia", "Valor (R$)",
                 dataset, PlotOrientation.VERTICAL, false, true, false);
 
         ChartPanel chartPanel = new ChartPanel(chart);
-        chartPanel.setPreferredSize(new Dimension(380, 340)); // Dê um tamanho preferido
+        chartPanel.setPreferredSize(new Dimension(380, 340));
         return chartPanel;
     }
 
     private ChartPanel criarPainelTotalPedidos() {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        // TODO: A lógica aqui está incorreta. Você precisa calcular o NÚMERO DE PEDIDOS por franquia.
-        // O código abaixo é apenas um placeholder.
-        dataset.setValue(150, "Pedidos", "Franquia Centro");
-        dataset.setValue(120, "Pedidos", "Franquia Zona Norte");
+        
+        Map<Long, Long> totalPedidosPorFranquia = controller.calcularTotalPedidosPorFranquia();
+        List<Franquia> franquias = controller.getUnidades();
 
-        JFreeChart chart = ChartFactory.createBarChart("Total de Pedidos", "Franquia", "Quantidade de Pedidos",
+        for (Franquia franquia : franquias) {
+            if (franquia.getGerente() != null) {
+                Long contagem = totalPedidosPorFranquia.getOrDefault(franquia.getId(), 0L);
+                
+                dataset.setValue(contagem, "Pedidos", franquia.getCidade());
+            }
+        }
+
+        JFreeChart chart = ChartFactory.createBarChart(
+                "Total de Pedidos por Unidade", "Franquia", "Quantidade de Pedidos",
                 dataset, PlotOrientation.VERTICAL, false, true, false);
         
         ChartPanel chartPanel = new ChartPanel(chart);
@@ -74,13 +88,22 @@ public class PainelIndicadoresFinanceiros extends JPanel {
 
     private ChartPanel criarPainelTicketMedio() {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        // TODO: A lógica aqui também precisa ser implementada para calcular o TICKET MÉDIO (Faturamento / N° Pedidos).
-        dataset.setValue(83.50, "Ticket Médio", "Franquia Centro");
-        dataset.setValue(81.67, "Ticket Médio", "Franquia Zona Norte");
-        
-        JFreeChart chart = ChartFactory.createBarChart("Ticket Médio", "Franquia", "Valor (R$)",
-                dataset, PlotOrientation.VERTICAL, false, true, false);
 
+        Map<Long, BigDecimal> ticketMedioPorFranquia = controller.calcularTicketMedioPorFranquia();
+        List<Franquia> franquias = controller.getUnidades();
+
+        for (Franquia franquia : franquias) {
+            if (franquia.getGerente() != null) {              
+                BigDecimal ticketMedio = ticketMedioPorFranquia.getOrDefault(franquia.getId(), BigDecimal.ZERO);
+                
+                dataset.setValue(ticketMedio, "Ticket Médio", franquia.getCidade());
+            }
+        }
+
+        JFreeChart chart = ChartFactory.createBarChart(
+                "Ticket Médio por Unidade", "Franquia", "Valor (R$)",
+                dataset, PlotOrientation.VERTICAL, false, true, false);
+        
         ChartPanel chartPanel = new ChartPanel(chart);
         chartPanel.setPreferredSize(new Dimension(380, 340));
         return chartPanel;

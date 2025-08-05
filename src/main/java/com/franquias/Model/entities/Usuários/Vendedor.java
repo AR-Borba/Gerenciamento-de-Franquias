@@ -70,10 +70,14 @@ public class Vendedor extends Usuario {
 
     public BigDecimal getReceita() {
         PedidoPersistence pedidoPersistence = new PedidoPersistence();
-        pedidoPersistence.findAll();
         BigDecimal acumulado = BigDecimal.ZERO;
-        for(long indice : this.idPedidos) {
-            acumulado.add((pedidoPersistence.buscarPorId(indice)).getValorTotal());
+        if (this.idPedidos != null) {
+            for(long indice : this.idPedidos) {
+                Pedido pedido = pedidoPersistence.buscarPorId(indice);
+                if (pedido != null && pedido.getValorTotal() != null) {
+                    acumulado = acumulado.add(pedido.getValorTotal());
+                }
+            }
         }
         return acumulado;
     }
