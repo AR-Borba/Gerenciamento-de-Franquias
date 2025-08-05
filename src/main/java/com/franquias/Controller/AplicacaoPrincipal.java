@@ -35,11 +35,8 @@ public class AplicacaoPrincipal {
     private DonoController donoController;
     private PedidoController pedidoController;
 
-    
     public final int WIDTH = 600;
     public final int HEIGHT = 400;
-    // private final int V_GAP = 10;
-    // private final int H_GAP = 5;
     
     public void iniciar() {
         telaPricipal = new JFrame("Franquia");
@@ -62,7 +59,7 @@ public class AplicacaoPrincipal {
         loginController = new LoginController(this, donoPersistence, gerentePersistence, vendedorPersistence);
         vendedorController = new VendedorController(this, pedidoPersistence, produtoPersistence, vendedorPersistence, clientePersistence);
         gerenteController = new GerenteController(this, vendedorPersistence, produtoPersistence, pedidoPersistence);
-        donoController = new DonoController(this, franquiaPersistence, gerentePersistence);
+        donoController = new DonoController(this, franquiaPersistence, gerentePersistence, vendedorPersistence, pedidoPersistence);
         pedidoController = new PedidoController(pedidoPersistence, produtoPersistence);
         
         PainelLogin painelLogin = new PainelLogin(loginController);

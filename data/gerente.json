@@ -1,1 +1,1 @@
-[{"id":0,"idVendedores":[1],"franquiaId":0,"nome":"Enzo","email":"enzo@gmail.com","senha":"1234","cpf":"125.147.406-30"}]
+[{"id":1,"franquiaId":0,"nome":"Gerson","email":"gerson@gmail.com","senha":"1234","cpf":"176.919.527-08"},{"id":0,"idVendedores":[1],"franquiaId":0,"nome":"Enzo da Silva Sauro","email":"enzo@gmail.com","senha":"1234","cpf":"125.147.406-30"}]

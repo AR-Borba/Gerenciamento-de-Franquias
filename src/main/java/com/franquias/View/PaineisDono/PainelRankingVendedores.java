@@ -49,7 +49,7 @@ public class PainelRankingVendedores extends JPanel{
                     vendedor.getId(),
                     vendedor.getNome(),
                     vendedor.getFranquiaId(),
-                    vendedor.getReceita()
+                    controller.calcularTotalVendasPorVendedor(vendedor) 
             };
             modeloTabelaVendedores.addRow(rowData);
         }

@@ -15,7 +15,6 @@ import javax.swing.table.DefaultTableModel;
 
 import com.franquias.Controller.GerenteController;
 import com.franquias.Model.entities.Usuários.Vendedor;
-import com.franquias.View.PainelAtualizavel;
 
 public class PainelGerenciarEquipe extends JPanel {
     

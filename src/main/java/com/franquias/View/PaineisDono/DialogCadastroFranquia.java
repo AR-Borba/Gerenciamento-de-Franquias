@@ -13,6 +13,7 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.SwingWorker;
 import javax.swing.text.MaskFormatter;
 
 import com.franquias.Controller.DonoController;
@@ -20,7 +21,7 @@ import com.franquias.Model.entities.Franquia;
 import com.franquias.Model.entities.Usuários.Gerente;
 import com.franquias.Model.enums.Estados;
 import com.franquias.Utils.Endereco;
-import com.franquias.exceptions.CepException;
+import com.franquias.Utils.ViaCepService;
 
 public class DialogCadastroFranquia extends JDialog {
     private JTextField ruaField;
@@ -38,6 +39,7 @@ public class DialogCadastroFranquia extends JDialog {
         super(parent, "Criando Franquia", true);
         endereco = new Endereco();
         franquia = new Franquia();
+        franquia.endereco = this.endereco;
         configurarUI(controller);
     }
 
@@ -74,10 +76,33 @@ public class DialogCadastroFranquia extends JDialog {
         List<Gerente> gerentesDisponiveis = controller.getGerentes();
         gerentesComboBox = new JComboBox<>(gerentesDisponiveis.toArray(new Gerente[0]));
         
+        JButton btnBuscarCep = new JButton("Buscar CEP");
+        btnBuscarCep.addActionListener(e -> buscarCep());
+        
         gbc.gridx = 0;
         gbc.gridy = 0;
-
+        
         gbc.gridy = 1;
+        gbc.gridx = 0;
+        add(new JLabel("CEP:"), gbc);
+        gbc.gridx = 1;
+        add(cepField, gbc);
+        gbc.gridx = 2;
+        add(btnBuscarCep);
+        
+        gbc.gridy = 4;
+        gbc.gridx = 0;
+        add(new JLabel("Estado:"), gbc);
+        gbc.gridx = 1;
+        add(estadoField, gbc);
+
+        gbc.gridy = 3;
+        gbc.gridx = 0;
+        add(new JLabel("Cidade:"), gbc);
+        gbc.gridx = 1;
+        add(cidadeField, gbc);
+
+        gbc.gridy = 5;
         gbc.gridx = 0;
         add(new JLabel("Rua:"), gbc);
         gbc.gridx = 1;
@@ -88,25 +113,7 @@ public class DialogCadastroFranquia extends JDialog {
         add(new JLabel("Numero:"), gbc);
         gbc.gridx = 1;
         add(numeroField, gbc);
-
-        gbc.gridy = 3;
-        gbc.gridx = 0;
-        add(new JLabel("Cidade:"), gbc);
-        gbc.gridx = 1;
-        add(cidadeField, gbc);
-
-        gbc.gridy = 4;
-        gbc.gridx = 0;
-        add(new JLabel("Estado:"), gbc);
-        gbc.gridx = 1;
-        add(estadoField, gbc);
-
-        gbc.gridy = 5;
-        gbc.gridx = 0;
-        add(new JLabel("CEP:"), gbc);
-        gbc.gridx = 1;
-        add(cepField, gbc);
-
+        
         gbc.gridy = 6;
         gbc.gridx = 0;
         add(new JLabel("Gerente:"), gbc);
@@ -131,9 +138,23 @@ public class DialogCadastroFranquia extends JDialog {
         ruaField.setText(endereco.getRua());
         numeroField.setText(endereco.getNumero());
         cidadeField.setText(endereco.getCidade());
-        estadoField.setSelectedItem(Estados.valueOf(endereco.getEstado()));
         cepField.setText(endereco.getCep());
+
+        Gerente gerenteAtual = franquia.getGerente();
+        if (gerenteAtual != null) {
+            gerentesComboBox.setSelectedItem(gerenteAtual);
+        }
+
+        String estadoDaFranquia = endereco.getEstado();
+        if (estadoDaFranquia != null && !estadoDaFranquia.isBlank()) {
+            try {
+                estadoField.setSelectedItem(Estados.valueOf(estadoDaFranquia));
+            } catch (IllegalArgumentException e) {
+                System.err.println("Estado inválido no arquivo JSON: " + estadoDaFranquia);
+            }
+        }
     }
+ 
 
     private void onSalvar() {
         String rua = ruaField.getText(); 
@@ -175,5 +196,47 @@ public class DialogCadastroFranquia extends JDialog {
 
     public boolean foiSalvo() {
         return this.salvo;
+    }
+
+    private void buscarCep() {
+        String cep = cepField.getText().replaceAll("[^0-9]", ""); // Remove máscara, se houver
+        if (cep.length() != 8) {
+            JOptionPane.showMessageDialog(this, "O formato do CEP é inválido.", "Erro", JOptionPane.ERROR_MESSAGE);
+            return;
+        }    
+        ruaField.setText("Buscando...");
+        cidadeField.setText("Buscando...");
+
+        // Usa um SwingWorker para não travar a interface gráfica durante a busca na internet
+        SwingWorker<Endereco, Void> worker = new SwingWorker<Endereco, Void>() {
+            @Override
+            protected Endereco doInBackground() throws Exception {
+                ViaCepService viaCepService = new ViaCepService();
+                return viaCepService.getEndereco(cep);
+            }
+
+            @Override
+            protected void done() {
+                try {
+                    Endereco endereco = get();
+                    if (endereco != null && endereco.getRua() != null) {
+                        ruaField.setText(endereco.getRua());
+                        cidadeField.setText(endereco.getCidade());
+                        estadoField.setSelectedItem(Estados.valueOf(endereco.getEstado()));
+                        // Mova o foco para o campo de número, que é o próximo a ser preenchido
+                        // numeroField.requestFocus();
+                    } else {
+                        JOptionPane.showMessageDialog(DialogCadastroFranquia.this, "CEP não encontrado.", "Erro", JOptionPane.ERROR_MESSAGE);
+                        ruaField.setText("");
+                        cidadeField.setText("");
+                    }
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(DialogCadastroFranquia.this, "Erro ao buscar CEP: " + e.getMessage(), "Erro de Conexão", JOptionPane.ERROR_MESSAGE);
+                    ruaField.setText("");
+                    cidadeField.setText("");
+                }
+            }
+        };
+        worker.execute();
     }
 }

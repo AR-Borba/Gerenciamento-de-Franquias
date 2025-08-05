@@ -54,7 +54,7 @@ public class PainelGerenciarFranquias extends JPanel {
                     franquia.getEstado(),
                     franquia.getCidade(),
                     franquia.getGerente(),
-                    franquia.getReceita(),
+                    controller.getReceita(franquia),
             };
             modeloTabelaFranquias.addRow(rowData);
         }

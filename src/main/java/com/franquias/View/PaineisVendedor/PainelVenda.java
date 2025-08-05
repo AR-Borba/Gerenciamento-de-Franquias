@@ -18,7 +18,6 @@ import java.math.BigDecimal;
 import com.franquias.Controller.VendedorController;
 import com.franquias.Model.Produto;
 import com.franquias.Model.entities.Cliente;
-import com.franquias.Model.entities.Pedido;
 import com.franquias.Model.enums.FormaDePagamento;
 import com.franquias.Model.enums.ModalidadeEntrega;
 import com.franquias.exceptions.EstoqueInsuficienteException;

@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.franquias.Model.entities.Pedido;
 import com.franquias.Model.entities.Usuários.Vendedor;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -100,5 +99,10 @@ public class VendedorPersistence implements Persistence<Vendedor> {
         return vendedoresEmMemoria.stream()
                                .filter(vendedor -> vendedor.getFranquiaId() == franquiaId)
                                .collect(Collectors.toList());
+    }
+
+    public Vendedor findByEmailAndPassword(String email, String senha) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'findByEmailAndPassword'");
     }
 }
