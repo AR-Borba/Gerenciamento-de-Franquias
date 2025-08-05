@@ -117,8 +117,8 @@ public class DialogFormularioProduto extends JDialog {
             return;
         }
 
-        if(!ValidadorNumero.intIsPositivo(quantidadeEmEstoque)) {
-            JOptionPane.showMessageDialog(this, "Quantidade em estoque deve ser maior que 0!", "Erro de validação", JOptionPane.ERROR_MESSAGE);
+        if(!ValidadorNumero.intIsNaoNegativo(quantidadeEmEstoque)) {
+            JOptionPane.showMessageDialog(this, "Quantidade não pode ser negativa!", "Erro de validação", JOptionPane.ERROR_MESSAGE);
             return;
         }
 

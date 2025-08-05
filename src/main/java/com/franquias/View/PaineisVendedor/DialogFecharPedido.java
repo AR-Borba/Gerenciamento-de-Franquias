@@ -23,6 +23,8 @@ import com.franquias.Model.entities.Cliente;
 import com.franquias.Model.enums.FormaDePagamento;
 import com.franquias.Model.enums.ModalidadeEntrega;
 import com.franquias.Persistence.ClientePersistence;
+import com.franquias.Utils.ValidadorNumero;
+import com.franquias.Utils.ValidadorTexto;
 
 public class DialogFecharPedido extends JDialog{
     
@@ -133,6 +135,11 @@ public class DialogFecharPedido extends JDialog{
 
         if(cliente == null || taxa == null || formaDePagamento == null || modalidadeEntrega == null) {
             JOptionPane.showMessageDialog(this, "Todos os campos são obrigatórios", "Erro de validação", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if(!ValidadorNumero.bigDecimalIsNaoNegativo(taxa)) {
+            JOptionPane.showMessageDialog(this, "Taxa inválida", "Erro de validação", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
