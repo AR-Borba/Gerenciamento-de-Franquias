@@ -67,6 +67,12 @@ public class ProdutoPersistence implements Persistence<Produto> {
         save(this.produtosEmMemoria);
     }
 
+    public void adicionarAoEstoque(Produto produto, int qtd) {
+        int novoEstoque = produto.getQuantidadeEstoque() + qtd;
+        produto.setQuantidadeEstoque(novoEstoque);
+        update(produto);
+    }
+
     public void removerProduto(long idproduto) {
         boolean foiRemovido = this.produtosEmMemoria.removeIf(produto -> produto.getId() == idproduto);
 

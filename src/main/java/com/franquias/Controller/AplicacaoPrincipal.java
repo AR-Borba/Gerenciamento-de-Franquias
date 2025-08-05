@@ -14,12 +14,12 @@ import com.franquias.View.*;
 
 public class AplicacaoPrincipal {
 
-    public JFrame telaPricipal;
+    private JFrame telaPricipal;
     private JMenuBar menuBarPrincipal;
     private JMenu menuAtualDoPainel;
 
-    public JPanel painelDeConteudo;
-    public CardLayout cardLayout;
+    private JPanel painelDeConteudo;
+    private CardLayout cardLayout;
 
     private DonoPersistence donoPersistence = new DonoPersistence();
     private FranquiaPersistence franquiaPersistence = new FranquiaPersistence();
@@ -40,7 +40,7 @@ public class AplicacaoPrincipal {
     
     public void iniciar() {
         telaPricipal = new JFrame("Franquia");
-        telaPricipal.setDefaultCloseOperation(telaPricipal.EXIT_ON_CLOSE);
+        telaPricipal.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         telaPricipal.setSize(WIDTH, HEIGHT);
         
         menuBarPrincipal = new JMenuBar();
@@ -58,22 +58,29 @@ public class AplicacaoPrincipal {
         
         loginController = new LoginController(this, donoPersistence, gerentePersistence, vendedorPersistence);
         vendedorController = new VendedorController(this, pedidoPersistence, produtoPersistence, vendedorPersistence, clientePersistence);
-        gerenteController = new GerenteController(this, vendedorPersistence, produtoPersistence, pedidoPersistence);
-        donoController = new DonoController(this, franquiaPersistence, gerentePersistence, vendedorPersistence, pedidoPersistence);
+        gerenteController = new GerenteController(this, loginController, gerentePersistence, vendedorPersistence, produtoPersistence, pedidoPersistence);
+        donoController = new DonoController(this, loginController, donoPersistence, franquiaPersistence, gerentePersistence);
         pedidoController = new PedidoController(pedidoPersistence, produtoPersistence);
         
+        PainelCadastroDono painelCadastroDono = new PainelCadastroDono(this, donoController);
         PainelLogin painelLogin = new PainelLogin(loginController);
         PainelVendedor painelVendedor = new PainelVendedor(this, vendedorController, pedidoController);
         PainelGerente painelGerente = new PainelGerente(this, gerenteController, pedidoController);
         PainelDono painelDono = new PainelDono(this, donoController);
+
         
+        painelDeConteudo.add(painelCadastroDono, "CADASTRO_DONO");
         painelDeConteudo.add(painelLogin, "LOGIN");
         painelDeConteudo.add(painelVendedor, "VENDEDOR");
         painelDeConteudo.add(painelGerente, "GERENTE");
         painelDeConteudo.add(painelDono, "DONO");
         
         telaPricipal.add(painelDeConteudo);
-        mostrarTela("DONO");
+
+        if(!donoPersistence.hasDono())
+            mostrarTela("CADASTRO_DONO");
+        else
+            mostrarTela("LOGIN");
         
         telaPricipal.setLocationRelativeTo(null);
         telaPricipal.setVisible(true);

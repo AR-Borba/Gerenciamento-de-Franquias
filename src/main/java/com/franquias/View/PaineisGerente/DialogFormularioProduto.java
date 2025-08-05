@@ -16,6 +16,8 @@ import javax.swing.JTextField;
 import javax.swing.text.NumberFormatter;
 
 import com.franquias.Model.Produto;
+import com.franquias.Utils.ValidadorNumero;
+import com.franquias.Utils.ValidadorTexto;
 
 public class DialogFormularioProduto extends JDialog {
     private JTextField produtoField;
@@ -110,9 +112,18 @@ public class DialogFormularioProduto extends JDialog {
         BigDecimal preco = (BigDecimal) precoField.getValue();
         Integer quantidadeEmEstoque = (Integer) qtdEstoqueField.getValue();
 
-        if(produto.isBlank() || preco == null || quantidadeEmEstoque == null)
-        {
-            JOptionPane.showMessageDialog(this, "Todos os campos são obrigatórios", "Erro de validação", JOptionPane.ERROR_MESSAGE);
+        if(!ValidadorTexto.temTamanhoMinimo(produto, 2)) {
+            JOptionPane.showMessageDialog(this, "Produto deve ter mais de 2 caracteres!", "Erro de validação", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if(!ValidadorNumero.intIsPositivo(quantidadeEmEstoque)) {
+            JOptionPane.showMessageDialog(this, "Quantidade em estoque deve ser maior que 0!", "Erro de validação", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if(!ValidadorNumero.bigDecimalIsPositivo(preco)) {
+            JOptionPane.showMessageDialog(this, "Preço tem que ser maior que 0.00!", "Erro de validação", JOptionPane.ERROR_MESSAGE);
             return;
         }
 

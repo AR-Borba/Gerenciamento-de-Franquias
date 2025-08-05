@@ -77,7 +77,7 @@ public class Pedido {
     }
 
     public void adicionarItem(Produto produto, int quantidade) {
-        this.produtos.merge(produto, quantidade, Integer::sum);
+        this.produtos.put(produto, quantidade);
     }
 
     public void removerItem(Produto produto) {

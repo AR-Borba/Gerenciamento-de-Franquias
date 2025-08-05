@@ -16,6 +16,8 @@ import javax.swing.text.MaskFormatter;
 import org.apache.commons.validator.routines.EmailValidator;
 
 import com.franquias.Model.entities.Cliente;
+import com.franquias.Utils.ValidadorCPF;
+import com.franquias.Utils.ValidadorTexto;
 
 import br.com.caelum.stella.validation.CPFValidator;
 import br.com.caelum.stella.validation.InvalidStateException;
@@ -104,21 +106,18 @@ public class DialogCadastrarCliente extends JDialog{
         String cpf = (String) cpfField.getValue();
         String email = emailField.getText();
 
-        if(nome.isBlank() || cpf == null || cpf.isBlank() || email.isBlank())
-        {
-            JOptionPane.showMessageDialog(this, "Todos os campos são obrigatórios", "Erro de validação", JOptionPane.ERROR_MESSAGE);
-        }
-
         EmailValidator emailValidator = EmailValidator.getInstance();
         if(!emailValidator.isValid(email)) {
             JOptionPane.showMessageDialog(this, "Email inválido", "Erro de validação", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        try {
-            CPFValidator validator = new CPFValidator();
-            validator.assertValid(cpf);
-        } catch (InvalidStateException e) {
+        if(!ValidadorTexto.temTamanhoMinimo(nome, 2)) {
+            JOptionPane.showMessageDialog(this, "Nome deve ter mais de 2 caracteres!", "Erro de validação", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if(!ValidadorCPF.isValido(cpf)) {
             JOptionPane.showMessageDialog(this, "CPF inválido", "Erro de validação", JOptionPane.ERROR_MESSAGE);
             return;
         }

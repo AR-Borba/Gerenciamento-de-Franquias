@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.naming.AuthenticationException;
+
 import com.franquias.Model.entities.Usuários.Dono;
 import com.franquias.Model.entities.Usuários.Gerente;
 import com.franquias.Model.entities.Usuários.Vendedor;
@@ -19,40 +21,46 @@ import com.franquias.Persistence.GerentePersistence;
 import com.franquias.Persistence.PedidoPersistence;
 import com.franquias.Persistence.VendedorPersistence;
 import com.franquias.Utils.Endereco;
+import com.franquias.exceptions.ValidationException;
+import com.franquias.Persistence.DonoPersistence;
 import com.franquias.Persistence.FranquiaPersistence;
 
 public class DonoController {
+    private AplicacaoPrincipal app;
+    private LoginController loginController;
+    private DonoPersistence donoPersistence;
     private FranquiaPersistence franquiaPersistence;
     private GerentePersistence gerentePersistence;
     private VendedorPersistence vendedorPersistence;
     private PedidoPersistence pedidoPersistence;
-    private AplicacaoPrincipal app;
     private Dono donoLogado;
 
-    public DonoController(AplicacaoPrincipal app) {
-        this.franquiaPersistence = new FranquiaPersistence();
-        this.gerentePersistence = new GerentePersistence();
-        this.vendedorPersistence = new VendedorPersistence();
-        this.pedidoPersistence = new PedidoPersistence();
-        this.app = app; 
-    }
-
-    public DonoController(AplicacaoPrincipal app, FranquiaPersistence franquiaPersistence, GerentePersistence gerentePersistence, VendedorPersistence vendedorPersistence, PedidoPersistence pedidoPersistence) {
+    public DonoController(AplicacaoPrincipal app, LoginController loginController, DonoPersistence donoPersistence,
+            FranquiaPersistence franquiaPersistence, GerentePersistence gerentePersistence) {
+        this.app = app;
+        this.loginController = loginController;
+        this.donoPersistence = donoPersistence;
         this.franquiaPersistence = franquiaPersistence;
         this.gerentePersistence = gerentePersistence;
-        this.vendedorPersistence = vendedorPersistence;
-        this.pedidoPersistence = pedidoPersistence;
-        this.app = app; 
     }
 
     public void iniciarSessao(Dono dono) {
         this.donoLogado = dono;
         System.out.println("Sessão iniciada para o Dono: " + donoLogado.getNome());
-        
+
         // verificarFranquiasSemGerenteEnotificar();
     }
 
-    public void cadastrarGerente(Gerente gerente) {
+    public void cadastrarDono(String nome, String cpf, String email, String senha) {
+        Dono novoDono = new Dono(nome, cpf, email, senha);
+        donoPersistence.adicionarDono(novoDono);
+    }
+
+    public void cadastrarGerente(Gerente gerente) throws ValidationException {
+        if(loginController.emailJaExiste(gerente.getEmail())) {
+            throw new ValidationException("O email " + gerente.getEmail() + " já está em uso no sistema");
+        }
+
         gerentePersistence.adicionarGerente(gerente);
     }
 
@@ -67,9 +75,9 @@ public class DonoController {
     public void cadastrarFranquia(Endereco endereco, Gerente gerenteResponsavel) {
         FranquiaPersistence franquiaPersistence = new FranquiaPersistence();
         List<Franquia> todasFranquias = franquiaPersistence.findAll();
-        
+
         Franquia novaFranquia = new Franquia(endereco, gerenteResponsavel);
-        
+
         gerenteResponsavel.setFranquiaId(novaFranquia.getId());
 
         gerentePersistence.update(gerenteResponsavel);
@@ -81,7 +89,6 @@ public class DonoController {
     public List<Franquia> verificarFranquiasSemGerente() {
         List<Franquia> todasFranquias = franquiaPersistence.findAll();
         List<Franquia> franquiasSemGerente = new ArrayList<>();
-
 
         for (Franquia franquia : todasFranquias) {
             if (franquia.getGerente() == null) {
@@ -120,8 +127,9 @@ public class DonoController {
     }
 
     public List<Vendedor> getRankingVendedores() {
-        List<Vendedor> vendedores = vendedorPersistence.findAll(); 
-        Comparator<Vendedor> comparadorPorVendas = Comparator.comparing(vendedor -> calcularTotalVendasPorVendedor(vendedor));
+        List<Vendedor> vendedores = vendedorPersistence.findAll();
+        Comparator<Vendedor> comparadorPorVendas = Comparator
+                .comparing(vendedor -> calcularTotalVendasPorVendedor(vendedor));
         vendedores.sort(comparadorPorVendas.reversed());
         return vendedores;
     }
@@ -134,7 +142,7 @@ public class DonoController {
         BigDecimal total = BigDecimal.ZERO;
         for (Long idPedido : vendedor.getListaIdPedidos()) {
             Pedido pedido = pedidoPersistence.buscarPorId(idPedido);
-            
+
             if (pedido != null && pedido.getStatusPedido() == StatusPedido.CONCLUIDO) {
                 total = total.add(pedido.getValorTotal());
             }

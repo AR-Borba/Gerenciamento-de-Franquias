@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.franquias.Model.entities.Usuários.Dono;
+import com.franquias.Model.entities.Usuários.Gerente;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -40,6 +41,12 @@ public class DonoPersistence implements Persistence<Dono> {
         return itens;
     }
 
+    public void adicionarDono(Dono novoDono) {
+        List<Dono> donos = new ArrayList<>();
+        donos.add(novoDono);
+        save(donos);
+    }
+
     public boolean hasDono() {
         List<Dono> donos = findAll();
         
@@ -50,6 +57,14 @@ public class DonoPersistence implements Persistence<Dono> {
         
         return findAll().stream()
             .filter(d -> d.getEmail().equalsIgnoreCase(email) && d.getSenha().equals(senha))
+            .findFirst()
+            .orElse(null);
+    }
+
+    public Dono findByEmail(String email) {
+
+        return findAll().stream()
+            .filter(d -> d.getEmail() != null && d.getEmail().equalsIgnoreCase(email))
             .findFirst()
             .orElse(null);
     }

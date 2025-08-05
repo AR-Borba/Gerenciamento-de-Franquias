@@ -102,7 +102,17 @@ public class VendedorPersistence implements Persistence<Vendedor> {
     }
 
     public Vendedor findByEmailAndPassword(String email, String senha) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findByEmailAndPassword'");
+
+        return vendedoresEmMemoria.stream()
+            .filter(v -> v.getEmail().equalsIgnoreCase(email) && v.getSenha().equals(senha))
+            .findFirst()
+            .orElse(null);
+    }
+
+    public Vendedor findByEmail(String email) {
+        return vendedoresEmMemoria.stream()
+            .filter(v -> v.getEmail() != null && v.getEmail().equalsIgnoreCase(email))
+            .findFirst()
+            .orElse(null);
     }
 }

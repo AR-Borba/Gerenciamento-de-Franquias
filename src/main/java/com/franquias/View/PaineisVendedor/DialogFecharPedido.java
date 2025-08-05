@@ -14,6 +14,7 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.text.NumberFormatter;
+import javax.validation.ValidationException;
 
 import com.franquias.Controller.VendedorController;
 import com.franquias.Model.entities.Cliente;
@@ -102,13 +103,17 @@ public class DialogFecharPedido extends JDialog{
         DialogCadastrarCliente dialog = new DialogCadastrarCliente(framePrincipal);
         dialog.setVisible(true);
 
-        Cliente novoCliente = dialog.getCliente();
-        if(novoCliente != null) {
-            controller.adicionarCliente(novoCliente);
-            fieldCliente.addItem(novoCliente);
-            fieldCliente.setSelectedItem(novoCliente);
-
-            JOptionPane.showMessageDialog(this, "Novo cliente cadastrado e selecionado!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+        if(dialog.foiSalvo()) {
+            Cliente novoCliente = dialog.getCliente();
+            try{
+                controller.adicionarCliente(novoCliente); // aqui pode lançar exeção
+                
+                fieldCliente.addItem(novoCliente);
+                fieldCliente.setSelectedItem(novoCliente);
+                JOptionPane.showMessageDialog(this, "Novo cliente cadastrado com Sucesso!");
+            } catch (ValidationException e) {
+                JOptionPane.showMessageDialog(this, e.getMessage(), "Erro de Negócio", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
 

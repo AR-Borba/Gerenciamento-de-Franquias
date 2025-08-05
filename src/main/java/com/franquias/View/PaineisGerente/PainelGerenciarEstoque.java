@@ -95,10 +95,12 @@ public class PainelGerenciarEstoque extends JPanel {
         JPanel painelAcoes = new JPanel();
         painelAcoes.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 5));
 
+        JButton btnAdicionarAoEstoque = new JButton("Adicionar ao Estoque");
         JButton btnEditar = new JButton("Editar");
         JButton btnRemover = new JButton("Remover");
         JButton btnnAdicionar = new JButton("Adicionar");
 
+        btnAdicionarAoEstoque.addActionListener(e -> adicionarAoEstoque());
         btnEditar.addActionListener(e -> editarProdutoSelecionado());
         btnRemover.addActionListener(e -> removerProdutoSelecionado());
         btnnAdicionar.addActionListener(e -> adicionarProduto());
@@ -108,6 +110,27 @@ public class PainelGerenciarEstoque extends JPanel {
         painelAcoes.add(btnnAdicionar);
         
         add(painelAcoes, BorderLayout.SOUTH);
+    }
+
+    private void adicionarAoEstoque() {
+        DialogAdicionarAoEstoque dialog = new DialogAdicionarAoEstoque();
+        dialog.setVisible(true);
+
+        if(dialog.foiSalvo()) {
+            int selectedRow = tabelaProdutos.getSelectedRow();
+            if (selectedRow == -1) {
+                JOptionPane.showMessageDialog(framePrincipal, "Nenhum Produto selecionado para edição.", "Erro", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            Object idObject = modeloTabelaProdutos.getValueAt(selectedRow, 0);
+
+        long idProduto = ((Number) idObject).longValue();
+
+        Produto produto = controller.buscarProdutoPorId(idProduto);
+
+            controller.adicionarAoEstoque(produto, dialog.getQtd());
+            carregarDados();
+        }
     }
 
     private void editarProdutoSelecionado() {
