@@ -58,17 +58,7 @@ public class GerentePersistence implements Persistence<Gerente> {
 
     @Override
     public List<Gerente> findAll() {
-        String json = Arquivo.le(PATH);
-        List<Gerente> itens = new ArrayList<>();
-
-        if(!json.trim().equals("")) {
-            Type tipoLista = new TypeToken<List<Gerente>>() {}.getType();
-            itens = gson.fromJson(json, tipoLista);
-
-                if(itens == null) 
-                    itens = new ArrayList<>();
-        }
-        return itens;
+        return gerentesEmMemoria;
     }
 
     public void adicionarGerente(Gerente novoGerente) {

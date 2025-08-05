@@ -167,6 +167,10 @@ public class GerenteController {
         produtoPersistence.adicionarProduto(produto);
     }
 
+    public void adicionarAoEstoque(Produto produto, int qtd) {
+        produtoPersistence.adicionarAoEstoque(produto, qtd);
+    }
+
     public Produto buscarProdutoPorId(long idProduto) {
         return produtoPersistence.buscarPorId(idProduto);
     }
