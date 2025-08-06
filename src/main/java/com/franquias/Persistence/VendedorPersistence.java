@@ -26,7 +26,8 @@ public class VendedorPersistence implements Persistence<Vendedor> {
     private void carregarDoArquivo() {
         String json = Arquivo.le(PATH);
         if (json != null && !json.trim().isEmpty()) {
-            Type tipoLista = new TypeToken<List<Vendedor>>() {}.getType();
+            Type tipoLista = new TypeToken<List<Vendedor>>() {
+            }.getType();
             List<Vendedor> vendedoresDoArquivo = gson.fromJson(json, tipoLista);
             if (vendedoresDoArquivo != null) {
                 this.vendedoresEmMemoria.addAll(vendedoresDoArquivo);
@@ -35,7 +36,7 @@ public class VendedorPersistence implements Persistence<Vendedor> {
     }
 
     private void determinarProximoId() {
-        if(!this.vendedoresEmMemoria.isEmpty()) {
+        if (!this.vendedoresEmMemoria.isEmpty()) {
             long maiorId = this.vendedoresEmMemoria.stream().mapToLong(Vendedor::getId).max().getAsLong();
 
             this.proximoId = maiorId + 1;
@@ -49,7 +50,7 @@ public class VendedorPersistence implements Persistence<Vendedor> {
         String json = gson.toJson(itens);
 
         File diretorio = new File(DIRECTORY);
-        if(!diretorio.exists())
+        if (!diretorio.exists())
             diretorio.mkdirs();
 
         Arquivo.salva(PATH, json);
@@ -70,7 +71,7 @@ public class VendedorPersistence implements Persistence<Vendedor> {
     public void removerVendedor(long idVendedor) {
         boolean foiRemovido = this.vendedoresEmMemoria.removeIf(vendedor -> vendedor.getId() == idVendedor);
 
-        if(foiRemovido) {
+        if (foiRemovido) {
             save(vendedoresEmMemoria);
         }
     }
@@ -78,14 +79,14 @@ public class VendedorPersistence implements Persistence<Vendedor> {
     public void update(Vendedor vendedorAtualizando) {
         int index = -1;
 
-        for(int i = 0; i < vendedoresEmMemoria.size(); i++) {
-            if(vendedoresEmMemoria.get(i).getId() == vendedorAtualizando.getId()) {
+        for (int i = 0; i < vendedoresEmMemoria.size(); i++) {
+            if (vendedoresEmMemoria.get(i).getId() == vendedorAtualizando.getId()) {
                 index = i;
                 break;
             }
         }
 
-        if(index != -1) {
+        if (index != -1) {
             vendedoresEmMemoria.set(index, vendedorAtualizando);
             save(vendedoresEmMemoria);
         }
@@ -97,22 +98,22 @@ public class VendedorPersistence implements Persistence<Vendedor> {
 
     public List<Vendedor> findByFranquia(long franquiaId) {
         return vendedoresEmMemoria.stream()
-                               .filter(vendedor -> vendedor.getFranquiaId() == franquiaId)
-                               .collect(Collectors.toList());
+                .filter(vendedor -> vendedor.getFranquiaId() == franquiaId)
+                .collect(Collectors.toList());
     }
 
     public Vendedor findByEmailAndPassword(String email, String senha) {
 
         return vendedoresEmMemoria.stream()
-            .filter(v -> v.getEmail().equalsIgnoreCase(email) && v.getSenha().equals(senha))
-            .findFirst()
-            .orElse(null);
+                .filter(v -> v.getEmail().equalsIgnoreCase(email) && v.getSenha().equals(senha))
+                .findFirst()
+                .orElse(null);
     }
 
     public Vendedor findByEmail(String email) {
         return vendedoresEmMemoria.stream()
-            .filter(v -> v.getEmail() != null && v.getEmail().equalsIgnoreCase(email))
-            .findFirst()
-            .orElse(null);
+                .filter(v -> v.getEmail() != null && v.getEmail().equalsIgnoreCase(email))
+                .findFirst()
+                .orElse(null);
     }
 }

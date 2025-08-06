@@ -5,7 +5,6 @@ import java.awt.FlowLayout;
 import java.math.BigDecimal;
 import java.util.List;
 
-import javax.naming.AuthenticationException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -16,7 +15,6 @@ import javax.swing.table.DefaultTableModel;
 
 import com.franquias.Controller.GerenteController;
 import com.franquias.Model.entities.Usuários.Vendedor;
-import com.franquias.View.PainelAtualizavel;
 import com.franquias.exceptions.ValidationException;
 
 public class PainelGerenciarEquipe extends JPanel {
@@ -95,7 +93,8 @@ public class PainelGerenciarEquipe extends JPanel {
 
                 carregarDados();
 
-                JOptionPane.showMessageDialog(this, "Vendedor '" + novoVendedor.getNome() + "' cadastrado com sucesso!", "Sucesso",JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Vendedor '" + novoVendedor.getNome() + "' cadastrado com sucesso!",
+                        "Sucesso", JOptionPane.INFORMATION_MESSAGE);
 
             } catch (ValidationException e) {
                 JOptionPane.showMessageDialog(this, e.getMessage(), "Erro de Validação", JOptionPane.ERROR_MESSAGE);

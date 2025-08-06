@@ -16,7 +16,6 @@ public class PainelVendedor extends PainelBase {
 
     PedidoController pedidoController;
 
-
     public PainelVendedor(AplicacaoPrincipal app, VendedorController controller, PedidoController pedidoController) {
         super(app);
         this.controller = controller;
@@ -37,7 +36,7 @@ public class PainelVendedor extends PainelBase {
         JMenuItem itemMinhasVendas = new JMenuItem("Minhas Vendas");
         itemNovaVenda.addActionListener(e -> mostrarSubPainel("NOVA_VENDA"));
         itemMinhasVendas.addActionListener(e -> {
-            if(painelHistoricoVenda != null)
+            if (painelHistoricoVenda != null)
                 painelHistoricoVenda.carregarDados();
             mostrarSubPainel("HISTORICO_VENDAS");
         });
@@ -57,4 +56,3 @@ public class PainelVendedor extends PainelBase {
         painelDeCards.add(painelHistoricoVenda, "HISTORICO_VENDAS");
     }
 }
-    

@@ -45,33 +45,33 @@ public class PainelGerenciarEstoque extends JPanel {
     public void carregarDados() {
         modeloTabelaProdutos.setRowCount(0);
 
-        List<Produto> produtos = controller.getProdutos(); 
+        List<Produto> produtos = controller.getProdutos();
 
-        for(Produto produto : produtos) {
+        for (Produto produto : produtos) {
             Object[] rowData = {
-                produto.getId(),
-                produto.getQuantidadeEstoque(),
-                produto.getProduto(),
-                produto.getPreco()
+                    produto.getId(),
+                    produto.getQuantidadeEstoque(),
+                    produto.getProduto(),
+                    produto.getPreco()
             };
             modeloTabelaProdutos.addRow(rowData);
         }
     }
-    
+
     private void carregarDadosEstoqueBaixo() {
         modeloTabelaProdutos.setRowCount(0);
 
-        List<Produto> produtos = controller.getProdutosComEstoqueBaixo(11); 
+        List<Produto> produtos = controller.getProdutosComEstoqueBaixo(11);
 
-        for(Produto produto : produtos) {
+        for (Produto produto : produtos) {
             Object[] rowData = {
-                produto.getId(),
-                produto.getQuantidadeEstoque(),
-                produto.getProduto(),
-                produto.getPreco()
+                    produto.getId(),
+                    produto.getQuantidadeEstoque(),
+                    produto.getProduto(),
+                    produto.getPreco()
             };
             modeloTabelaProdutos.addRow(rowData);
-            
+
         }
     }
 
@@ -90,7 +90,6 @@ public class PainelGerenciarEstoque extends JPanel {
         add(painelOpcoes, BorderLayout.NORTH);
     }
 
-
     private void criarPainelAcoes() {
         JPanel painelAcoes = new JPanel();
         painelAcoes.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 5));
@@ -104,11 +103,11 @@ public class PainelGerenciarEstoque extends JPanel {
         btnEditar.addActionListener(e -> editarProdutoSelecionado());
         btnRemover.addActionListener(e -> removerProdutoSelecionado());
         btnnAdicionar.addActionListener(e -> adicionarProduto());
-        
+
         painelAcoes.add(btnEditar);
         painelAcoes.add(btnRemover);
         painelAcoes.add(btnnAdicionar);
-        
+
         add(painelAcoes, BorderLayout.SOUTH);
     }
 
@@ -116,17 +115,18 @@ public class PainelGerenciarEstoque extends JPanel {
         DialogAdicionarAoEstoque dialog = new DialogAdicionarAoEstoque();
         dialog.setVisible(true);
 
-        if(dialog.foiSalvo()) {
+        if (dialog.foiSalvo()) {
             int selectedRow = tabelaProdutos.getSelectedRow();
             if (selectedRow == -1) {
-                JOptionPane.showMessageDialog(framePrincipal, "Nenhum Produto selecionado para edição.", "Erro", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(framePrincipal, "Nenhum Produto selecionado para edição.", "Erro",
+                        JOptionPane.ERROR_MESSAGE);
                 return;
             }
             Object idObject = modeloTabelaProdutos.getValueAt(selectedRow, 0);
 
-        long idProduto = ((Number) idObject).longValue();
+            long idProduto = ((Number) idObject).longValue();
 
-        Produto produto = controller.buscarProdutoPorId(idProduto);
+            Produto produto = controller.buscarProdutoPorId(idProduto);
 
             controller.adicionarAoEstoque(produto, dialog.getQtd());
             carregarDados();
@@ -136,7 +136,8 @@ public class PainelGerenciarEstoque extends JPanel {
     private void editarProdutoSelecionado() {
         int selectedRow = tabelaProdutos.getSelectedRow();
         if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(framePrincipal, "Nenhum Produto selecionado para edição.", "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(framePrincipal, "Nenhum Produto selecionado para edição.", "Erro",
+                    JOptionPane.ERROR_MESSAGE);
             return;
         }
         Object idObject = modeloTabelaProdutos.getValueAt(selectedRow, 0);
@@ -145,19 +146,20 @@ public class PainelGerenciarEstoque extends JPanel {
 
         Produto ProdutoParaEditar = controller.buscarProdutoPorId(idProduto);
 
-        if(ProdutoParaEditar != null) {
+        if (ProdutoParaEditar != null) {
             DialogFormularioProduto dialog = new DialogFormularioProduto(framePrincipal, ProdutoParaEditar);
             dialog.setVisible(true);
-            
+
             // Produto ProdutoAtualizado = dialog.grtPRoduto();
 
-            if(dialog.foiSalvo()) {
+            if (dialog.foiSalvo()) {
                 controller.editarProduto(ProdutoParaEditar);
                 carregarDados();
-                JOptionPane.showMessageDialog(this, "Produto editado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Produto editado com sucesso!", "Sucesso",
+                        JOptionPane.INFORMATION_MESSAGE);
             }
         }
-            
+
     }
 
     private void removerProdutoSelecionado() {
@@ -168,7 +170,8 @@ public class PainelGerenciarEstoque extends JPanel {
             carregarDados();
         } else {
             // Exibir mensagem de erro ou aviso
-            JOptionPane.showMessageDialog(framePrincipal, "Nenhum Produto selecionado para remoção.", "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(framePrincipal, "Nenhum Produto selecionado para remoção.", "Erro",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -177,7 +180,7 @@ public class PainelGerenciarEstoque extends JPanel {
         dialog.setVisible(true);
 
         Produto novoProduto = dialog.getProduto();
-        if(novoProduto != null) {
+        if (novoProduto != null) {
             controller.adicionarProduto(novoProduto);
             carregarDados();
         }

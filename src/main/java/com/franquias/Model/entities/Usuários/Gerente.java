@@ -15,19 +15,12 @@ public class Gerente extends Usuario {
         this.idVendedores = new ArrayList<>();
     }
 
-    public Gerente(){
-    
+    public Gerente() {
+
     }
 
-    // public void adicionarVendedor(Vendedor vendedor) {
-    //     if(this.idVendedores == null) {
-    //         this.idVendedores = new ArrayList<>();
-    //     }
-    //     this.idVendedores.add(vendedor.getId());
-    // }
-
     public void adicionarVendedorPorId(long idVendedor) {
-        if(this.idVendedores == null) {
+        if (this.idVendedores == null) {
             this.idVendedores = new ArrayList<>();
         }
         this.idVendedores.add(idVendedor);
@@ -55,6 +48,6 @@ public class Gerente extends Usuario {
 
     @Override
     public String toString() {
-        return getNome(); 
+        return getNome();
     }
 }

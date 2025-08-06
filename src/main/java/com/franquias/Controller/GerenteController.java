@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import javax.naming.AuthenticationException;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -35,11 +33,11 @@ public class GerenteController {
     private Gerente gerenteLogado;
 
     public GerenteController(AplicacaoPrincipal app,
-                            LoginController loginController,
-                            GerentePersistence gerentePersistence,
-                            VendedorPersistence vendedorPersistence,
-                            ProdutoPersistence produtoPersistence,
-                            PedidoPersistence pedidoPersistence) {
+            LoginController loginController,
+            GerentePersistence gerentePersistence,
+            VendedorPersistence vendedorPersistence,
+            ProdutoPersistence produtoPersistence,
+            PedidoPersistence pedidoPersistence) {
         this.app = app;
         this.loginController = loginController;
         this.gerentePersistence = gerentePersistence;
@@ -81,7 +79,7 @@ public class GerenteController {
     }
 
     public void adicionarVendedor(Vendedor vendedor) throws ValidationException {
-        if(loginController.emailJaExiste(vendedor.getEmail())) {
+        if (loginController.emailJaExiste(vendedor.getEmail())) {
             throw new ValidationException("O email " + vendedor.getEmail() + " já está em uso no sistema");
         }
 

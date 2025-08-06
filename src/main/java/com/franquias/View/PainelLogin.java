@@ -21,7 +21,6 @@ public class PainelLogin extends JPanel {
 
         GridBagConstraints gbc;
 
-        
         gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.gridx = 0;
@@ -38,7 +37,6 @@ public class PainelLogin extends JPanel {
         tfEmail = new JTextField(15);
         painelLogin.add(tfEmail, gbc);
 
-        
         gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.gridx = 0;
@@ -55,7 +53,6 @@ public class PainelLogin extends JPanel {
         pfSenha = new JPasswordField(15);
         painelLogin.add(pfSenha, gbc);
 
-
         gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 5, 5, 5);
         gbc.gridx = 0;
@@ -67,8 +64,9 @@ public class PainelLogin extends JPanel {
             String email = tfEmail.getText();
             String senha = new String(pfSenha.getPassword());
 
-            if(email.isBlank() || senha.isBlank()) {
-                JOptionPane.showMessageDialog(this, "Email e senha não podem estar em branco.", "Erro", JOptionPane.ERROR_MESSAGE);
+            if (email.isBlank() || senha.isBlank()) {
+                JOptionPane.showMessageDialog(this, "Email e senha não podem estar em branco.", "Erro",
+                        JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
@@ -76,8 +74,8 @@ public class PainelLogin extends JPanel {
         });
 
         painelLogin.add(btEntrar, gbc);
-        
+
         this.add(painelLogin);
     }
-    
+
 }

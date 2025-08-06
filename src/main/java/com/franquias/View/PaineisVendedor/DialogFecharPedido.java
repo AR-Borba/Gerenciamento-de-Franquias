@@ -20,14 +20,12 @@ import com.franquias.Controller.VendedorController;
 import com.franquias.Model.entities.Cliente;
 import com.franquias.Model.enums.FormaDePagamento;
 import com.franquias.Model.enums.ModalidadeEntrega;
-import com.franquias.Persistence.ClientePersistence;
 import com.franquias.Utils.ValidadorNumero;
-import com.franquias.Utils.ValidadorTexto;
 
-public class DialogFecharPedido extends JDialog{
-    
+public class DialogFecharPedido extends JDialog {
+
     private JComboBox<Cliente> fieldCliente;
-    private JButton btnAdicionarCliente; 
+    private JButton btnAdicionarCliente;
     private JFormattedTextField tfTaxas;
     private JComboBox<ModalidadeEntrega> fieldModalidadeEntrega;
     private JComboBox<FormaDePagamento> fieldFormaPagamento;
@@ -106,11 +104,11 @@ public class DialogFecharPedido extends JDialog{
         DialogCadastrarCliente dialog = new DialogCadastrarCliente(framePrincipal);
         dialog.setVisible(true);
 
-        if(dialog.foiSalvo()) {
+        if (dialog.foiSalvo()) {
             Cliente novoCliente = dialog.getCliente();
-            try{
+            try {
                 controller.adicionarCliente(novoCliente); // aqui pode lançar exeção
-                
+
                 fieldCliente.addItem(novoCliente);
                 fieldCliente.setSelectedItem(novoCliente);
                 JOptionPane.showMessageDialog(this, "Novo cliente cadastrado com Sucesso!");
@@ -131,12 +129,13 @@ public class DialogFecharPedido extends JDialog{
         this.formaDePagamento = (FormaDePagamento) this.fieldFormaPagamento.getSelectedItem();
         this.modalidadeEntrega = (ModalidadeEntrega) this.fieldModalidadeEntrega.getSelectedItem();
 
-        if(cliente == null || taxa == null || formaDePagamento == null || modalidadeEntrega == null) {
-            JOptionPane.showMessageDialog(this, "Todos os campos são obrigatórios", "Erro de validação", JOptionPane.ERROR_MESSAGE);
+        if (cliente == null || taxa == null || formaDePagamento == null || modalidadeEntrega == null) {
+            JOptionPane.showMessageDialog(this, "Todos os campos são obrigatórios", "Erro de validação",
+                    JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        if(!ValidadorNumero.bigDecimalIsNaoNegativo(taxa)) {
+        if (!ValidadorNumero.bigDecimalIsNaoNegativo(taxa)) {
             JOptionPane.showMessageDialog(this, "Taxa inválida", "Erro de validação", JOptionPane.ERROR_MESSAGE);
             return;
         }

@@ -11,8 +11,8 @@ import com.franquias.View.PaineisDono.PainelGerenciarFranquias;
 import com.franquias.View.PaineisDono.PainelIndicadoresFinanceiros;
 import com.franquias.View.PaineisDono.PainelRankingVendedores;
 
-public class PainelDono extends PainelBase{
-        private DonoController controller;
+public class PainelDono extends PainelBase {
+    private DonoController controller;
 
     public PainelDono(AplicacaoPrincipal app, DonoController controller) {
         super(app);
@@ -27,16 +27,16 @@ public class PainelDono extends PainelBase{
 
         JMenuItem itemGerenciarGerentes = new JMenuItem("Gerenciar Gerentes");
         itemGerenciarGerentes.addActionListener(e -> mostrarSubPainel("GERENCIAR_GERENTES"));
-        
+
         JMenuItem itemGerenciarFranquias = new JMenuItem("Gerenciar Franquias");
         itemGerenciarFranquias.addActionListener(e -> mostrarSubPainel("GERENCIAR_FRANQUIAS"));
-        
+
         JMenuItem itemIndicadoresFinanceiros = new JMenuItem("Indicadores Financeiros");
         itemIndicadoresFinanceiros.addActionListener(e -> mostrarSubPainel("INDICADORES_FINANCEIROS"));
 
         JMenuItem itemRankingVendedores = new JMenuItem("Ranking Vendedores");
         itemRankingVendedores.addActionListener(e -> mostrarSubPainel("RANKING_VENDEDORES"));
-        
+
         menuOpcoes.add(itemGerenciarGerentes);
         menuOpcoes.add(itemGerenciarFranquias);
         menuOpcoes.add(itemRankingVendedores);
@@ -47,10 +47,13 @@ public class PainelDono extends PainelBase{
 
     @Override
     protected void registrarSubPaineis(JPanel painelDeCards) {
-        PainelGerenciarGerentes painelGerenciarGerentes = new PainelGerenciarGerentes(controller, app.getFramePrincipal());
-        PainelGerenciarFranquias painelGerenciarFranquias = new PainelGerenciarFranquias(controller, app.getFramePrincipal());
+        PainelGerenciarGerentes painelGerenciarGerentes = new PainelGerenciarGerentes(controller,
+                app.getFramePrincipal());
+        PainelGerenciarFranquias painelGerenciarFranquias = new PainelGerenciarFranquias(controller,
+                app.getFramePrincipal());
         PainelIndicadoresFinanceiros painelIndicadoresFinanceiros = new PainelIndicadoresFinanceiros(controller);
-        PainelRankingVendedores painelRankingVendedores = new PainelRankingVendedores(controller, app.getFramePrincipal());
+        PainelRankingVendedores painelRankingVendedores = new PainelRankingVendedores(controller,
+                app.getFramePrincipal());
 
         painelDeCards.add(painelGerenciarGerentes, "GERENCIAR_GERENTES");
         painelDeCards.add(painelGerenciarFranquias, "GERENCIAR_FRANQUIAS");

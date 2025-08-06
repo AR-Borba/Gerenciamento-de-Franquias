@@ -6,15 +6,15 @@ import br.com.caelum.stella.validation.InvalidStateException;
 public class ValidadorCPF {
 
     public static boolean isValido(String cpf) {
-        if(cpf == null || cpf.isBlank())
+        if (cpf == null || cpf.isBlank())
             return false;
 
         CPFValidator validator = new CPFValidator();
-        try{
+        try {
             validator.assertValid(cpf);
             return true;
-        } catch(InvalidStateException e) {
+        } catch (InvalidStateException e) {
             return false;
         }
-    } 
+    }
 }

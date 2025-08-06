@@ -48,8 +48,8 @@ public class PainelGerenciarGerentes extends JPanel {
 
         for (Gerente gerente : gerentes) {
             Object[] rowData = {
-                gerente.getId(),
-                gerente.getNome(),
+                    gerente.getId(),
+                    gerente.getNome(),
             };
             modeloTabelaRanking.addRow(rowData);
         }
@@ -66,26 +66,27 @@ public class PainelGerenciarGerentes extends JPanel {
         btnEditar.addActionListener(e -> editaGerente());
         btnRemover.addActionListener(e -> removeGerente());
         btnnAdicionar.addActionListener(e -> adicionaGerente());
-        
+
         painelAcoes.add(btnEditar);
         painelAcoes.add(btnRemover);
         painelAcoes.add(btnnAdicionar);
-        
+
         add(painelAcoes, BorderLayout.SOUTH);
     }
-    
-    private void adicionaGerente(){
+
+    private void adicionaGerente() {
         DialogCadastroGerente dialog = new DialogCadastroGerente(framePrincipal);
         dialog.setVisible(true);
-        
-        if(dialog.foiSalvo()) {
+
+        if (dialog.foiSalvo()) {
             Gerente novoGerente = dialog.getGerente();
-            
+
             try {
                 controller.cadastrarGerente(novoGerente);
-                
+
                 carregarDadosNaTabela();
-                JOptionPane.showMessageDialog(this, "Gerente '" + novoGerente.getNome() + "' cadastrado com sucesso!", "Sucesso",JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Gerente '" + novoGerente.getNome() + "' cadastrado com sucesso!",
+                        "Sucesso", JOptionPane.INFORMATION_MESSAGE);
 
             } catch (ValidationException e) {
                 JOptionPane.showMessageDialog(this, e.getMessage(), "Erro de Validação", JOptionPane.ERROR_MESSAGE);
@@ -100,30 +101,33 @@ public class PainelGerenciarGerentes extends JPanel {
             controller.removerGerente(idGerente);
             modeloTabelaRanking.removeRow(selectedRow);
         } else {
-            JOptionPane.showMessageDialog(framePrincipal, "Nenhum gerente selecionado para remoção.", "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(framePrincipal, "Nenhum gerente selecionado para remoção.", "Erro",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
-    
+
     private void editaGerente() {
         int selectedRow = tabelaRankingGerentes.getSelectedRow();
         if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(framePrincipal, "Nenhum gerente selecionado para edição.", "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(framePrincipal, "Nenhum gerente selecionado para edição.", "Erro",
+                    JOptionPane.ERROR_MESSAGE);
             return;
         }
         long idGerente = (long) modeloTabelaRanking.getValueAt(selectedRow, 0);
 
         Gerente gerenteParaEditar = controller.buscarGerentePorId(idGerente);
 
-        if(gerenteParaEditar != null) {
+        if (gerenteParaEditar != null) {
             DialogCadastroGerente dialog = new DialogCadastroGerente(framePrincipal, gerenteParaEditar);
             dialog.setVisible(true);
 
-            if(dialog.foiSalvo()) {
+            if (dialog.foiSalvo()) {
                 controller.editarGerente(gerenteParaEditar);
                 carregarDadosNaTabela();
-                JOptionPane.showMessageDialog(this, "Gerente editado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Gerente editado com sucesso!", "Sucesso",
+                        JOptionPane.INFORMATION_MESSAGE);
             }
         }
     }
-    
+
 }

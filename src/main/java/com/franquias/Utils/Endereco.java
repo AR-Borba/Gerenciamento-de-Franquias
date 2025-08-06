@@ -1,9 +1,5 @@
 package com.franquias.Utils;
 
-import javax.swing.JOptionPane;
-
-import org.apache.commons.lang3.StringUtils;
-
 import com.google.gson.annotations.SerializedName;
 
 public class Endereco {
@@ -14,14 +10,14 @@ public class Endereco {
 
     @SerializedName("localidade")
     private String cidade;
-    
+
     @SerializedName("uf")
     private String estado;
-    
+
     @SerializedName("cep")
     private String cep;
 
-    public Endereco (String rua, String numero, String cidade, String estado, String CEP){
+    public Endereco(String rua, String numero, String cidade, String estado, String CEP) {
         this.rua = rua;
         this.numero = numero;
         this.cidade = cidade;
@@ -34,7 +30,7 @@ public class Endereco {
     }
 
     public String formatarEndereco() {
-       return String.format("%s, %s, %s - %s, %s", this.rua, this.numero, this.cidade, this.estado, this.cep);
+        return String.format("%s, %s, %s - %s, %s", this.rua, this.numero, this.cidade, this.estado, this.cep);
     }
 
     public void setRua(String rua) {

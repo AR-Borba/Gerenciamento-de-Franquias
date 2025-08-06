@@ -26,7 +26,8 @@ public class ClientePersistence implements Persistence<Cliente> {
     private void carregarDoArquivo() {
         String json = Arquivo.le(PATH);
         if (json != null && !json.trim().isEmpty()) {
-            Type tipoLista = new TypeToken<List<Cliente>>() {}.getType();
+            Type tipoLista = new TypeToken<List<Cliente>>() {
+            }.getType();
             List<Cliente> clientesDoArquivo = gson.fromJson(json, tipoLista);
             if (clientesDoArquivo != null) {
                 this.clientesEmMemoria.addAll(clientesDoArquivo);
@@ -35,7 +36,7 @@ public class ClientePersistence implements Persistence<Cliente> {
     }
 
     private void determinarProximoId() {
-        if(!this.clientesEmMemoria.isEmpty()) {
+        if (!this.clientesEmMemoria.isEmpty()) {
             long maiorId = this.clientesEmMemoria.stream().mapToLong(Cliente::getId).max().getAsLong();
 
             this.proximoId = maiorId + 1;
@@ -49,7 +50,7 @@ public class ClientePersistence implements Persistence<Cliente> {
         String json = gson.toJson(itens);
 
         File diretorio = new File(DIRECTORY);
-        if(!diretorio.exists())
+        if (!diretorio.exists())
             diretorio.mkdirs();
 
         Arquivo.salva(PATH, json);
@@ -68,13 +69,13 @@ public class ClientePersistence implements Persistence<Cliente> {
     }
 
     public Cliente findByCpf(String cpf) {
-        if(cpf == null || cpf.isBlank()) {
+        if (cpf == null || cpf.isBlank()) {
             return null;
         }
 
         return clientesEmMemoria.stream()
-            .filter(cliente -> cliente.getCpf().equals(cpf))
-            .findFirst()
-            .orElse(null);
+                .filter(cliente -> cliente.getCpf().equals(cpf))
+                .findFirst()
+                .orElse(null);
     }
 }

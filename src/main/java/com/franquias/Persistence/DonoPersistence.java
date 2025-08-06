@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.franquias.Model.entities.Usuários.Dono;
-import com.franquias.Model.entities.Usuários.Gerente;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -20,7 +19,7 @@ public class DonoPersistence implements Persistence<Dono> {
         String json = gson.toJson(itens);
 
         File diretorio = new File(DIRECTORY);
-        if(!diretorio.exists())
+        if (!diretorio.exists())
             diretorio.mkdirs();
 
         Arquivo.salva(PATH, json);
@@ -31,12 +30,13 @@ public class DonoPersistence implements Persistence<Dono> {
         String json = Arquivo.le(PATH);
         List<Dono> itens = new ArrayList<>();
 
-        if(!json.trim().equals("")) {
-            Type tipoLista = new TypeToken<List<Dono>>() {}.getType();
+        if (!json.trim().equals("")) {
+            Type tipoLista = new TypeToken<List<Dono>>() {
+            }.getType();
             itens = gson.fromJson(json, tipoLista);
 
-                if(itens == null) 
-                    itens = new ArrayList<>();
+            if (itens == null)
+                itens = new ArrayList<>();
         }
         return itens;
     }
@@ -49,23 +49,23 @@ public class DonoPersistence implements Persistence<Dono> {
 
     public boolean hasDono() {
         List<Dono> donos = findAll();
-        
+
         return (donos.isEmpty()) ? false : true;
     }
 
     public Dono findByEmailAndPassword(String email, String senha) {
-        
+
         return findAll().stream()
-            .filter(d -> d.getEmail().equalsIgnoreCase(email) && d.getSenha().equals(senha))
-            .findFirst()
-            .orElse(null);
+                .filter(d -> d.getEmail().equalsIgnoreCase(email) && d.getSenha().equals(senha))
+                .findFirst()
+                .orElse(null);
     }
 
     public Dono findByEmail(String email) {
 
         return findAll().stream()
-            .filter(d -> d.getEmail() != null && d.getEmail().equalsIgnoreCase(email))
-            .findFirst()
-            .orElse(null);
+                .filter(d -> d.getEmail() != null && d.getEmail().equalsIgnoreCase(email))
+                .findFirst()
+                .orElse(null);
     }
 }

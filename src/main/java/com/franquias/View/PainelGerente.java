@@ -7,8 +7,6 @@ import javax.swing.JPanel;
 import com.franquias.Controller.AplicacaoPrincipal;
 import com.franquias.Controller.GerenteController;
 import com.franquias.Controller.PedidoController;
-import com.franquias.Model.entities.Usuários.Gerente;
-import com.franquias.Persistence.GerentePersistence;
 import com.franquias.View.PaineisGerente.*;
 
 public class PainelGerente extends PainelBase {
@@ -35,28 +33,32 @@ public class PainelGerente extends PainelBase {
 
         JMenuItem itemGerenciarEquipe = new JMenuItem("Gerenciar Equipe");
         itemGerenciarEquipe.addActionListener(e -> {
-            if(painelGerenciarEquipe != null) painelGerenciarEquipe.carregarDados();
+            if (painelGerenciarEquipe != null)
+                painelGerenciarEquipe.carregarDados();
             mostrarSubPainel("GERENCIAR_EQUIPE");
         });
-        
+
         JMenuItem itemControlarPedidos = new JMenuItem("Controlar Pedidos");
         itemControlarPedidos.addActionListener(e -> {
-            if(painelControlarPedidos != null) painelControlarPedidos.carregarDados();
+            if (painelControlarPedidos != null)
+                painelControlarPedidos.carregarDados();
             mostrarSubPainel("CONTROLAR_PEDIDOS");
         });
-        
+
         JMenuItem itemEstoque = new JMenuItem("Gerenciar Estoque");
         itemEstoque.addActionListener(e -> {
-            if(painelGerenciarEstoque != null) painelGerenciarEstoque.carregarDados();
+            if (painelGerenciarEstoque != null)
+                painelGerenciarEstoque.carregarDados();
             mostrarSubPainel("GERENCIAR_ESTOQUE");
         });
-        
+
         JMenuItem itemRelatorios = new JMenuItem("Gerar Relatórios");
-        itemRelatorios.addActionListener (e -> {
-            if (painelGerarRelatorios != null) painelGerarRelatorios.carregarDados();
+        itemRelatorios.addActionListener(e -> {
+            if (painelGerarRelatorios != null)
+                painelGerarRelatorios.carregarDados();
             mostrarSubPainel("GERAR_RELATORIOS");
         });
-        
+
         menuOpcoes.add(itemGerenciarEquipe);
         menuOpcoes.add(itemControlarPedidos);
         menuOpcoes.add(itemEstoque);

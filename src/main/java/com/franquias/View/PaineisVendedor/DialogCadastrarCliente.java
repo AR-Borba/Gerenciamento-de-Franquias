@@ -19,20 +19,17 @@ import com.franquias.Model.entities.Cliente;
 import com.franquias.Utils.ValidadorCPF;
 import com.franquias.Utils.ValidadorTexto;
 
-import br.com.caelum.stella.validation.CPFValidator;
-import br.com.caelum.stella.validation.InvalidStateException;
+public class DialogCadastrarCliente extends JDialog {
 
-public class DialogCadastrarCliente extends JDialog{
-    
     private JTextField nomeField;
     private JFormattedTextField cpfField;
     private JTextField emailField;
-    
+
     Cliente cliente;
 
     boolean salvo;
 
-    public DialogCadastrarCliente(Frame parent) {   
+    public DialogCadastrarCliente(Frame parent) {
         super(parent, "Editando cliente", true);
         cliente = new Cliente();
         configurarUI();
@@ -44,10 +41,10 @@ public class DialogCadastrarCliente extends JDialog{
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        //this.cliente = cliente;
-        
+        // this.cliente = cliente;
+
         setLocationRelativeTo(null);
-        
+
         // mascára para CPF
         try {
             MaskFormatter cpfFormatter = new MaskFormatter("###.###.###-##");
@@ -55,7 +52,7 @@ public class DialogCadastrarCliente extends JDialog{
 
             cpfField = new JFormattedTextField(cpfFormatter);
             cpfField.setColumns(14);
-        } catch(ParseException e) {
+        } catch (ParseException e) {
             cpfField = new JFormattedTextField();
         }
 
@@ -63,9 +60,8 @@ public class DialogCadastrarCliente extends JDialog{
         nomeField = new JTextField(20);
         emailField = new JTextField(30);
 
-        
         // senhaField.setText(cliente.getSenha());
-        
+
         // Adicionar componentes ao diálogo (layout e outros componentes omitidos)
 
         gbc.gridx = 0;
@@ -107,17 +103,18 @@ public class DialogCadastrarCliente extends JDialog{
         String email = emailField.getText();
 
         EmailValidator emailValidator = EmailValidator.getInstance();
-        if(!emailValidator.isValid(email)) {
+        if (!emailValidator.isValid(email)) {
             JOptionPane.showMessageDialog(this, "Email inválido", "Erro de validação", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        if(!ValidadorTexto.temTamanhoMinimo(nome, 2)) {
-            JOptionPane.showMessageDialog(this, "Nome deve ter mais de 2 caracteres!", "Erro de validação", JOptionPane.ERROR_MESSAGE);
+        if (!ValidadorTexto.temTamanhoMinimo(nome, 2)) {
+            JOptionPane.showMessageDialog(this, "Nome deve ter mais de 2 caracteres!", "Erro de validação",
+                    JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        if(!ValidadorCPF.isValido(cpf)) {
+        if (!ValidadorCPF.isValido(cpf)) {
             JOptionPane.showMessageDialog(this, "CPF inválido", "Erro de validação", JOptionPane.ERROR_MESSAGE);
             return;
         }

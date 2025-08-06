@@ -24,7 +24,7 @@ import com.franquias.exceptions.EstoqueInsuficienteException;
 import com.franquias.exceptions.ProdutoNaoEncontradoException;
 
 public class VendedorController {
-    
+
     private AplicacaoPrincipal app;
     private Vendedor vendedorLogado;
     private Pedido pedidoAtual;
@@ -33,7 +33,9 @@ public class VendedorController {
     private ProdutoPersistence produtoPersistence;
     private ClientePersistence clientePersistence;
 
-    public VendedorController(AplicacaoPrincipal app, PedidoPersistence pedidoPersistence, ProdutoPersistence produtoPersistence, VendedorPersistence vendedorPersistence, ClientePersistence clientePersistence) {
+    public VendedorController(AplicacaoPrincipal app, PedidoPersistence pedidoPersistence,
+            ProdutoPersistence produtoPersistence, VendedorPersistence vendedorPersistence,
+            ClientePersistence clientePersistence) {
         this.app = app;
         this.pedidoPersistence = pedidoPersistence;
         this.produtoPersistence = produtoPersistence;
@@ -52,15 +54,17 @@ public class VendedorController {
         this.pedidoAtual = new Pedido(vendedorLogado);
     }
 
-    public void adicionarItemAoPedido(long idProduto, int quantidade) throws EstoqueInsuficienteException, ProdutoNaoEncontradoException {
+    public void adicionarItemAoPedido(long idProduto, int quantidade)
+            throws EstoqueInsuficienteException, ProdutoNaoEncontradoException {
         Produto produto = produtoPersistence.buscarPorId(idProduto);
-        
-        if(produto == null) {
+
+        if (produto == null) {
             throw new ProdutoNaoEncontradoException("Produto não encontrado!");
         }
 
-        if(produto.getQuantidadeEstoque() < quantidade) {
-            throw new EstoqueInsuficienteException("Estoque insuficiente para o produto: " + produto.getProduto() + ". Disponível: " + produto.getQuantidadeEstoque());
+        if (produto.getQuantidadeEstoque() < quantidade) {
+            throw new EstoqueInsuficienteException("Estoque insuficiente para o produto: " + produto.getProduto()
+                    + ". Disponível: " + produto.getQuantidadeEstoque());
         }
 
         pedidoAtual.adicionarItem(produto, quantidade);
@@ -73,7 +77,7 @@ public class VendedorController {
     }
 
     public void finalizaPedido() {
-        pedidoPersistence.adicionarPedido(pedidoAtual); 
+        pedidoPersistence.adicionarPedido(pedidoAtual);
         this.iniciarNovoPedido();
     }
 
@@ -88,16 +92,16 @@ public class VendedorController {
     public List<Pedido> getPedidosVendedor() {
         List<Long> idPedidos = vendedorLogado.getListaIdPedidos();
 
-        if(idPedidos == null)
+        if (idPedidos == null)
             return new ArrayList<>();
 
         List<Pedido> pedidosVendedor = new ArrayList<>();
 
         Pedido pedidoId;
-        for(Long idPedido : idPedidos) {
+        for (Long idPedido : idPedidos) {
             pedidoId = pedidoPersistence.buscarPorId(idPedido);
 
-            if(pedidoId != null)
+            if (pedidoId != null)
                 pedidosVendedor.add(pedidoId);
         }
 
@@ -107,16 +111,16 @@ public class VendedorController {
     public List<Pedido> getPedidosVendedorPendentesAlteracao() {
         List<Long> idPedidos = vendedorLogado.getListaIdPedidos();
 
-        if(idPedidos == null)
+        if (idPedidos == null)
             return new ArrayList<>();
 
         List<Pedido> pedidosVendedor = new ArrayList<>();
 
         Pedido pedidoId;
-        for(Long idPedido : idPedidos) {
+        for (Long idPedido : idPedidos) {
             pedidoId = pedidoPersistence.buscarPorId(idPedido);
 
-            if(pedidoId != null && pedidoId.getStatusPedido() == StatusPedido.EM_ALTERACAO) 
+            if (pedidoId != null && pedidoId.getStatusPedido() == StatusPedido.EM_ALTERACAO)
                 pedidosVendedor.add(pedidoId);
         }
 
@@ -127,7 +131,8 @@ public class VendedorController {
         pedidoPersistence.update(pedido);
     }
 
-    public void finalizarPedido(Cliente cliente, BigDecimal taxa, ModalidadeEntrega modalidadeEntrega, FormaDePagamento formaDePagamento) {
+    public void finalizarPedido(Cliente cliente, BigDecimal taxa, ModalidadeEntrega modalidadeEntrega,
+            FormaDePagamento formaDePagamento) {
         this.pedidoAtual.setCliente(cliente);
         this.pedidoAtual.setTaxa(taxa);
         this.pedidoAtual.setModalidadeDeEntrega(modalidadeEntrega);
@@ -140,11 +145,11 @@ public class VendedorController {
         for (Map.Entry<Produto, Integer> item : pedidoAtual.getItens().entrySet()) {
             Produto produto = item.getKey();
             int quantidadeVendida = item.getValue();
-            
+
             int novoEstoque = produto.getQuantidadeEstoque() - quantidadeVendida;
             produto.setQuantidadeEstoque(novoEstoque);
-            
-            produtoPersistence.update(produto); 
+
+            produtoPersistence.update(produto);
         }
 
         pedidoPersistence.adicionarPedido(pedidoAtual);
@@ -160,9 +165,9 @@ public class VendedorController {
         return Collections.unmodifiableList(clientePersistence.findAll());
     }
 
-    public void adicionarCliente(Cliente cliente) throws ValidationException{
+    public void adicionarCliente(Cliente cliente) throws ValidationException {
 
-        if(clientePersistence.findByCpf(cliente.getCpf()) != null) {
+        if (clientePersistence.findByCpf(cliente.getCpf()) != null) {
             throw new ValidationException("O CPF '" + cliente.getCpf() + "' já está cadastrado no sistema.");
         }
 

@@ -1,7 +1,7 @@
 package com.franquias.Utils;
 
 public class ValidadorTexto {
-    
+
     public static boolean naoEstaVazio(String texto) {
         return texto != null && !texto.isBlank();
     }

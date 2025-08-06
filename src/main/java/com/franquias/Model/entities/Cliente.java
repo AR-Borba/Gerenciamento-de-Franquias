@@ -7,7 +7,7 @@ public class Cliente {
     public String nome;
     public String email;
     public String cpf;
-    
+
     public long getId() {
         return id;
     }
@@ -19,7 +19,7 @@ public class Cliente {
     public String getEmail() {
         return email;
     }
-    
+
     public void setEmail(String email) {
         this.email = email;
     }
@@ -31,18 +31,21 @@ public class Cliente {
     public void setNome(String nome) {
         this.nome = nome;
     }
+
     public String getCpf() {
         return cpf;
     }
-    
+
     public void setCpf(String cpf) {
         this.cpf = cpf;
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
         Cliente cliente = (Cliente) o;
         return id == cliente.id; // Compara pela identidade única
     }

@@ -16,7 +16,7 @@ import com.franquias.Controller.GerenteController;
 import com.franquias.Controller.PedidoController;
 import com.franquias.Model.entities.Pedido;
 import com.franquias.Model.enums.StatusPedido;
-import com.franquias.View.PaineisVendedor.DialogAlterarPedido;
+import com.franquias.View.DialogAlterarPedido;
 
 public class PainelControlarPedidos extends JPanel {
 
@@ -27,7 +27,8 @@ public class PainelControlarPedidos extends JPanel {
     private JTable tabelaPedidos;
     private DefaultTableModel modeloTabelaPedidos;
 
-    public PainelControlarPedidos(GerenteController controller, JFrame framePrincipal, PedidoController pedidoController) {
+    public PainelControlarPedidos(GerenteController controller, JFrame framePrincipal,
+            PedidoController pedidoController) {
         this.framePrincipal = framePrincipal;
         this.controller = controller;
         this.pedidoController = pedidoController;
@@ -48,18 +49,18 @@ public class PainelControlarPedidos extends JPanel {
         tabelaPedidos = new JTable(modeloTabelaPedidos);
         add(new JScrollPane(tabelaPedidos), BorderLayout.CENTER);
     }
-    
+
     public void carregarDados() {
         modeloTabelaPedidos.setRowCount(0); // Limpa a tabela antes de adicionar novos dados
 
         List<Pedido> pedidos = controller.getPedidos();
 
-        for(Pedido pedido : pedidos) {
+        for (Pedido pedido : pedidos) {
             Object[] rowData = {
-                pedido.getId(),
-                pedido.getStatusPedido(),
-                pedido.getCliente(),
-                pedido.getValorTotal()
+                    pedido.getId(),
+                    pedido.getStatusPedido(),
+                    pedido.getCliente(),
+                    pedido.getValorTotal()
             };
             modeloTabelaPedidos.addRow(rowData);
         }
@@ -70,12 +71,12 @@ public class PainelControlarPedidos extends JPanel {
 
         List<Pedido> pedidos = controller.getPedidosPendentes();
 
-        for(Pedido pedido : pedidos) {
+        for (Pedido pedido : pedidos) {
             Object[] rowData = {
-                pedido.getId(),
-                pedido.getStatusPedido(),
-                pedido.getCliente(),
-                pedido.getValorTotal()
+                    pedido.getId(),
+                    pedido.getStatusPedido(),
+                    pedido.getCliente(),
+                    pedido.getValorTotal()
             };
             modeloTabelaPedidos.addRow(rowData);
         }
@@ -122,23 +123,25 @@ public class PainelControlarPedidos extends JPanel {
 
             Pedido pedido = controller.buscarPedidoPorId(idPedido);
             StatusPedido statusPedido = pedido.getStatusPedido();
-            if(statusPedido != StatusPedido.PENDENTE_ALTERACAO && statusPedido != StatusPedido.PENDENTE_EXCLUSAO) {
-                JOptionPane.showMessageDialog(framePrincipal, "Selecione um pedido aguardando autorização. Status do pedido: " + pedido.getStatusPedido(), "Aviso", JOptionPane.WARNING_MESSAGE);
+            if (statusPedido != StatusPedido.PENDENTE_ALTERACAO && statusPedido != StatusPedido.PENDENTE_EXCLUSAO) {
+                JOptionPane.showMessageDialog(framePrincipal,
+                        "Selecione um pedido aguardando autorização. Status do pedido: " + pedido.getStatusPedido(),
+                        "Aviso", JOptionPane.WARNING_MESSAGE);
+                return;
+            } else if (statusPedido == StatusPedido.PENDENTE_ALTERACAO) {
+                controller.autorizarAlteracaoPedido(pedido);
+                JOptionPane.showMessageDialog(framePrincipal, "Alteração Autorizada.", "Aviso",
+                        JOptionPane.WARNING_MESSAGE);
+                carregarDados();
                 return;
             }
-            else
-                if(statusPedido == StatusPedido.PENDENTE_ALTERACAO) {
-                    controller.autorizarAlteracaoPedido(pedido);
-                    JOptionPane.showMessageDialog(framePrincipal, "Alteração Autorizada.", "Aviso", JOptionPane.WARNING_MESSAGE);
-                    carregarDados();
-                    return;
-                }
-                if(statusPedido == StatusPedido.PENDENTE_EXCLUSAO) {
-                    controller.autorizarExclusaoPedido(pedido);
-                    JOptionPane.showMessageDialog(framePrincipal, "Cancelamento Realizado.", "Aviso", JOptionPane.WARNING_MESSAGE);
-                    carregarDados();
-                    return;
-                }
+            if (statusPedido == StatusPedido.PENDENTE_EXCLUSAO) {
+                controller.autorizarExclusaoPedido(pedido);
+                JOptionPane.showMessageDialog(framePrincipal, "Cancelamento Realizado.", "Aviso",
+                        JOptionPane.WARNING_MESSAGE);
+                carregarDados();
+                return;
+            }
         }
     }
 
@@ -148,15 +151,16 @@ public class PainelControlarPedidos extends JPanel {
             Pedido pedido = controller.getPedidos().get(selectedRow);
             DialogVisualizarPedido dialog = new DialogVisualizarPedido(framePrincipal, pedido, pedidoController);
             dialog.setVisible(true);
-        }
-        else
-            JOptionPane.showMessageDialog(framePrincipal, "Selecione um pedido para visualizar.", "Aviso", JOptionPane.WARNING_MESSAGE);
+        } else
+            JOptionPane.showMessageDialog(framePrincipal, "Selecione um pedido para visualizar.", "Aviso",
+                    JOptionPane.WARNING_MESSAGE);
     }
 
     private void editaPedido() {
         int selectedRow = tabelaPedidos.getSelectedRow();
-        if(selectedRow == -1) {
-            JOptionPane.showMessageDialog(framePrincipal, "Nenhum Pedido selecionado para edição.", "Erro", JOptionPane.ERROR_MESSAGE);
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(framePrincipal, "Nenhum Pedido selecionado para edição.", "Erro",
+                    JOptionPane.ERROR_MESSAGE);
             return;
         }
         Object idObject = modeloTabelaPedidos.getValueAt(selectedRow, 0);
@@ -164,18 +168,19 @@ public class PainelControlarPedidos extends JPanel {
         long idPedido = ((Number) idObject).longValue();
 
         Pedido pedidoParaAlterar = controller.buscarPedidoPorId(idPedido);
-        
-        if(pedidoParaAlterar != null && pedidoParaAlterar.getStatusPedido() == StatusPedido.EM_ALTERACAO) {
-            DialogAlterarPedido dialog = new DialogAlterarPedido(framePrincipal, pedidoParaAlterar, pedidoController);
-            dialog.setVisible(true);    
 
-            if(dialog.foiSalvo()) {
+        if (pedidoParaAlterar != null && pedidoParaAlterar.getStatusPedido() == StatusPedido.EM_ALTERACAO) {
+            DialogAlterarPedido dialog = new DialogAlterarPedido(framePrincipal, pedidoParaAlterar, pedidoController);
+            dialog.setVisible(true);
+
+            if (dialog.foiSalvo()) {
                 controller.atualizarPedido(pedidoParaAlterar);
                 carregarDados();
             }
-        }
-        else {
-            JOptionPane.showMessageDialog(this, "Este pedido não está autorizado para edição. Solicite a alteração primeiro.", "Aviso", JOptionPane.WARNING_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this,
+                    "Este pedido não está autorizado para edição. Solicite a alteração primeiro.", "Aviso",
+                    JOptionPane.WARNING_MESSAGE);
         }
     }
 }

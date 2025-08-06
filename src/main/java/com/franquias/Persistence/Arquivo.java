@@ -13,7 +13,7 @@ public class Arquivo {
                 content.append(line).append("\n");
             }
         } catch (IOException e) {
-            //e.printStackTrace();
+
         }
         return content.toString();
     }

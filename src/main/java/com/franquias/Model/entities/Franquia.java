@@ -8,11 +8,11 @@ public class Franquia {
     public Gerente gerente;
     long id;
 
-    public Franquia(){
-        this.endereco = new Endereco(); 
+    public Franquia() {
+        this.endereco = new Endereco();
     }
-    
-    public Franquia(Endereco endereco, Gerente gerente){
+
+    public Franquia(Endereco endereco, Gerente gerente) {
         this.endereco = endereco;
         this.gerente = gerente;
         this.id = 0;
@@ -45,6 +45,5 @@ public class Franquia {
     public void setId(long proximoId) {
         this.id = proximoId;
     }
-
 
 }

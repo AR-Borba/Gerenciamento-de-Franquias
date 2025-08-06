@@ -9,7 +9,6 @@ import com.franquias.Model.entities.Usuários.Vendedor;
 import com.franquias.Persistence.DonoPersistence;
 import com.franquias.Persistence.GerentePersistence;
 import com.franquias.Persistence.VendedorPersistence;
-import com.franquias.View.PainelCadastroDono;
 
 public class LoginController {
 
@@ -25,40 +24,34 @@ public class LoginController {
         this.vendedorPersistence = vp;
     }
 
-    // public void realizarLogin(String email, String senha) {
-    //     if("gerente@gmail.com".equals(email) && "1234".equals(senha))
-    //         app.mostrarTela("GERENTE");
-    //     else if("dono@gmail.com".equals(email) && "1234".equals(senha))
-    //         app.mostrarTela("DONO");
-    //     else if("vendedor@gmail.com".equals(email) && "1234".equals(senha))
-    //         app.mostrarTela("VENDEDOR");
-    // }
-
     public void realizarLogin(String email, String senha) {
         try {
-            if(email.isBlank() || senha.isBlank()) {
+            if (email.isBlank() || senha.isBlank()) {
                 throw new AuthenticationException("Email e senha são obrigatórios");
             }
 
             Dono dono = donoPersistence.findByEmailAndPassword(email, senha);
-            if(dono != null) {
-                JOptionPane.showMessageDialog(null, "Bem vindo " + dono.getNome() + "!", "Autenticação Bem Sucedida!", JOptionPane.INFORMATION_MESSAGE);
+            if (dono != null) {
+                JOptionPane.showMessageDialog(null, "Bem vindo " + dono.getNome() + "!", "Autenticação Bem Sucedida!",
+                        JOptionPane.INFORMATION_MESSAGE);
                 app.getDonoController().iniciarSessao(dono);
                 app.mostrarTela("DONO");
                 return;
             }
 
             Gerente gerente = gerentePersistence.findByEmailAndPassword(email, senha);
-            if(gerente != null) {
-                JOptionPane.showMessageDialog(null, "Bem vindo " + gerente.getNome() + "!", "Autenticação Bem Sucedida!", JOptionPane.INFORMATION_MESSAGE);
+            if (gerente != null) {
+                JOptionPane.showMessageDialog(null, "Bem vindo " + gerente.getNome() + "!",
+                        "Autenticação Bem Sucedida!", JOptionPane.INFORMATION_MESSAGE);
                 app.getGerenteController().iniciarSessao(gerente);
                 app.mostrarTela("GERENTE");
                 return;
             }
 
             Vendedor vendedor = vendedorPersistence.findByEmailAndPassword(email, senha);
-            if(vendedor != null) {
-                JOptionPane.showMessageDialog(null, "Bem vindo " + vendedor.getNome() + "!", "Autenticação Bem Sucedida!", JOptionPane.INFORMATION_MESSAGE);
+            if (vendedor != null) {
+                JOptionPane.showMessageDialog(null, "Bem vindo " + vendedor.getNome() + "!",
+                        "Autenticação Bem Sucedida!", JOptionPane.INFORMATION_MESSAGE);
                 app.getVendedorController().iniciarSessao(vendedor);
                 app.mostrarTela("VENDEDOR");
                 return;
@@ -66,23 +59,23 @@ public class LoginController {
 
             throw new AuthenticationException("Email ou senha inválidos.");
 
-        } catch(AuthenticationException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro de autenticação!",JOptionPane.ERROR_MESSAGE);
+        } catch (AuthenticationException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro de autenticação!", JOptionPane.ERROR_MESSAGE);
         }
     }
 
     public boolean emailJaExiste(String email) {
-        
+
         Dono dono = donoPersistence.findByEmail(email);
-        if(dono != null)
+        if (dono != null)
             return true;
 
         Gerente gerente = gerentePersistence.findByEmail(email);
-        if(gerente != null)
+        if (gerente != null)
             return true;
-        
+
         Vendedor vendedor = vendedorPersistence.findByEmail(email);
-        if(vendedor != null)
+        if (vendedor != null)
             return true;
 
         return false;

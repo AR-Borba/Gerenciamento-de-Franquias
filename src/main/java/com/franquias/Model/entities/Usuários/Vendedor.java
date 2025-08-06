@@ -8,8 +8,8 @@ public class Vendedor extends Usuario {
     private long id;
     private List<Long> idPedidos;
     private long franquiaId;
-    
-    public Vendedor(String nome, String email, String senha, String cpf, long franquiaId){
+
+    public Vendedor(String nome, String email, String senha, String cpf, long franquiaId) {
         super(nome, email, senha, cpf);
         this.id = 0;
         this.idPedidos = new ArrayList<>();
@@ -17,9 +17,9 @@ public class Vendedor extends Usuario {
     }
 
     public Vendedor() {
-        
+
     }
-    
+
     public long getId() {
         return id;
     }
@@ -33,14 +33,14 @@ public class Vendedor extends Usuario {
     }
 
     public void adicionarPedidoPorId(long idPedido) {
-        if(this.idPedidos == null) {
+        if (this.idPedidos == null) {
             this.idPedidos = new ArrayList<>();
         }
         this.idPedidos.add(idPedido);
     }
 
     public List<Long> getListaIdPedidos() {
-        if(this.idPedidos == null) 
+        if (this.idPedidos == null)
             this.idPedidos = new ArrayList<>();
         return Collections.unmodifiableList(this.idPedidos);
     }

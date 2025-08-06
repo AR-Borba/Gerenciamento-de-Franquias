@@ -30,7 +30,7 @@ public class DialogCadastroGerente extends JDialog {
     private Gerente gerente;
     private boolean salvo;
 
-    public DialogCadastroGerente(Frame parent) {   
+    public DialogCadastroGerente(Frame parent) {
         super(parent, "Editando gerente", true);
         gerente = new Gerente();
         configurarUI();
@@ -43,7 +43,6 @@ public class DialogCadastroGerente extends JDialog {
         preencherCampos();
     }
 
-
     public void configurarUI() {
         setSize(400, 300);
         setLayout(new GridBagLayout());
@@ -51,21 +50,21 @@ public class DialogCadastroGerente extends JDialog {
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
         setLocationRelativeTo(null);
-        
+
         try {
             MaskFormatter cpfFormatter = new MaskFormatter("###.###.###-##");
             cpfFormatter.setPlaceholderCharacter('_');
 
             cpfField = new JFormattedTextField(cpfFormatter);
             cpfField.setColumns(14);
-        } catch(ParseException e) {
+        } catch (ParseException e) {
             cpfField = new JFormattedTextField();
         }
 
         nomeField = new JTextField(20);
         emailField = new JTextField(30);
         senhaField = new JPasswordField(20);
-        
+
         gbc.gridx = 0;
         gbc.gridy = 0;
         add(new JLabel("Nome:"), gbc);
@@ -116,13 +115,13 @@ public class DialogCadastroGerente extends JDialog {
         String email = emailField.getText();
         String senha = new String(senhaField.getPassword());
 
-        if(nome.isBlank() || cpf == null || cpf.isBlank() || email.isBlank())
-        {
-            JOptionPane.showMessageDialog(this, "Todos os campos são obrigatórios", "Erro de validação", JOptionPane.ERROR_MESSAGE);
+        if (nome.isBlank() || cpf == null || cpf.isBlank() || email.isBlank()) {
+            JOptionPane.showMessageDialog(this, "Todos os campos são obrigatórios", "Erro de validação",
+                    JOptionPane.ERROR_MESSAGE);
         }
 
         EmailValidator emailValidator = EmailValidator.getInstance();
-        if(!emailValidator.isValid(email)) {
+        if (!emailValidator.isValid(email)) {
             JOptionPane.showMessageDialog(this, "Email inválido", "Erro de validação", JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -139,12 +138,13 @@ public class DialogCadastroGerente extends JDialog {
         this.gerente.setCpf(cpf);
         this.gerente.setEmail(email);
 
-        if(!senha.isBlank())
+        if (!senha.isBlank())
             gerente.setSenha(senha);
 
         this.salvo = true;
         dispose();
-        JOptionPane.showMessageDialog(this, "Gerente cadastrado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Gerente cadastrado com sucesso!", "Sucesso",
+                JOptionPane.INFORMATION_MESSAGE);
     }
 
     private void onCancelar() {
@@ -155,7 +155,7 @@ public class DialogCadastroGerente extends JDialog {
 
     public Gerente getGerente() {
         return this.gerente;
-    }   
+    }
 
     public boolean foiSalvo() {
         return this.salvo;

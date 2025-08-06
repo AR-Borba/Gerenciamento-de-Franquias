@@ -35,7 +35,7 @@ public class DialogCadastroFranquia extends JDialog {
     private Franquia franquia;
     private boolean salvo;
 
-    public DialogCadastroFranquia(Frame parent, DonoController controller){
+    public DialogCadastroFranquia(Frame parent, DonoController controller) {
         super(parent, "Criando Franquia", true);
         endereco = new Endereco();
         franquia = new Franquia();
@@ -43,7 +43,7 @@ public class DialogCadastroFranquia extends JDialog {
         configurarUI(controller);
     }
 
-    public DialogCadastroFranquia(Frame parent, Franquia franquiaSendoEditada, DonoController controller){
+    public DialogCadastroFranquia(Frame parent, Franquia franquiaSendoEditada, DonoController controller) {
         super(parent, "Editando Franquia", true);
         this.endereco = franquiaSendoEditada.endereco;
         this.franquia = franquiaSendoEditada;
@@ -65,23 +65,23 @@ public class DialogCadastroFranquia extends JDialog {
 
             cepField = new JFormattedTextField(cepFormatter);
             cepField.setColumns(14);
-        } catch(ParseException e) {
+        } catch (ParseException e) {
             cepField = new JFormattedTextField();
         }
-        
+
         ruaField = new JTextField(20);
         numeroField = new JTextField(20);
         cidadeField = new JTextField(20);
         estadoField = new JComboBox<>(Estados.values());
         List<Gerente> gerentesDisponiveis = controller.getGerentes();
         gerentesComboBox = new JComboBox<>(gerentesDisponiveis.toArray(new Gerente[0]));
-        
+
         JButton btnBuscarCep = new JButton("Buscar CEP");
         btnBuscarCep.addActionListener(e -> buscarCep());
-        
+
         gbc.gridx = 0;
         gbc.gridy = 0;
-        
+
         gbc.gridy = 1;
         gbc.gridx = 0;
         add(new JLabel("CEP:"), gbc);
@@ -89,7 +89,7 @@ public class DialogCadastroFranquia extends JDialog {
         add(cepField, gbc);
         gbc.gridx = 2;
         add(btnBuscarCep);
-        
+
         gbc.gridy = 4;
         gbc.gridx = 0;
         add(new JLabel("Estado:"), gbc);
@@ -113,7 +113,7 @@ public class DialogCadastroFranquia extends JDialog {
         add(new JLabel("Numero:"), gbc);
         gbc.gridx = 1;
         add(numeroField, gbc);
-        
+
         gbc.gridy = 6;
         gbc.gridx = 0;
         add(new JLabel("Gerente:"), gbc);
@@ -134,7 +134,7 @@ public class DialogCadastroFranquia extends JDialog {
         pack();
     }
 
-    private void preencherCampos () {
+    private void preencherCampos() {
         ruaField.setText(endereco.getRua());
         numeroField.setText(endereco.getNumero());
         cidadeField.setText(endereco.getCidade());
@@ -154,20 +154,20 @@ public class DialogCadastroFranquia extends JDialog {
             }
         }
     }
- 
 
     private void onSalvar() {
-        String rua = ruaField.getText(); 
-        String numero = numeroField.getText(); 
-        String cidade = cidadeField.getText(); 
-        String estado = ((Estados) estadoField.getSelectedItem()).name(); 
-        String cep = cepField.getText(); 
+        String rua = ruaField.getText();
+        String numero = numeroField.getText();
+        String cidade = cidadeField.getText();
+        String estado = ((Estados) estadoField.getSelectedItem()).name();
+        String cep = cepField.getText();
 
         Gerente gerenteSelecionado = (Gerente) gerentesComboBox.getSelectedItem();
 
-        if(rua.isBlank() || numero.isBlank() || cidade.isBlank() || estado.isBlank() || cep.isBlank() ||  gerenteSelecionado == null)
-        {
-            JOptionPane.showMessageDialog(this, "Todos os campos são obrigatórios", "Erro de validação", JOptionPane.ERROR_MESSAGE);
+        if (rua.isBlank() || numero.isBlank() || cidade.isBlank() || estado.isBlank() || cep.isBlank()
+                || gerenteSelecionado == null) {
+            JOptionPane.showMessageDialog(this, "Todos os campos são obrigatórios", "Erro de validação",
+                    JOptionPane.ERROR_MESSAGE);
             return;
         }
 
@@ -181,9 +181,10 @@ public class DialogCadastroFranquia extends JDialog {
 
         this.salvo = true;
         dispose();
-        JOptionPane.showMessageDialog(this, "Franquia cadastrada com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Franquia cadastrada com sucesso!", "Sucesso",
+                JOptionPane.INFORMATION_MESSAGE);
     }
-    
+
     private void onCancelar() {
         this.salvo = false;
         this.franquia = null;
@@ -192,7 +193,7 @@ public class DialogCadastroFranquia extends JDialog {
 
     public Franquia getFranquia() {
         return this.franquia;
-    }   
+    }
 
     public boolean foiSalvo() {
         return this.salvo;
@@ -203,11 +204,12 @@ public class DialogCadastroFranquia extends JDialog {
         if (cep.length() != 8) {
             JOptionPane.showMessageDialog(this, "O formato do CEP é inválido.", "Erro", JOptionPane.ERROR_MESSAGE);
             return;
-        }    
+        }
         ruaField.setText("Buscando...");
         cidadeField.setText("Buscando...");
 
-        // Usa um SwingWorker para não travar a interface gráfica durante a busca na internet
+        // Usa um SwingWorker para não travar a interface gráfica durante a busca na
+        // internet
         SwingWorker<Endereco, Void> worker = new SwingWorker<Endereco, Void>() {
             @Override
             protected Endereco doInBackground() throws Exception {
@@ -226,12 +228,14 @@ public class DialogCadastroFranquia extends JDialog {
                         // Mova o foco para o campo de número, que é o próximo a ser preenchido
                         // numeroField.requestFocus();
                     } else {
-                        JOptionPane.showMessageDialog(DialogCadastroFranquia.this, "CEP não encontrado.", "Erro", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(DialogCadastroFranquia.this, "CEP não encontrado.", "Erro",
+                                JOptionPane.ERROR_MESSAGE);
                         ruaField.setText("");
                         cidadeField.setText("");
                     }
                 } catch (Exception e) {
-                    JOptionPane.showMessageDialog(DialogCadastroFranquia.this, "Erro ao buscar CEP: " + e.getMessage(), "Erro de Conexão", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(DialogCadastroFranquia.this, "Erro ao buscar CEP: " + e.getMessage(),
+                            "Erro de Conexão", JOptionPane.ERROR_MESSAGE);
                     ruaField.setText("");
                     cidadeField.setText("");
                 }

@@ -26,7 +26,8 @@ public class FranquiaPersistence implements Persistence<Franquia> {
     private void carregarDoArquivo() {
         String json = Arquivo.le(PATH);
         if (json != null && !json.trim().isEmpty()) {
-            Type tipoLista = new TypeToken<List<Franquia>>() {}.getType();
+            Type tipoLista = new TypeToken<List<Franquia>>() {
+            }.getType();
             List<Franquia> franquiasDoArquivo = gson.fromJson(json, tipoLista);
             if (franquiasDoArquivo != null) {
                 this.franquiasEmMemoria.addAll(franquiasDoArquivo);
@@ -35,7 +36,7 @@ public class FranquiaPersistence implements Persistence<Franquia> {
     }
 
     private void determinarProximoId() {
-        if(!this.franquiasEmMemoria.isEmpty()) {
+        if (!this.franquiasEmMemoria.isEmpty()) {
             long maiorId = this.franquiasEmMemoria.stream().mapToLong(Franquia::getId).max().getAsLong();
 
             this.proximoId = maiorId + 1;
@@ -49,7 +50,7 @@ public class FranquiaPersistence implements Persistence<Franquia> {
         String json = gson.toJson(itens);
 
         File diretorio = new File(DIRECTORY);
-        if(!diretorio.exists())
+        if (!diretorio.exists())
             diretorio.mkdirs();
 
         Arquivo.salva(PATH, json);
@@ -60,12 +61,13 @@ public class FranquiaPersistence implements Persistence<Franquia> {
         String json = Arquivo.le(PATH);
         List<Franquia> itens = new ArrayList<>();
 
-        if(!json.trim().equals("")) {
-            Type tipoLista = new TypeToken<List<Franquia>>() {}.getType();
+        if (!json.trim().equals("")) {
+            Type tipoLista = new TypeToken<List<Franquia>>() {
+            }.getType();
             itens = gson.fromJson(json, tipoLista);
 
-                if(itens == null) 
-                    itens = new ArrayList<>();
+            if (itens == null)
+                itens = new ArrayList<>();
         }
         return itens;
     }
@@ -80,7 +82,7 @@ public class FranquiaPersistence implements Persistence<Franquia> {
     public void removerFranquia(long idfranquia) {
         boolean foiRemovido = this.franquiasEmMemoria.removeIf(franquia -> franquia.getId() == idfranquia);
 
-        if(foiRemovido) {
+        if (foiRemovido) {
             save(franquiasEmMemoria);
         }
     }
@@ -88,7 +90,7 @@ public class FranquiaPersistence implements Persistence<Franquia> {
     public void update(Franquia franquia) {
         Franquia franquiaAntigo = buscarPorId(franquia.getId());
 
-        if(franquiaAntigo != null) {
+        if (franquiaAntigo != null) {
             franquiasEmMemoria.remove(franquiaAntigo);
             franquiasEmMemoria.add(franquia);
             save(franquiasEmMemoria);

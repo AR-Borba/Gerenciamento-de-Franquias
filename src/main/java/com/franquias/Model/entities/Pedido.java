@@ -3,7 +3,6 @@ package com.franquias.Model.entities;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -83,7 +82,7 @@ public class Pedido {
     }
 
     public void removerItem(Produto produto) {
-        if(produtos.get(produto) != null)
+        if (produtos.get(produto) != null)
             this.produtos.remove(produto);
     }
 
@@ -177,13 +176,13 @@ public class Pedido {
             subtotalItens = subtotalItens.add(subtotal);
         }
 
-        BigDecimal taxasAtuais =  (this.taxas == null) ? BigDecimal.ZERO : taxas;
+        BigDecimal taxasAtuais = (this.taxas == null) ? BigDecimal.ZERO : taxas;
         this.valorTotal = subtotalItens.add(taxasAtuais);
     }
 
     @Override
     public boolean equals(Object obj) {
-        if(obj == null || getClass() != obj.getClass())
+        if (obj == null || getClass() != obj.getClass())
             return false;
 
         Pedido outro = (Pedido) obj;

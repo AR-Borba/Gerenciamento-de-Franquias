@@ -3,7 +3,7 @@ package com.franquias.Utils;
 import java.math.BigDecimal;
 
 public class ValidadorNumero {
-    
+
     public static boolean intIsPositivo(int numero) {
         return numero > 0;
     }
