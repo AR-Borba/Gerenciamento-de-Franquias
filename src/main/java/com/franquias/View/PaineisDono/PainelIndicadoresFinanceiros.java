@@ -47,7 +47,7 @@ public class PainelIndicadoresFinanceiros extends JPanel {
         List<Franquia> franquias = controller.getUnidades();
 
         for (Franquia franquia : franquias) {
-            if (franquia.getGerente() != null) {
+            if (franquia.getGerenteId() != -1) {
                 BigDecimal faturamento = faturamentoPorFranquia.getOrDefault(franquia.getId(), BigDecimal.ZERO);
                 
                 dataset.setValue(faturamento, "Faturamento", franquia.getCidade());
@@ -70,7 +70,7 @@ public class PainelIndicadoresFinanceiros extends JPanel {
         List<Franquia> franquias = controller.getUnidades();
 
         for (Franquia franquia : franquias) {
-            if (franquia.getGerente() != null) {
+            if (franquia.getGerenteId() != -1) {
                 Long contagem = totalPedidosPorFranquia.getOrDefault(franquia.getId(), 0L);
                 
                 dataset.setValue(contagem, "Pedidos", franquia.getCidade());
@@ -93,7 +93,7 @@ public class PainelIndicadoresFinanceiros extends JPanel {
         List<Franquia> franquias = controller.getUnidades();
 
         for (Franquia franquia : franquias) {
-            if (franquia.getGerente() != null) {              
+            if (franquia.getGerenteId() != -1) {              
                 BigDecimal ticketMedio = ticketMedioPorFranquia.getOrDefault(franquia.getId(), BigDecimal.ZERO);
                 
                 dataset.setValue(ticketMedio, "Ticket Médio", franquia.getCidade());

@@ -59,7 +59,7 @@ public class AplicacaoPrincipal {
         loginController = new LoginController(this, donoPersistence, gerentePersistence, vendedorPersistence);
         vendedorController = new VendedorController(this, pedidoPersistence, produtoPersistence, vendedorPersistence, clientePersistence);
         gerenteController = new GerenteController(this, loginController, gerentePersistence, vendedorPersistence, produtoPersistence, pedidoPersistence);
-        donoController = new DonoController(this, loginController, donoPersistence, franquiaPersistence, gerentePersistence);
+        donoController = new DonoController(this, loginController, donoPersistence, franquiaPersistence, gerentePersistence, pedidoPersistence, vendedorPersistence);
         pedidoController = new PedidoController(pedidoPersistence, produtoPersistence);
         
         PainelCadastroDono painelCadastroDono = new PainelCadastroDono(this, donoController);
@@ -78,7 +78,7 @@ public class AplicacaoPrincipal {
         telaPricipal.add(painelDeConteudo);
 
         if(!donoPersistence.hasDono())
-            mostrarTela("CADASTRO_DONO");
+            mostrarTela("CADASTRO_DONO");    
         else
             mostrarTela("LOGIN");
         
