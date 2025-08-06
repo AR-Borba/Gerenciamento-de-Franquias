@@ -27,7 +27,7 @@ import com.franquias.exceptions.ValidationException;
 import br.com.caelum.stella.validation.CPFValidator;
 import br.com.caelum.stella.validation.InvalidStateException;
 
-public class PainelCadastroDono extends JPanel{
+public class PainelCadastroDono extends JPanel {
 
     DonoController donoController;
 
@@ -47,13 +47,13 @@ public class PainelCadastroDono extends JPanel{
 
         painelCadastro.setPreferredSize(new Dimension(250, 300));
 
-        GridBagConstraints gbc; // Apenas declare aqui
+        GridBagConstraints gbc;
 
-        // nome
-        gbc = new GridBagConstraints(); // Reseta para os padrões
-        gbc.insets = new Insets(5, 5, 5, 5); // Define uma margem
-        gbc.gridx = 0; // Coluna 0
-        gbc.gridy = 0; // Linha 0
+        
+        gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
         painelCadastro.add(new JLabel("Nome:"), gbc);
 
         gbc = new GridBagConstraints();
@@ -66,20 +66,20 @@ public class PainelCadastroDono extends JPanel{
         tfNome = new JTextField(15);
         painelCadastro.add(tfNome, gbc);
 
-        // cpf
+        
         try {
             MaskFormatter cpfFormatter = new MaskFormatter("###.###.###-##");
             cpfFormatter.setPlaceholderCharacter('_');
 
             tfCpf = new JFormattedTextField(cpfFormatter);
             tfCpf.setColumns(14);
-        } catch(ParseException e) {
+        } catch (ParseException e) {
             tfCpf = new JFormattedTextField();
         }
-        gbc = new GridBagConstraints(); // Reseta para os padrões
-        gbc.insets = new Insets(5, 5, 5, 5); // Define uma margem
-        gbc.gridx = 0; // Coluna 0
-        gbc.gridy = 2; // Linha 0
+        gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.gridx = 0;
+        gbc.gridy = 2;
         painelCadastro.add(new JLabel("CPF:"), gbc);
 
         gbc = new GridBagConstraints();
@@ -89,14 +89,13 @@ public class PainelCadastroDono extends JPanel{
         gbc.gridwidth = 2;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.weightx = 1.0;
-        // JTextField tfCpf = new JTextField(15);
         painelCadastro.add(tfCpf, gbc);
 
-        // email
-        gbc = new GridBagConstraints(); // Reseta para os padrões
-        gbc.insets = new Insets(5, 5, 5, 5); // Define uma margem
-        gbc.gridx = 0; // Coluna 0
-        gbc.gridy = 4; // Linha 0
+        
+        gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.gridx = 0;
+        gbc.gridy = 4;
         painelCadastro.add(new JLabel("Email:"), gbc);
 
         gbc = new GridBagConstraints();
@@ -109,30 +108,28 @@ public class PainelCadastroDono extends JPanel{
         tfEmail = new JTextField(15);
         painelCadastro.add(tfEmail, gbc);
 
-        //--- Linha 1: Senha ---
+        
         gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
-        gbc.gridx = 0; // Coluna 0
-        gbc.gridy = 6; // Linha 1
+        gbc.gridx = 0;
+        gbc.gridy = 6;
         painelCadastro.add(new JLabel("Senha:"), gbc);
 
         gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
-        gbc.gridx = 0; // Coluna 1
-        gbc.gridy = 7; // Linha 1
+        gbc.gridx = 0;
+        gbc.gridy = 7;
         gbc.gridwidth = 2;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.weightx = 1.0;
         pfSenha = new JPasswordField(15);
         painelCadastro.add(pfSenha, gbc);
 
-        //--- Linha 1: Botão Entrar ---
+        
         gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 5, 5, 5); // Mais margem no topo
-        gbc.gridy = 8; // Linha 1
-        gbc.gridx = 0; // Começa na coluna 0
-        // JButton btCancelar = new JButton("Cancelar");
-        // btCancelar.addActionListener(e -> dispose());
+        gbc.insets = new Insets(10, 5, 5, 5);
+        gbc.gridy = 8;
+        gbc.gridx = 0;
 
         JButton btnCadastrar = new JButton("Cadastrar");
 
@@ -142,8 +139,9 @@ public class PainelCadastroDono extends JPanel{
             String email = tfEmail.getText();
             String senha = new String(pfSenha.getPassword());
 
-            if(email.isBlank() || senha.isBlank() || email.isBlank() || senha.isBlank()) {
-                JOptionPane.showMessageDialog(this, "Informações não podem estar em branco.", "Erro", JOptionPane.ERROR_MESSAGE);
+            if (email.isBlank() || senha.isBlank() || email.isBlank() || senha.isBlank()) {
+                JOptionPane.showMessageDialog(this, "Informações não podem estar em branco.", "Erro",
+                        JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
@@ -171,8 +169,8 @@ public class PainelCadastroDono extends JPanel{
         
 
         painelCadastro.add(btnCadastrar, gbc);
-        
+
         this.add(painelCadastro);
     }
-    
+
 }

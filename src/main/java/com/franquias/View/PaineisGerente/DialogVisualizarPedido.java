@@ -20,12 +20,12 @@ import com.franquias.Controller.PedidoController;
 import com.franquias.Model.Produto;
 import com.franquias.Model.entities.Pedido;
 
-public class DialogVisualizarPedido extends JDialog{
+public class DialogVisualizarPedido extends JDialog {
 
     private Map<Produto, Integer> produtosNoPedido;
     private JTable tabelaProdutosPedido;
     private DefaultTableModel modeloTabelaProdutosNoPedido;
-    
+
     PedidoController pedidoController;
     Pedido pedido;
 
@@ -41,7 +41,7 @@ public class DialogVisualizarPedido extends JDialog{
     private void configurarUI() {
         setLayout(new BorderLayout(10, 10));
         ((JPanel) getContentPane()).setBorder(new EmptyBorder(10, 10, 10, 10));
-        
+
         add(criarPainelDadosGerais(), BorderLayout.NORTH);
         add(criarPainelProdutos(), BorderLayout.CENTER);
         add(criarPainelAcoes(), BorderLayout.SOUTH);
@@ -55,12 +55,13 @@ public class DialogVisualizarPedido extends JDialog{
         JPanel painel = new JPanel(new GridLayout(0, 1, 0, 5)); // GridLayout para empilhar verticalmente
         painel.setBorder(BorderFactory.createTitledBorder("Dados do Pedido"));
 
+        painel.add(new JLabel("Vendedor: " + pedido.getVendedorResponsavel().getNome()));
         painel.add(new JLabel("Cliente: " + pedido.getCliente().getNome()));
         painel.add(new JLabel("Data/Hora: " + pedido.getDataHoraFormatada()));
         painel.add(new JLabel("Modalidade de Entrega: " + pedido.getModalidadeDeEntrega()));
         painel.add(new JLabel("Forma de Pagamento: " + pedido.getFormaDePagamento()));
         painel.add(new JLabel(String.format("Taxas: R$ %.2f", pedido.getTaxas())));
-        
+
         return painel;
     }
 
@@ -83,11 +84,11 @@ public class DialogVisualizarPedido extends JDialog{
 
         produtosNoPedido = pedido.getItens();
 
-        for(Map.Entry<Produto, Integer> produtoEqtd : produtosNoPedido.entrySet()) {
+        for (Map.Entry<Produto, Integer> produtoEqtd : produtosNoPedido.entrySet()) {
             Object[] rowData = {
-                produtoEqtd.getValue(),
-                produtoEqtd.getKey().getProduto(),
-                produtoEqtd.getKey().getPreco(),
+                    produtoEqtd.getValue(),
+                    produtoEqtd.getKey().getProduto(),
+                    produtoEqtd.getKey().getPreco(),
             };
             modeloTabelaProdutosNoPedido.addRow(rowData);
         }
@@ -96,13 +97,11 @@ public class DialogVisualizarPedido extends JDialog{
     private JPanel criarPainelAcoes() {
         JPanel painelBotoes = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
-        
         JButton btnFechar = new JButton("Fechar");
         btnFechar.addActionListener(e -> dispose());
 
-        
         painelBotoes.add(btnFechar);
-    
+
         return painelBotoes;
     }
 }

@@ -9,29 +9,28 @@ public abstract class Usuario {
     String nome;
     String email;
     String senha;
-    
+
     String cpf;
-    
-    
-    public Usuario(){
-        
+
+    public Usuario() {
+
     }
-    
+
     public Usuario(String nome, String email, String senha, String cpf) {
         this.nome = nome;
         this.email = email;
         this.senha = senha;
         this.cpf = cpf;
     }
-    
+
     public String getNome() {
         return nome;
     }
-    
+
     public String getCpf() {
         return cpf;
     }
-    
+
     public String getSenha() {
         return senha;
     }
@@ -56,12 +55,12 @@ public abstract class Usuario {
         this.senha = senha;
     }
 
-    public void validarEmail(String email){
+    public void validarEmail(String email) {
         EmailValidator validator = EmailValidator.getInstance();
         validator.isValid(email);
     }
 
-    public void validarCPF(String cpf){
+    public void validarCPF(String cpf) {
         CPFValidator validator = new CPFValidator();
         try {
             validator.assertValid(cpf);
@@ -69,5 +68,5 @@ public abstract class Usuario {
             System.out.println(e.getInvalidMessages());
         }
     }
-    
+
 }

@@ -3,6 +3,7 @@ package com.franquias.Model.entities;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,14 +32,14 @@ public class Pedido {
     public Pedido(Vendedor vendedor) {
         this.vendedorResponsavel = vendedor;
         this.franquiaId = vendedor.getFranquiaId();
-        this.produtos = new HashMap<>(); // Inicializa com um mapa vazio
+        this.produtos = new HashMap<>();
         this.cliente = new Cliente();
         this.dataHora = LocalDateTime.now();
         atualizarDataHoraFormatada();
-        this.formaDePagamento = FormaDePagamento.DINHEIRO; // Valor padrão
-        this.taxas = BigDecimal.ZERO; // Valor padrão
-        this.modalidadeDeEntrega = ModalidadeEntrega.RETIRADA_NA_LOJA; // Valor padrão
-        this.statusPedido = StatusPedido.ATIVO; // Valor padrão
+        this.formaDePagamento = FormaDePagamento.DINHEIRO;
+        this.taxas = BigDecimal.ZERO;
+        this.modalidadeDeEntrega = ModalidadeEntrega.RETIRADA_NA_LOJA;
+        this.statusPedido = StatusPedido.ATIVO;
     }
 
     public Pedido(Map<Produto, Integer> produtos, Cliente cliente, LocalDateTime datahora,
@@ -73,7 +74,7 @@ public class Pedido {
     }
 
     public Map<Produto, Integer> getItens() {
-        return produtos;
+        return Collections.unmodifiableMap(this.produtos);
     }
 
     public void adicionarItem(Produto produto, int quantidade) {
@@ -81,8 +82,12 @@ public class Pedido {
     }
 
     public void removerItem(Produto produto) {
-        if(produtos.get(produto) != null)
+        if (produtos.get(produto) != null)
             this.produtos.remove(produto);
+    }
+
+    public Vendedor getVendedorResponsavel() {
+        return vendedorResponsavel;
     }
 
     public Cliente getCliente() {
@@ -171,13 +176,13 @@ public class Pedido {
             subtotalItens = subtotalItens.add(subtotal);
         }
 
-        BigDecimal taxasAtuais =  (this.taxas == null) ? BigDecimal.ZERO : taxas;
+        BigDecimal taxasAtuais = (this.taxas == null) ? BigDecimal.ZERO : taxas;
         this.valorTotal = subtotalItens.add(taxasAtuais);
     }
 
     @Override
     public boolean equals(Object obj) {
-        if(obj == null || getClass() != obj.getClass())
+        if (obj == null || getClass() != obj.getClass())
             return false;
 
         Pedido outro = (Pedido) obj;

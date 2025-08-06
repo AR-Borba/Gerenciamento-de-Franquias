@@ -21,7 +21,7 @@ import com.franquias.Model.entities.Franquia;
 
 public class PainelIndicadoresFinanceiros extends JPanel {
     private DonoController controller;
-    
+
     public PainelIndicadoresFinanceiros(DonoController controller) {
         this.controller = controller;
         setLayout(new BorderLayout());
@@ -42,14 +42,14 @@ public class PainelIndicadoresFinanceiros extends JPanel {
 
     private ChartPanel criarPainelFaturamentoBruto() {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        
+
         Map<Long, BigDecimal> faturamentoPorFranquia = controller.calcularFaturamentoPorFranquia();
         List<Franquia> franquias = controller.getUnidades();
 
         for (Franquia franquia : franquias) {
             if (franquia.getGerenteId() != -1) {
                 BigDecimal faturamento = faturamentoPorFranquia.getOrDefault(franquia.getId(), BigDecimal.ZERO);
-                
+
                 dataset.setValue(faturamento, "Faturamento", franquia.getCidade());
             }
         }
@@ -65,14 +65,14 @@ public class PainelIndicadoresFinanceiros extends JPanel {
 
     private ChartPanel criarPainelTotalPedidos() {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        
+
         Map<Long, Long> totalPedidosPorFranquia = controller.calcularTotalPedidosPorFranquia();
         List<Franquia> franquias = controller.getUnidades();
 
         for (Franquia franquia : franquias) {
             if (franquia.getGerenteId() != -1) {
                 Long contagem = totalPedidosPorFranquia.getOrDefault(franquia.getId(), 0L);
-                
+
                 dataset.setValue(contagem, "Pedidos", franquia.getCidade());
             }
         }
@@ -80,7 +80,7 @@ public class PainelIndicadoresFinanceiros extends JPanel {
         JFreeChart chart = ChartFactory.createBarChart(
                 "Total de Pedidos por Unidade", "Franquia", "Quantidade de Pedidos",
                 dataset, PlotOrientation.VERTICAL, false, true, false);
-        
+
         ChartPanel chartPanel = new ChartPanel(chart);
         chartPanel.setPreferredSize(new Dimension(380, 340));
         return chartPanel;
@@ -95,7 +95,7 @@ public class PainelIndicadoresFinanceiros extends JPanel {
         for (Franquia franquia : franquias) {
             if (franquia.getGerenteId() != -1) {              
                 BigDecimal ticketMedio = ticketMedioPorFranquia.getOrDefault(franquia.getId(), BigDecimal.ZERO);
-                
+
                 dataset.setValue(ticketMedio, "Ticket Médio", franquia.getCidade());
             }
         }
@@ -103,7 +103,7 @@ public class PainelIndicadoresFinanceiros extends JPanel {
         JFreeChart chart = ChartFactory.createBarChart(
                 "Ticket Médio por Unidade", "Franquia", "Valor (R$)",
                 dataset, PlotOrientation.VERTICAL, false, true, false);
-        
+
         ChartPanel chartPanel = new ChartPanel(chart);
         chartPanel.setPreferredSize(new Dimension(380, 340));
         return chartPanel;

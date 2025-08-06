@@ -8,7 +8,7 @@ import com.franquias.Persistence.ProdutoPersistence;
 import com.franquias.exceptions.EstoqueInsuficienteException;
 
 public class PedidoController {
-    
+
     private PedidoPersistence pedidoPersistence;
     private ProdutoPersistence produtoPersistence;
 
@@ -25,11 +25,12 @@ public class PedidoController {
         pedido.setStatusPedido(StatusPedido.PENDENTE_EXCLUSAO);
     }
 
-    public void adicionarItem(Pedido pedido, long idProduto, int qtd)  throws EstoqueInsuficienteException {
+    public void adicionarItem(Pedido pedido, long idProduto, int qtd) throws EstoqueInsuficienteException {
         Produto produto = produtoPersistence.buscarPorId(idProduto);
 
-        if(produto.getQuantidadeEstoque() < qtd) {
-            throw new EstoqueInsuficienteException("Estoque insuficiente para o produto: " + produto.getProduto() + ". Disponível: " + produto.getQuantidadeEstoque());
+        if (produto.getQuantidadeEstoque() < qtd) {
+            throw new EstoqueInsuficienteException("Estoque insuficiente para o produto: " + produto.getProduto()
+                    + ". Disponível: " + produto.getQuantidadeEstoque());
         }
 
         pedido.adicionarItem(produto, qtd);
@@ -50,12 +51,12 @@ public class PedidoController {
 
     public void removerItemDoPedido(Pedido pedido, long idProduto) {
         Produto produtoParaRemover = produtoPersistence.buscarPorId(idProduto);
-        
+
         if (pedido != null && produtoParaRemover != null) {
             pedido.removerItem(produtoParaRemover);
-            
+
             pedido.calcularEAtualizaValorTotal();
-            
+
             System.out.println("Item removido do pedido em memória.");
         }
     }

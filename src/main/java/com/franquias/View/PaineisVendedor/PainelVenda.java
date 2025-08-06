@@ -34,10 +34,10 @@ public class PainelVenda extends JPanel {
     private FormaDePagamento formaDePagamento;
     private BigDecimal taxas;
     private ModalidadeEntrega modalidadeDeEntrega;
-    
+
     JTextField tfCodigo;
     JTextField tfQtd;
-    
+
     BigDecimal valorPedido;
     JLabel areaTotal;
 
@@ -62,7 +62,7 @@ public class PainelVenda extends JPanel {
 
         // linha 0: código do produto
         gbc.gridy = 0;
-        
+
         gbc.gridx = 0;
         painelFormulario.add(new JLabel("Código do Produto: "), gbc);
 
@@ -91,7 +91,7 @@ public class PainelVenda extends JPanel {
         gbc.anchor = GridBagConstraints.WEST;
         JButton btRemover = new JButton("Remover");
         JButton btAdicionar = new JButton("Adicionar");
-        
+
         btRemover.addActionListener(e -> removerProdutoDoPedido());
         btAdicionar.addActionListener(e -> adicionarProdutoAoPedido());
 
@@ -104,8 +104,9 @@ public class PainelVenda extends JPanel {
 
     private void removerProdutoDoPedido() {
         int selectedRow = tabelaProdutosPedido.getSelectedRow();
-        if(selectedRow == -1) {
-            JOptionPane.showMessageDialog(framePrincipal, "Nenhum Pedido selecionado para edição.", "Erro", JOptionPane.ERROR_MESSAGE);
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(framePrincipal, "Nenhum Pedido selecionado para edição.", "Erro",
+                    JOptionPane.ERROR_MESSAGE);
             return;
         }
         Object idObject = tabelaProdutosPedido.getValueAt(selectedRow, 0);
@@ -123,27 +124,26 @@ public class PainelVenda extends JPanel {
             long idProduto = Long.parseLong(tfCodigo.getText());
             int qtdProduto = Integer.parseInt(tfQtd.getText());
 
-            if(!ValidadorNumero.intIsPositivo(qtdProduto)) {
-                JOptionPane.showMessageDialog(this, "Quantidade Inválida!", "Erro validação", JOptionPane.WARNING_MESSAGE);
+            if (!ValidadorNumero.intIsPositivo(qtdProduto)) {
+                JOptionPane.showMessageDialog(this, "Quantidade Inválida!", "Erro validação",
+                        JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
             controller.adicionarItemAoPedido(idProduto, qtdProduto);
-            
+
             carregarDadosNaTabela();
             atualizarValorTotal();
 
             tfCodigo.setText("");
             tfQtd.setText("1");
             tfCodigo.requestFocus();
-        }
-        catch(NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Código e quantidade devem ser números!", "Erro validação", JOptionPane.WARNING_MESSAGE);
-        }
-        catch(EstoqueInsuficienteException e) {
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Código e quantidade devem ser números!", "Erro validação",
+                    JOptionPane.WARNING_MESSAGE);
+        } catch (EstoqueInsuficienteException e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Erro validação", JOptionPane.WARNING_MESSAGE);
-        }
-        catch(ProdutoNaoEncontradoException e) {
+        } catch (ProdutoNaoEncontradoException e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Erro validação", JOptionPane.WARNING_MESSAGE);
         }
     }
@@ -174,12 +174,12 @@ public class PainelVenda extends JPanel {
 
         Map<Produto, Integer> produtosNoPedido = controller.getPedidoAtual().getItens();
 
-        for(Map.Entry<Produto, Integer> produtoEqtd : produtosNoPedido.entrySet()) {
+        for (Map.Entry<Produto, Integer> produtoEqtd : produtosNoPedido.entrySet()) {
             Object[] rowData = {
-                produtoEqtd.getKey().getId(),
-                produtoEqtd.getValue(),
-                produtoEqtd.getKey().getProduto(),
-                produtoEqtd.getKey().getPreco(),
+                    produtoEqtd.getKey().getId(),
+                    produtoEqtd.getValue(),
+                    produtoEqtd.getKey().getProduto(),
+                    produtoEqtd.getKey().getPreco(),
             };
             modeloTabelaProdutosNoPedido.addRow(rowData);
         }
@@ -190,14 +190,15 @@ public class PainelVenda extends JPanel {
         Map<Produto, Integer> produtosNoPedido = controller.getPedidoAtual().getItens();
 
         valorPedido = BigDecimal.ZERO;
-        for(Map.Entry<Produto, Integer> produtoEqtd : produtosNoPedido.entrySet())
-            valorPedido = valorPedido.add(produtoEqtd.getKey().getPreco().multiply(new BigDecimal(produtoEqtd.getValue())));
-        
-            atualizarLabelTotal();
+        for (Map.Entry<Produto, Integer> produtoEqtd : produtosNoPedido.entrySet())
+            valorPedido = valorPedido
+                    .add(produtoEqtd.getKey().getPreco().multiply(new BigDecimal(produtoEqtd.getValue())));
+
+        atualizarLabelTotal();
     }
 
     private void atualizarLabelTotal() {
-        if(areaTotal != null)
+        if (areaTotal != null)
             areaTotal.setText(String.format("R$%.2f", valorPedido));
     }
 
@@ -214,7 +215,7 @@ public class PainelVenda extends JPanel {
 
     private void criarPainelAcoes() {
         JPanel painelAcoes = new JPanel();
-        painelAcoes.setLayout(new FlowLayout(FlowLayout.RIGHT,5 , 5));
+        painelAcoes.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 5));
 
         JButton botaoFecharCompra = new JButton("Fechar Compra");
 
@@ -226,26 +227,27 @@ public class PainelVenda extends JPanel {
     }
 
     private void fecharCompra() {
-        if(controller.getPedidoAtual().getItens().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Não é possível fechar um pedido sem nenhum produto.", "Pedido vazio", JOptionPane.WARNING_MESSAGE);
+        if (controller.getPedidoAtual().getItens().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Não é possível fechar um pedido sem nenhum produto.", "Pedido vazio",
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         DialogFecharPedido dialog = new DialogFecharPedido(framePrincipal, controller);
         dialog.setVisible(true);
 
-        
-        if(dialog.foiSalvo()) {
+        if (dialog.foiSalvo()) {
             this.cliente = dialog.getCliente();
             this.taxas = dialog.getTaxa();
             this.modalidadeDeEntrega = dialog.getModalidadeEntrega();
             this.formaDePagamento = dialog.getFormaDePagamento();
-            
+
             controller.finalizarPedido(cliente, taxas, modalidadeDeEntrega, formaDePagamento);
 
             // atualizarTela();
 
-            JOptionPane.showMessageDialog(this, "Venda finalizada e registrada com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Venda finalizada e registrada com sucesso!", "Sucesso",
+                    JOptionPane.INFORMATION_MESSAGE);
         }
     }
 }

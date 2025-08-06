@@ -13,11 +13,11 @@ import com.franquias.Controller.DonoController;
 
 import com.franquias.Model.entities.Usuários.Vendedor;;
 
-public class PainelRankingVendedores extends JPanel{
+public class PainelRankingVendedores extends JPanel {
     private JFrame framePrincipal;
     private DonoController controller;
     private JTable tabelaVendedores;
-    private DefaultTableModel modeloTabelaVendedores;    
+    private DefaultTableModel modeloTabelaVendedores;
 
     public PainelRankingVendedores(DonoController controller, JFrame framePrincipal) {
         this.framePrincipal = framePrincipal;
@@ -49,7 +49,7 @@ public class PainelRankingVendedores extends JPanel{
                     vendedor.getId(),
                     vendedor.getNome(),
                     vendedor.getFranquiaId(),
-                    controller.calcularTotalVendasPorVendedor(vendedor) 
+                    controller.calcularTotalVendasPorVendedor(vendedor)
             };
             modeloTabelaVendedores.addRow(rowData);
         }

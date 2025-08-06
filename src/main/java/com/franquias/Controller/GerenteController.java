@@ -4,10 +4,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import javax.naming.AuthenticationException;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 
@@ -34,11 +33,11 @@ public class GerenteController {
     private Gerente gerenteLogado;
 
     public GerenteController(AplicacaoPrincipal app,
-                            LoginController loginController,
-                            GerentePersistence gerentePersistence,
-                            VendedorPersistence vendedorPersistence,
-                            ProdutoPersistence produtoPersistence,
-                            PedidoPersistence pedidoPersistence) {
+            LoginController loginController,
+            GerentePersistence gerentePersistence,
+            VendedorPersistence vendedorPersistence,
+            ProdutoPersistence produtoPersistence,
+            PedidoPersistence pedidoPersistence) {
         this.app = app;
         this.loginController = loginController;
         this.gerentePersistence = gerentePersistence;
@@ -64,7 +63,7 @@ public class GerenteController {
 
         vendedores.sort(comparadorPorVendas.reversed());
 
-        return vendedores;
+        return Collections.unmodifiableList(vendedores);
     }
 
     public void editarVendedor(Vendedor vendedorEditado) {
@@ -80,12 +79,12 @@ public class GerenteController {
     }
 
     public void adicionarVendedor(Vendedor vendedor) throws ValidationException {
-        if(loginController.emailJaExiste(vendedor.getEmail())) {
+        if (loginController.emailJaExiste(vendedor.getEmail())) {
             throw new ValidationException("O email " + vendedor.getEmail() + " já está em uso no sistema");
         }
 
         vendedorPersistence.adicionarVendedor(vendedor);
-        gerenteLogado.adicionarVendedor(vendedor);
+        gerenteLogado.adicionarVendedorPorId(vendedor.getId());
         gerentePersistence.update(gerenteLogado);
     }
 
@@ -110,7 +109,7 @@ public class GerenteController {
 
         long idFranquia = gerenteLogado.getFranquiaId();
 
-        return pedidoPersistence.findByFranquia(idFranquia);
+        return Collections.unmodifiableList(pedidoPersistence.findByFranquia(idFranquia));
     }
 
     public List<Pedido> getPedidosPendentes() {
@@ -128,7 +127,7 @@ public class GerenteController {
                     || pedido.getStatusPedido() == StatusPedido.PENDENTE_EXCLUSAO)
                 pedidosFranquiaPendentes.add(pedido);
 
-        return pedidosFranquiaPendentes;
+        return Collections.unmodifiableList(pedidosFranquiaPendentes);
     }
 
     public Pedido buscarPedidoPorId(long idPedido) {
@@ -144,15 +143,15 @@ public class GerenteController {
 
         produtos = produtoPersistence.findAll();
 
-        return produtos;
+        return Collections.unmodifiableList(produtos);
     }
 
     public List<Produto> getProdutosComEstoqueBaixo(int limite) {
         List<Produto> todosOsProdutos = produtoPersistence.findAll();
 
-        return todosOsProdutos.stream()
+        return Collections.unmodifiableList(todosOsProdutos.stream()
                 .filter(produto -> produto.getQuantidadeEstoque() < limite)
-                .collect(Collectors.toList());
+                .collect(Collectors.toList()));
     }
 
     public void editarProduto(Produto produtoEditado) {
@@ -182,10 +181,8 @@ public class GerenteController {
 
         BigDecimal total = BigDecimal.ZERO;
         for (Long idPedido : vendedor.getListaIdPedidos()) {
-            // Busca o pedido UMA VEZ por iteração
             Pedido pedido = pedidoPersistence.buscarPorId(idPedido);
 
-            // Verifica se o pedido foi encontrado e se está concluído
             if (pedido != null && pedido.getStatusPedido() == StatusPedido.CONCLUIDO) {
                 total = total.add(pedido.getValorTotal());
             }
@@ -200,11 +197,10 @@ public class GerenteController {
             return new HashMap<>(); // Retorna mapa vazio se não houver pedidos
         }
 
-        // Agrupa os pedidos pelo objeto Cliente e conta quantos existem em cada grupo
-        return todosOsPedidos.stream()
-                .filter(pedido -> pedido.getCliente() != null) // Garante que não haja pedidos sem cliente
+        return Collections.unmodifiableMap(todosOsPedidos.stream()
+                .filter(pedido -> pedido.getCliente() != null)
                 .collect(Collectors.groupingBy(
                         Pedido::getCliente,
-                        Collectors.counting()));
+                        Collectors.counting())));
     }
 }

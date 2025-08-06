@@ -5,8 +5,6 @@ import javax.swing.*;
 import java.awt.*;
 
 import com.franquias.Controller.*;
-import com.franquias.Model.entities.Usuários.Vendedor;
-import com.franquias.Persistence.VendedorPersistence;
 import com.franquias.View.PaineisVendedor.*;
 
 public class PainelVendedor extends PainelBase {
@@ -18,17 +16,12 @@ public class PainelVendedor extends PainelBase {
 
     PedidoController pedidoController;
 
-
     public PainelVendedor(AplicacaoPrincipal app, VendedorController controller, PedidoController pedidoController) {
         super(app);
         this.controller = controller;
         this.setLayout(new BorderLayout(5, 5));
 
         this.pedidoController = pedidoController;
-
-        // VendedorPersistence vendedorPersistence = new VendedorPersistence();
-        // Vendedor vendedor = vendedorPersistence.buscarPorId(1);
-        // controller.iniciarSessao(vendedor);
 
         construirLayout();
 
@@ -43,7 +36,7 @@ public class PainelVendedor extends PainelBase {
         JMenuItem itemMinhasVendas = new JMenuItem("Minhas Vendas");
         itemNovaVenda.addActionListener(e -> mostrarSubPainel("NOVA_VENDA"));
         itemMinhasVendas.addActionListener(e -> {
-            if(painelHistoricoVenda != null)
+            if (painelHistoricoVenda != null)
                 painelHistoricoVenda.carregarDados();
             mostrarSubPainel("HISTORICO_VENDAS");
         });
@@ -63,4 +56,3 @@ public class PainelVendedor extends PainelBase {
         painelDeCards.add(painelHistoricoVenda, "HISTORICO_VENDAS");
     }
 }
-    

@@ -17,7 +17,7 @@ public class ProdutoPersistence implements Persistence<Produto> {
     private List<Produto> produtosEmMemoria;
     private long proximoId;
 
-   public ProdutoPersistence() {
+    public ProdutoPersistence() {
         this.produtosEmMemoria = new ArrayList<>();
         carregarDoArquivo();
         determinarProximoId();
@@ -26,7 +26,8 @@ public class ProdutoPersistence implements Persistence<Produto> {
     private void carregarDoArquivo() {
         String json = Arquivo.le(PATH);
         if (json != null && !json.trim().isEmpty()) {
-            Type tipoLista = new TypeToken<List<Produto>>() {}.getType();
+            Type tipoLista = new TypeToken<List<Produto>>() {
+            }.getType();
             List<Produto> produtoesDoArquivo = gson.fromJson(json, tipoLista);
             if (produtoesDoArquivo != null) {
                 this.produtosEmMemoria.addAll(produtoesDoArquivo);
@@ -35,7 +36,7 @@ public class ProdutoPersistence implements Persistence<Produto> {
     }
 
     private void determinarProximoId() {
-        if(!this.produtosEmMemoria.isEmpty()) {
+        if (!this.produtosEmMemoria.isEmpty()) {
             long maiorId = this.produtosEmMemoria.stream().mapToLong(Produto::getId).max().getAsLong();
 
             this.proximoId = maiorId + 1;
@@ -49,7 +50,7 @@ public class ProdutoPersistence implements Persistence<Produto> {
         String json = gson.toJson(itens);
 
         File diretorio = new File(DIRECTORY);
-        if(!diretorio.exists())
+        if (!diretorio.exists())
             diretorio.mkdirs();
 
         Arquivo.salva(PATH, json);
@@ -76,7 +77,7 @@ public class ProdutoPersistence implements Persistence<Produto> {
     public void removerProduto(long idproduto) {
         boolean foiRemovido = this.produtosEmMemoria.removeIf(produto -> produto.getId() == idproduto);
 
-        if(foiRemovido) {
+        if (foiRemovido) {
             save(produtosEmMemoria);
 
         }
@@ -85,7 +86,7 @@ public class ProdutoPersistence implements Persistence<Produto> {
     public void update(Produto produto) {
         Produto produtoAntigo = buscarPorId(produto.getId());
 
-        if(produtoAntigo != null) {
+        if (produtoAntigo != null) {
             produtosEmMemoria.remove(produtoAntigo);
             produtosEmMemoria.add(produto);
             save(produtosEmMemoria);

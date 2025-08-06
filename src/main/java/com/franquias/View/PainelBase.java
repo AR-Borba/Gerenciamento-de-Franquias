@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 import com.franquias.Controller.AplicacaoPrincipal;
 
 public abstract class PainelBase extends JPanel {
-    
+
     protected AplicacaoPrincipal app;
 
     private CardLayout cardLayoutConteudo;
@@ -23,7 +23,7 @@ public abstract class PainelBase extends JPanel {
     public final void construirLayout() {
         cardLayoutConteudo = new CardLayout();
         painelConteudo = new JPanel(cardLayoutConteudo);
-        
+
         registrarSubPaineis(painelConteudo);
 
         this.add(painelConteudo, BorderLayout.CENTER);
@@ -38,6 +38,6 @@ public abstract class PainelBase extends JPanel {
     protected abstract void registrarSubPaineis(JPanel painelDeCards);
 
     public void aoExibirPainel() {
-        
+
     }
 }

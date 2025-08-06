@@ -48,9 +48,10 @@ public class DialogAdicionarAoEstoque extends JDialog {
     private void onSalvar() {
         try {
             int qtd = Integer.parseInt(tfQtd.getText());
-            
+
             if (!ValidadorNumero.intIsPositivo(qtd)) {
-                JOptionPane.showMessageDialog(this, "A quantidade deve ser um número positivo.", "Erro de Validação", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "A quantidade deve ser um número positivo.", "Erro de Validação",
+                        JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
@@ -59,7 +60,8 @@ public class DialogAdicionarAoEstoque extends JDialog {
             dispose();
 
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Por favor, digite um número válido para a quantidade.", "Erro de Formato", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Por favor, digite um número válido para a quantidade.",
+                    "Erro de Formato", JOptionPane.ERROR_MESSAGE);
         }
     }
 

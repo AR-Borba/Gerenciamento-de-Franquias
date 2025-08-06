@@ -19,56 +19,54 @@ public class PainelLogin extends JPanel {
 
         painelLogin.setPreferredSize(new Dimension(250, 200));
 
-        GridBagConstraints gbc; // Apenas declare aqui
+        GridBagConstraints gbc;
 
-        //--- Linha 0: Email ---
-        gbc = new GridBagConstraints(); // Reseta para os padrões
-        gbc.insets = new Insets(5, 5, 5, 5); // Define uma margem
-        gbc.gridx = 0; // Coluna 0
-        gbc.gridy = 0; // Linha 0
+        gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
         painelLogin.add(new JLabel("Email:"), gbc);
 
         gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
-        gbc.gridx = 0; // Coluna 1
-        gbc.gridy = 1; // Linha 0
+        gbc.gridx = 0;
+        gbc.gridy = 1;
         gbc.gridwidth = 2;
-        gbc.fill = GridBagConstraints.HORIZONTAL; // Faz o campo esticar horizontalmente
-        gbc.weightx = 1.0; // Permite que a coluna 1 cresça com a janela
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weightx = 1.0;
         tfEmail = new JTextField(15);
         painelLogin.add(tfEmail, gbc);
 
-        //--- Linha 1: Senha ---
         gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
-        gbc.gridx = 0; // Coluna 0
-        gbc.gridy = 2; // Linha 1
+        gbc.gridx = 0;
+        gbc.gridy = 2;
         painelLogin.add(new JLabel("Senha:"), gbc);
 
         gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
-        gbc.gridx = 0; // Coluna 1
-        gbc.gridy = 3; // Linha 1
+        gbc.gridx = 0;
+        gbc.gridy = 3;
         gbc.gridwidth = 2;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.weightx = 1.0;
         pfSenha = new JPasswordField(15);
         painelLogin.add(pfSenha, gbc);
 
-        //--- Linha 1: Botão Entrar ---
         gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 5, 5, 5); // Mais margem no topo
-        gbc.gridx = 0; // Começa na coluna 0
-        gbc.gridy = 4; // Linha 1
-        gbc.gridwidth = 2; // << AQUI SIM: Ocupa 2 colunas para centralizar
+        gbc.insets = new Insets(10, 5, 5, 5);
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        gbc.gridwidth = 2;
         JButton btEntrar = new JButton("Entrar");
 
         btEntrar.addActionListener(e -> {
             String email = tfEmail.getText();
             String senha = new String(pfSenha.getPassword());
 
-            if(email.isBlank() || senha.isBlank()) {
-                JOptionPane.showMessageDialog(this, "Email e senha não podem estar em branco.", "Erro", JOptionPane.ERROR_MESSAGE);
+            if (email.isBlank() || senha.isBlank()) {
+                JOptionPane.showMessageDialog(this, "Email e senha não podem estar em branco.", "Erro",
+                        JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
@@ -76,8 +74,8 @@ public class PainelLogin extends JPanel {
         });
 
         painelLogin.add(btEntrar, gbc);
-        
+
         this.add(painelLogin);
     }
-    
+
 }

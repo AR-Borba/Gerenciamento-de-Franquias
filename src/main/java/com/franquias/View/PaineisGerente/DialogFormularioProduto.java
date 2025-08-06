@@ -23,7 +23,7 @@ public class DialogFormularioProduto extends JDialog {
     private JTextField produtoField;
     private JFormattedTextField precoField;
     private JFormattedTextField qtdEstoqueField;
-    
+
     private Produto produto;
 
     private boolean salvo;
@@ -50,19 +50,20 @@ public class DialogFormularioProduto extends JDialog {
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
         // this.produto = produto;
-        
+
         NumberFormat integerFormat = NumberFormat.getIntegerInstance();
         DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
 
         NumberFormatter integerFormatter = new NumberFormatter(integerFormat);
         integerFormatter.setValueClass(Integer.class); // Define que o valor interno será um Integer
-        integerFormatter.setAllowsInvalid(false); // NÃO permite que o usuário digite caracteres inválidos (letras, etc.)
+        integerFormatter.setAllowsInvalid(false); // NÃO permite que o usuário digite caracteres inválidos (letras,
+                                                  // etc.)
         integerFormatter.setMinimum(0); // Opcional: define um valor mínimo
 
         NumberFormatter decimalFormatter = new NumberFormatter(decimalFormat);
         decimalFormatter.setValueClass(BigDecimal.class); // << A CLASSE É BigDecimal
         decimalFormatter.setAllowsInvalid(false);
-        
+
         setLocationRelativeTo(null);
 
         produtoField = new JTextField(20);
@@ -112,18 +113,21 @@ public class DialogFormularioProduto extends JDialog {
         BigDecimal preco = (BigDecimal) precoField.getValue();
         Integer quantidadeEmEstoque = (Integer) qtdEstoqueField.getValue();
 
-        if(!ValidadorTexto.temTamanhoMinimo(produto, 2)) {
-            JOptionPane.showMessageDialog(this, "Produto deve ter mais de 2 caracteres!", "Erro de validação", JOptionPane.ERROR_MESSAGE);
+        if (!ValidadorTexto.temTamanhoMinimo(produto, 2)) {
+            JOptionPane.showMessageDialog(this, "Produto deve ter mais de 2 caracteres!", "Erro de validação",
+                    JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        if(!ValidadorNumero.intIsPositivo(quantidadeEmEstoque)) {
-            JOptionPane.showMessageDialog(this, "Quantidade em estoque deve ser maior que 0!", "Erro de validação", JOptionPane.ERROR_MESSAGE);
+        if (!ValidadorNumero.intIsNaoNegativo(quantidadeEmEstoque)) {
+            JOptionPane.showMessageDialog(this, "Quantidade não pode ser negativa!", "Erro de validação",
+                    JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        if(!ValidadorNumero.bigDecimalIsPositivo(preco)) {
-            JOptionPane.showMessageDialog(this, "Preço tem que ser maior que 0.00!", "Erro de validação", JOptionPane.ERROR_MESSAGE);
+        if (!ValidadorNumero.bigDecimalIsPositivo(preco)) {
+            JOptionPane.showMessageDialog(this, "Preço tem que ser maior que 0.00!", "Erro de validação",
+                    JOptionPane.ERROR_MESSAGE);
             return;
         }
 

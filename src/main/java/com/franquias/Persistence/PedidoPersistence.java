@@ -11,14 +11,13 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
+public class PedidoPersistence implements Persistence<Pedido> {
 
-public class PedidoPersistence implements Persistence<Pedido>{
-    
     private static final String PATH = "data" + File.separator + "pedido.json";
     private final Gson gson = new GsonBuilder()
-                                .enableComplexMapKeySerialization() // << ESTA É A LINHA CHAVE
-                                .setPrettyPrinting() // Opcional, mas recomendado para legibilidade do JSON
-                                .create();
+            .enableComplexMapKeySerialization() // << ESTA É A LINHA CHAVE
+            .setPrettyPrinting() // Opcional, mas recomendado para legibilidade do JSON
+            .create();
 
     private long proximoId;
 
@@ -33,7 +32,8 @@ public class PedidoPersistence implements Persistence<Pedido>{
     private void carregarDoArquivo() {
         String json = Arquivo.le(PATH);
         if (json != null && !json.trim().isEmpty()) {
-            Type tipoLista = new TypeToken<List<Pedido>>() {}.getType();
+            Type tipoLista = new TypeToken<List<Pedido>>() {
+            }.getType();
             List<Pedido> pedidosDoArquivo = gson.fromJson(json, tipoLista);
             if (pedidosDoArquivo != null) {
                 this.pedidosEmMemoria.addAll(pedidosDoArquivo);
@@ -42,7 +42,7 @@ public class PedidoPersistence implements Persistence<Pedido>{
     }
 
     private void determinarProximoId() {
-        if(!this.pedidosEmMemoria.isEmpty()) {
+        if (!this.pedidosEmMemoria.isEmpty()) {
             long maiorId = this.pedidosEmMemoria.stream().mapToLong(Pedido::getId).max().getAsLong();
 
             this.proximoId = maiorId + 1;
@@ -56,7 +56,7 @@ public class PedidoPersistence implements Persistence<Pedido>{
         String json = gson.toJson(itens);
 
         File diretorio = new File(DIRECTORY);
-        if(!diretorio.exists())
+        if (!diretorio.exists())
             diretorio.mkdirs();
 
         Arquivo.salva(PATH, json);
@@ -84,14 +84,14 @@ public class PedidoPersistence implements Persistence<Pedido>{
 
     public void update(Pedido pedido) {
         int index = -1;
-        for(int i = 0; i < pedidosEmMemoria.size(); i++) {
-            if(pedidosEmMemoria.get(i).equals(pedido)) {
+        for (int i = 0; i < pedidosEmMemoria.size(); i++) {
+            if (pedidosEmMemoria.get(i).equals(pedido)) {
                 index = i;
                 break;
             }
         }
 
-        if(index != -1) {
+        if (index != -1) {
             pedidosEmMemoria.set(index, pedido);
             save(this.pedidosEmMemoria);
         }
@@ -99,7 +99,7 @@ public class PedidoPersistence implements Persistence<Pedido>{
 
     public List<Pedido> findByFranquia(long franquiaId) {
         return pedidosEmMemoria.stream()
-                               .filter(pedido -> pedido.getFranquiaId() == franquiaId)
-                               .collect(Collectors.toList());
+                .filter(pedido -> pedido.getFranquiaId() == franquiaId)
+                .collect(Collectors.toList());
     }
 }

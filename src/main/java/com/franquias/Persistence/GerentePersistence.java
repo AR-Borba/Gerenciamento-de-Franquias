@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.franquias.Model.entities.Usuários.Gerente;
-import com.franquias.Model.entities.Usuários.Vendedor;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -27,7 +26,8 @@ public class GerentePersistence implements Persistence<Gerente> {
     private void carregarDoArquivo() {
         String json = Arquivo.le(PATH);
         if (json != null && !json.trim().isEmpty()) {
-            Type tipoLista = new TypeToken<List<Gerente>>() {}.getType();
+            Type tipoLista = new TypeToken<List<Gerente>>() {
+            }.getType();
             List<Gerente> gerentesDoArquivo = gson.fromJson(json, tipoLista);
             if (gerentesDoArquivo != null) {
                 this.gerentesEmMemoria.addAll(gerentesDoArquivo);
@@ -36,7 +36,7 @@ public class GerentePersistence implements Persistence<Gerente> {
     }
 
     private void determinarProximoId() {
-        if(!this.gerentesEmMemoria.isEmpty()) {
+        if (!this.gerentesEmMemoria.isEmpty()) {
             long maiorId = this.gerentesEmMemoria.stream().mapToLong(Gerente::getId).max().getAsLong();
 
             this.proximoId = maiorId + 1;
@@ -50,7 +50,7 @@ public class GerentePersistence implements Persistence<Gerente> {
         String json = gson.toJson(itens);
 
         File diretorio = new File(DIRECTORY);
-        if(!diretorio.exists())
+        if (!diretorio.exists())
             diretorio.mkdirs();
 
         Arquivo.salva(PATH, json);
@@ -71,7 +71,7 @@ public class GerentePersistence implements Persistence<Gerente> {
     public void removerGerente(long idgerente) {
         boolean foiRemovido = this.gerentesEmMemoria.removeIf(gerente -> gerente.getId() == idgerente);
 
-        if(foiRemovido) {
+        if (foiRemovido) {
             save(gerentesEmMemoria);
         }
     }
@@ -79,7 +79,7 @@ public class GerentePersistence implements Persistence<Gerente> {
     public void update(Gerente gerente) {
         Gerente gerenteAntigo = buscarPorId(gerente.getId());
 
-        if(gerenteAntigo != null) {
+        if (gerenteAntigo != null) {
             gerentesEmMemoria.remove(gerenteAntigo);
             gerentesEmMemoria.add(gerente);
             save(gerentesEmMemoria);
@@ -97,16 +97,16 @@ public class GerentePersistence implements Persistence<Gerente> {
     public Gerente findByEmailAndPassword(String email, String senha) {
 
         return gerentesEmMemoria.stream()
-            .filter(g -> g.getEmail().equalsIgnoreCase(email) && g.getSenha().equals(senha))
-            .findFirst()
-            .orElse(null);
+                .filter(g -> g.getEmail().equalsIgnoreCase(email) && g.getSenha().equals(senha))
+                .findFirst()
+                .orElse(null);
     }
-    
+
     public Gerente findByEmail(String email) {
 
         return gerentesEmMemoria.stream()
-            .filter(g -> g.getEmail() != null && g.getEmail().equalsIgnoreCase(email))
-            .findFirst()
-            .orElse(null);
+                .filter(g -> g.getEmail() != null && g.getEmail().equalsIgnoreCase(email))
+                .findFirst()
+                .orElse(null);
     }
 }
