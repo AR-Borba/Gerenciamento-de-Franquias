@@ -58,18 +58,7 @@ public class FranquiaPersistence implements Persistence<Franquia> {
 
     @Override
     public List<Franquia> findAll() {
-        String json = Arquivo.le(PATH);
-        List<Franquia> itens = new ArrayList<>();
-
-        if (!json.trim().equals("")) {
-            Type tipoLista = new TypeToken<List<Franquia>>() {
-            }.getType();
-            itens = gson.fromJson(json, tipoLista);
-
-            if (itens == null)
-                itens = new ArrayList<>();
-        }
-        return itens;
+        return franquiasEmMemoria;
     }
 
     public void adicionarFranquia(Franquia novaFranquia) {

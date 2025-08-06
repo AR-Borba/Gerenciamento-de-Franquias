@@ -15,15 +15,14 @@ com\franquias\Model\enums\TipoDeConta.class
 com\franquias\View\PaineisDono\DialogCadastroFranquia$1.class
 com\franquias\Persistence\Arquivo.class
 com\franquias\Persistence\FranquiaPersistence.class
+com\franquias\View\DialogAlterarPedido.class
 com\franquias\Persistence\FranquiaPersistence$1.class
-com\franquias\Utils\Senha.class
 com\franquias\exceptions\EmailException.class
 com\franquias\View\PaineisVendedor\PainelVenda.class
 com\franquias\View\PaineisGerente\DialogFormularioProduto.class
 com\franquias\Persistence\VendedorPersistence.class
 com\franquias\View\PaineisVendedor\DialogCadastrarCliente.class
 com\franquias\Persistence\DonoPersistence.class
-com\franquias\View\PaineisVendedor\DialogAlterarPedido.class
 com\franquias\Model\enums\StatusPedido.class
 com\franquias\View\PaineisGerente\PainelGerarRelatorios$1.class
 com\franquias\Model\entities\Usuários\Usuario.class
@@ -51,7 +50,6 @@ com\franquias\Persistence\Persistence.class
 com\franquias\Controller\GerenteController.class
 com\franquias\View\PaineisDono\PainelGerenciarFranquias.class
 com\franquias\Controller\PedidoController.class
-com\franquias\View\PainelAtualizavel.class
 com\franquias\View\PaineisGerente\PainelControlarPedidos.class
 com\franquias\Model\entities\Usuários\Vendedor.class
 com\franquias\Persistence\PedidoPersistence.class
@@ -59,6 +57,7 @@ com\franquias\Utils\ValidadorCPF.class
 com\franquias\View\PaineisDono\DialogCadastroGerente.class
 com\franquias\View\PainelDono.class
 com\franquias\exceptions\AuthenticationException.class
+com\franquias\View\DialogAlterarPedido$1.class
 com\franquias\Utils\ValidadorNumero.class
 com\franquias\View\PaineisDono\DialogCadastroFranquia.class
 com\franquias\View\PaineisGerente\PainelGerenciarEquipe.class
@@ -70,7 +69,6 @@ com\franquias\View\PaineisVendedor\PainelHistoricoVenda.class
 com\franquias\Model\enums\Estados.class
 com\franquias\Persistence\FranquiaPersistence$2.class
 com\franquias\exceptions\ProdutoNaoEncontradoException.class
-com\franquias\View\PaineisVendedor\DialogAlterarPedido$1.class
 com\franquias\Utils\Endereco.class
 com\franquias\Model\enums\FormaDePagamento.class
 com\franquias\View\PaineisGerente\DialogAdicionarAoEstoque.class
