@@ -36,12 +36,15 @@ public class DonoController {
     private Dono donoLogado;
 
     public DonoController(AplicacaoPrincipal app, LoginController loginController, DonoPersistence donoPersistence,
-            FranquiaPersistence franquiaPersistence, GerentePersistence gerentePersistence) {
+            FranquiaPersistence franquiaPersistence, GerentePersistence gerentePersistence, PedidoPersistence pedidoPersistence,
+            VendedorPersistence vendedorPersistence) {
         this.app = app;
         this.loginController = loginController;
         this.donoPersistence = donoPersistence;
         this.franquiaPersistence = franquiaPersistence;
         this.gerentePersistence = gerentePersistence;
+        this.pedidoPersistence = pedidoPersistence;
+        this.vendedorPersistence = vendedorPersistence;
     }
 
     public void iniciarSessao(Dono dono) {
@@ -51,7 +54,10 @@ public class DonoController {
         // verificarFranquiasSemGerenteEnotificar();
     }
 
-    public void cadastrarDono(String nome, String cpf, String email, String senha) {
+    public void cadastrarDono(String nome, String cpf, String email, String senha) throws ValidationException {
+        if(loginController.emailJaExiste(email)) {
+            throw new ValidationException("O email " + email + " já está em uso no sistema");
+        }
         Dono novoDono = new Dono(nome, cpf, email, senha);
         donoPersistence.adicionarDono(novoDono);
     }
@@ -72,15 +78,28 @@ public class DonoController {
         return gerentePersistence.findAll();
     }
 
-    public void cadastrarFranquia(Endereco endereco, Gerente gerenteResponsavel) {
-        FranquiaPersistence franquiaPersistence = new FranquiaPersistence();
+    public List<String> getNomesGerentes() {
+        List<String> nomes = new ArrayList<>();
+        for(Gerente gerente : gerentePersistence.findAll())
+            nomes.add(gerente.getNome());
+        return nomes;
+    }
+
+    public long getIdGerente(String nome) {
+        for(Gerente gerente : gerentePersistence.findAll()){
+            if(nome == gerente.getNome())
+                return gerente.getId();
+        }
+        return -1;
+    }
+
+    public void cadastrarFranquia(Endereco endereco, long iDgerenteResponsavel) {
         List<Franquia> todasFranquias = franquiaPersistence.findAll();
-
-        Franquia novaFranquia = new Franquia(endereco, gerenteResponsavel);
-
-        gerenteResponsavel.setFranquiaId(novaFranquia.getId());
-
-        gerentePersistence.update(gerenteResponsavel);
+        
+        Franquia novaFranquia = new Franquia(endereco, iDgerenteResponsavel);
+        
+        Gerente gerenteDaFranquia = gerentePersistence.buscarPorId(iDgerenteResponsavel);
+        gerenteDaFranquia.setFranquiaId(novaFranquia.getId());
 
         todasFranquias.add(novaFranquia);
         franquiaPersistence.save(todasFranquias);
@@ -91,7 +110,7 @@ public class DonoController {
         List<Franquia> franquiasSemGerente = new ArrayList<>();
 
         for (Franquia franquia : todasFranquias) {
-            if (franquia.getGerente() == null) {
+            if (franquia.getGerenteId() == -1) {
                 franquiasSemGerente.add(franquia);
             }
         }
@@ -102,7 +121,7 @@ public class DonoController {
         return franquiaPersistence.findAll();
     }
 
-    public void cadastrarFranquia(Franquia novaFranquia) {
+    public void cadastrarFranquia(Franquia novaFranquia) throws ValidationException{
         franquiaPersistence.adicionarFranquia(novaFranquia);
     }
 
@@ -171,7 +190,7 @@ public class DonoController {
         List<Pedido> todosOsPedidos = pedidoPersistence.findAll();
 
         return todosOsPedidos.stream()
-            // .filter(pedido -> pedido.getStatusPedido() == StatusPedido.CONCLUIDO)
+            .filter(pedido -> pedido.getStatusPedido() == StatusPedido.CONCLUIDO)
             .collect(Collectors.groupingBy(
                 Pedido::getFranquiaId, 
                 Collectors.counting()
@@ -197,5 +216,13 @@ public class DonoController {
             }
         }
         return ticketMedioPorFranquia;
+    }
+
+    public String getNomeGerente(Franquia franquia) {
+        for(Franquia unidades : franquiaPersistence.findAll()){
+            if(unidades.getId() == franquia.getId())
+                return unidades.getNomeGerente();
+        }
+        return "-";
     }
 }

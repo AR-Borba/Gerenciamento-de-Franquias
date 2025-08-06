@@ -18,7 +18,6 @@ import javax.swing.text.MaskFormatter;
 
 import com.franquias.Controller.DonoController;
 import com.franquias.Model.entities.Franquia;
-import com.franquias.Model.entities.Usuários.Gerente;
 import com.franquias.Model.enums.Estados;
 import com.franquias.Utils.Endereco;
 import com.franquias.Utils.ViaCepService;
@@ -28,7 +27,7 @@ public class DialogCadastroFranquia extends JDialog {
     private JTextField numeroField;
     private JTextField cidadeField;
     private JTextField cepField;
-    private JComboBox<Gerente> gerentesComboBox;
+    private JComboBox<String> gerentesComboBox;
     private JComboBox<Estados> estadoField;
 
     private Endereco endereco;
@@ -73,9 +72,9 @@ public class DialogCadastroFranquia extends JDialog {
         numeroField = new JTextField(20);
         cidadeField = new JTextField(20);
         estadoField = new JComboBox<>(Estados.values());
-        List<Gerente> gerentesDisponiveis = controller.getGerentes();
-        gerentesComboBox = new JComboBox<>(gerentesDisponiveis.toArray(new Gerente[0]));
-
+        List<String> gerentesDisponiveis = controller.getNomesGerentes();
+        gerentesComboBox = new JComboBox<>(gerentesDisponiveis.toArray(new String[0]));
+        
         JButton btnBuscarCep = new JButton("Buscar CEP");
         btnBuscarCep.addActionListener(e -> buscarCep());
 
@@ -102,13 +101,13 @@ public class DialogCadastroFranquia extends JDialog {
         gbc.gridx = 1;
         add(cidadeField, gbc);
 
-        gbc.gridy = 5;
+        gbc.gridy = 4;
         gbc.gridx = 0;
         add(new JLabel("Rua:"), gbc);
         gbc.gridx = 1;
         add(ruaField, gbc);
 
-        gbc.gridy = 2;
+        gbc.gridy = 5;
         gbc.gridx = 0;
         add(new JLabel("Numero:"), gbc);
         gbc.gridx = 1;
@@ -121,7 +120,7 @@ public class DialogCadastroFranquia extends JDialog {
         add(gerentesComboBox, gbc);
 
         JButton salvarButton = new JButton("Salvar");
-        salvarButton.addActionListener(e -> onSalvar());
+        salvarButton.addActionListener(e -> onSalvar(controller));
         JButton cancelarButton = new JButton("Cancelar");
         cancelarButton.addActionListener(e -> onCancelar());
 
@@ -140,9 +139,9 @@ public class DialogCadastroFranquia extends JDialog {
         cidadeField.setText(endereco.getCidade());
         cepField.setText(endereco.getCep());
 
-        Gerente gerenteAtual = franquia.getGerente();
-        if (gerenteAtual != null) {
-            gerentesComboBox.setSelectedItem(gerenteAtual);
+        long gerenteAtual = franquia.getGerenteId();
+        if (gerenteAtual != -1) {
+            gerentesComboBox.setSelectedItem(gerenteAtual); //DEVE TER B.O. AQUI
         }
 
         String estadoDaFranquia = endereco.getEstado();
@@ -154,20 +153,19 @@ public class DialogCadastroFranquia extends JDialog {
             }
         }
     }
+ 
+    private void onSalvar(DonoController controller) {
+        String rua = ruaField.getText(); 
+        String numero = numeroField.getText(); 
+        String cidade = cidadeField.getText(); 
+        String estado = ((Estados) estadoField.getSelectedItem()).name(); 
+        String cep = cepField.getText(); 
 
-    private void onSalvar() {
-        String rua = ruaField.getText();
-        String numero = numeroField.getText();
-        String cidade = cidadeField.getText();
-        String estado = ((Estados) estadoField.getSelectedItem()).name();
-        String cep = cepField.getText();
+        long gerenteSelecionado = controller.getIdGerente((gerentesComboBox.getSelectedItem()).toString());
 
-        Gerente gerenteSelecionado = (Gerente) gerentesComboBox.getSelectedItem();
-
-        if (rua.isBlank() || numero.isBlank() || cidade.isBlank() || estado.isBlank() || cep.isBlank()
-                || gerenteSelecionado == null) {
-            JOptionPane.showMessageDialog(this, "Todos os campos são obrigatórios", "Erro de validação",
-                    JOptionPane.ERROR_MESSAGE);
+        if(rua.isBlank() || numero.isBlank() || cidade.isBlank() || estado.isBlank() || cep.isBlank() ||  gerenteSelecionado == -1)
+        {
+            JOptionPane.showMessageDialog(this, "Todos os campos são obrigatórios", "Erro de validação", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
@@ -177,12 +175,10 @@ public class DialogCadastroFranquia extends JDialog {
         this.endereco.setEstado(estado);
         this.endereco.setCep(cep);
 
-        this.franquia.setGerente(gerenteSelecionado);
+        this.franquia.setGerenteId(gerenteSelecionado);
 
         this.salvo = true;
         dispose();
-        JOptionPane.showMessageDialog(this, "Franquia cadastrada com sucesso!", "Sucesso",
-                JOptionPane.INFORMATION_MESSAGE);
     }
 
     private void onCancelar() {
@@ -208,8 +204,6 @@ public class DialogCadastroFranquia extends JDialog {
         ruaField.setText("Buscando...");
         cidadeField.setText("Buscando...");
 
-        // Usa um SwingWorker para não travar a interface gráfica durante a busca na
-        // internet
         SwingWorker<Endereco, Void> worker = new SwingWorker<Endereco, Void>() {
             @Override
             protected Endereco doInBackground() throws Exception {
@@ -225,8 +219,6 @@ public class DialogCadastroFranquia extends JDialog {
                         ruaField.setText(endereco.getRua());
                         cidadeField.setText(endereco.getCidade());
                         estadoField.setSelectedItem(Estados.valueOf(endereco.getEstado()));
-                        // Mova o foco para o campo de número, que é o próximo a ser preenchido
-                        // numeroField.requestFocus();
                     } else {
                         JOptionPane.showMessageDialog(DialogCadastroFranquia.this, "CEP não encontrado.", "Erro",
                                 JOptionPane.ERROR_MESSAGE);

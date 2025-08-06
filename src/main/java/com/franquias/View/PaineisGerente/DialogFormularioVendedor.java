@@ -109,7 +109,6 @@ public class DialogFormularioVendedor extends JDialog {
         gbc.gridx = 1;
         add(salvarButton, gbc);
 
-        // Exibir o diálogo
         pack();
     }
 

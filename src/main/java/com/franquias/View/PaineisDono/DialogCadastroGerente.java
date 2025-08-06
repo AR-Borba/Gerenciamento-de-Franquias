@@ -30,8 +30,8 @@ public class DialogCadastroGerente extends JDialog {
     private Gerente gerente;
     private boolean salvo;
 
-    public DialogCadastroGerente(Frame parent) {
-        super(parent, "Editando gerente", true);
+    public DialogCadastroGerente(Frame parent) {   
+        super(parent, "Cadastrando gerente", true);
         gerente = new Gerente();
         configurarUI();
     }
@@ -143,8 +143,6 @@ public class DialogCadastroGerente extends JDialog {
 
         this.salvo = true;
         dispose();
-        JOptionPane.showMessageDialog(this, "Gerente cadastrado com sucesso!", "Sucesso",
-                JOptionPane.INFORMATION_MESSAGE);
     }
 
     private void onCancelar() {

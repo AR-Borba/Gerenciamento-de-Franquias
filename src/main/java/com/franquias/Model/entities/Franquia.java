@@ -1,29 +1,33 @@
 package com.franquias.Model.entities;
 
-import com.franquias.Model.entities.Usuários.Gerente;
 import com.franquias.Utils.Endereco;
 
 public class Franquia {
     public Endereco endereco;
-    public Gerente gerente;
-    long id;
+    public long gerenteId;
+    public long id;
 
-    public Franquia() {
+    public Franquia(){
         this.endereco = new Endereco();
+        this.gerenteId = -1;
     }
-
-    public Franquia(Endereco endereco, Gerente gerente) {
+    
+    public Franquia(Endereco endereco, long gerenteId){
         this.endereco = endereco;
-        this.gerente = gerente;
+        this.gerenteId = gerenteId;
         this.id = 0;
     }
 
-    public void setGerente(Gerente gerente) {
-        this.gerente = gerente;
+    public void setGerenteId(long gerenteId) {
+        this.gerenteId = gerenteId;
     }
 
-    public Gerente getGerente() {
-        return this.gerente;
+    public long getGerenteId() {
+        return this.gerenteId;
+    }
+
+    public String getNomeGerente() {
+        return "";
     }
 
     public String getEstado() {
@@ -45,5 +49,4 @@ public class Franquia {
     public void setId(long proximoId) {
         this.id = proximoId;
     }
-
 }

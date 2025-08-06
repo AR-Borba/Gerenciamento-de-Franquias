@@ -8,7 +8,6 @@ C:\Users\arthu\OneDrive\Documentos\GitHub\Gerenciamento-de-Franquias\src\main\ja
 C:\Users\arthu\OneDrive\Documentos\GitHub\Gerenciamento-de-Franquias\src\main\java\com\franquias\View\PaineisVendedor\DialogCadastrarCliente.java
 C:\Users\arthu\OneDrive\Documentos\GitHub\Gerenciamento-de-Franquias\src\main\java\com\franquias\exceptions\EmailException.java
 C:\Users\arthu\OneDrive\Documentos\GitHub\Gerenciamento-de-Franquias\src\main\java\com\franquias\View\PaineisDono\PainelGerenciarGerentes.java
-C:\Users\arthu\OneDrive\Documentos\GitHub\Gerenciamento-de-Franquias\src\main\java\com\franquias\View\PaineisVendedor\DialogSelecionarProduto.java
 C:\Users\arthu\OneDrive\Documentos\GitHub\Gerenciamento-de-Franquias\src\main\java\com\franquias\exceptions\ProdutoNaoEncontradoException.java
 C:\Users\arthu\OneDrive\Documentos\GitHub\Gerenciamento-de-Franquias\src\main\java\com\franquias\Model\entities\Usuários\Gerente.java
 C:\Users\arthu\OneDrive\Documentos\GitHub\Gerenciamento-de-Franquias\src\main\java\com\franquias\View\PaineisVendedor\PainelVenda.java
@@ -16,8 +15,10 @@ C:\Users\arthu\OneDrive\Documentos\GitHub\Gerenciamento-de-Franquias\src\main\ja
 C:\Users\arthu\OneDrive\Documentos\GitHub\Gerenciamento-de-Franquias\src\main\java\com\franquias\Persistence\ClientePersistence.java
 C:\Users\arthu\OneDrive\Documentos\GitHub\Gerenciamento-de-Franquias\src\main\java\com\franquias\Persistence\VendedorPersistence.java
 C:\Users\arthu\OneDrive\Documentos\GitHub\Gerenciamento-de-Franquias\src\main\java\com\franquias\View\PainelBase.java
+C:\Users\arthu\OneDrive\Documentos\GitHub\Gerenciamento-de-Franquias\src\main\java\com\franquias\View\PaineisGerente\DialogAdicionarAoEstoque.java
 C:\Users\arthu\OneDrive\Documentos\GitHub\Gerenciamento-de-Franquias\src\main\java\com\franquias\Persistence\FranquiaPersistence.java
 C:\Users\arthu\OneDrive\Documentos\GitHub\Gerenciamento-de-Franquias\src\main\java\com\franquias\View\PaineisVendedor\PainelHistoricoVenda.java
+C:\Users\arthu\OneDrive\Documentos\GitHub\Gerenciamento-de-Franquias\src\main\java\com\franquias\Utils\ValidadorCPF.java
 C:\Users\arthu\OneDrive\Documentos\GitHub\Gerenciamento-de-Franquias\src\main\java\com\franquias\View\PaineisDono\DialogCadastroFranquia.java
 C:\Users\arthu\OneDrive\Documentos\GitHub\Gerenciamento-de-Franquias\src\main\java\com\franquias\Persistence\PedidoPersistence.java
 C:\Users\arthu\OneDrive\Documentos\GitHub\Gerenciamento-de-Franquias\src\main\java\com\franquias\Persistence\Arquivo.java
@@ -28,6 +29,7 @@ C:\Users\arthu\OneDrive\Documentos\GitHub\Gerenciamento-de-Franquias\src\main\ja
 C:\Users\arthu\OneDrive\Documentos\GitHub\Gerenciamento-de-Franquias\src\main\java\com\franquias\Model\entities\Pedido.java
 C:\Users\arthu\OneDrive\Documentos\GitHub\Gerenciamento-de-Franquias\src\main\java\com\franquias\View\PaineisDono\DialogCadastroGerente.java
 C:\Users\arthu\OneDrive\Documentos\GitHub\Gerenciamento-de-Franquias\src\main\java\com\franquias\Model\enums\StatusPedido.java
+C:\Users\arthu\OneDrive\Documentos\GitHub\Gerenciamento-de-Franquias\src\main\java\com\franquias\Utils\ValidadorTexto.java
 C:\Users\arthu\OneDrive\Documentos\GitHub\Gerenciamento-de-Franquias\src\main\java\com\franquias\Persistence\Persistence.java
 C:\Users\arthu\OneDrive\Documentos\GitHub\Gerenciamento-de-Franquias\src\main\java\com\franquias\Utils\Endereco.java
 C:\Users\arthu\OneDrive\Documentos\GitHub\Gerenciamento-de-Franquias\src\main\java\com\franquias\View\PaineisGerente\PainelGerarRelatorios.java
@@ -40,15 +42,18 @@ C:\Users\arthu\OneDrive\Documentos\GitHub\Gerenciamento-de-Franquias\src\main\ja
 C:\Users\arthu\OneDrive\Documentos\GitHub\Gerenciamento-de-Franquias\src\main\java\com\franquias\Model\Produto.java
 C:\Users\arthu\OneDrive\Documentos\GitHub\Gerenciamento-de-Franquias\src\main\java\com\franquias\View\PaineisGerente\DialogFormularioVendedor.java
 C:\Users\arthu\OneDrive\Documentos\GitHub\Gerenciamento-de-Franquias\src\main\java\com\franquias\View\PaineisVendedor\DialogFecharPedido.java
+C:\Users\arthu\OneDrive\Documentos\GitHub\Gerenciamento-de-Franquias\src\main\java\com\franquias\View\PainelCadastroDono.java
 C:\Users\arthu\OneDrive\Documentos\GitHub\Gerenciamento-de-Franquias\src\main\java\com\franquias\View\PainelDono.java
 C:\Users\arthu\OneDrive\Documentos\GitHub\Gerenciamento-de-Franquias\src\main\java\com\franquias\Model\entities\Franquia.java
 C:\Users\arthu\OneDrive\Documentos\GitHub\Gerenciamento-de-Franquias\src\main\java\com\franquias\View\PaineisDono\PainelIndicadoresFinanceiros.java
 C:\Users\arthu\OneDrive\Documentos\GitHub\Gerenciamento-de-Franquias\src\main\java\com\franquias\Utils\Senha.java
+C:\Users\arthu\OneDrive\Documentos\GitHub\Gerenciamento-de-Franquias\src\main\java\com\franquias\Utils\ValidadorNumero.java
 C:\Users\arthu\OneDrive\Documentos\GitHub\Gerenciamento-de-Franquias\src\main\java\com\franquias\Controller\LoginController.java
 C:\Users\arthu\OneDrive\Documentos\GitHub\Gerenciamento-de-Franquias\src\main\java\com\franquias\View\PaineisGerente\PainelGerenciarEquipe.java
 C:\Users\arthu\OneDrive\Documentos\GitHub\Gerenciamento-de-Franquias\src\main\java\com\franquias\exceptions\AuthenticationException.java
 C:\Users\arthu\OneDrive\Documentos\GitHub\Gerenciamento-de-Franquias\src\main\java\com\franquias\Persistence\GerentePersistence.java
 C:\Users\arthu\OneDrive\Documentos\GitHub\Gerenciamento-de-Franquias\src\main\java\com\franquias\Model\entities\Usuários\Dono.java
+C:\Users\arthu\OneDrive\Documentos\GitHub\Gerenciamento-de-Franquias\src\main\java\com\franquias\exceptions\ValidationException.java
 C:\Users\arthu\OneDrive\Documentos\GitHub\Gerenciamento-de-Franquias\src\main\java\com\franquias\View\PainelLogin.java
 C:\Users\arthu\OneDrive\Documentos\GitHub\Gerenciamento-de-Franquias\src\main\java\com\franquias\Controller\VendedorController.java
 C:\Users\arthu\OneDrive\Documentos\GitHub\Gerenciamento-de-Franquias\src\main\java\com\franquias\Main.java

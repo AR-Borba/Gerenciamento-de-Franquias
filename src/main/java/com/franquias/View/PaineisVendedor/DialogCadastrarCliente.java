@@ -19,8 +19,8 @@ import com.franquias.Model.entities.Cliente;
 import com.franquias.Utils.ValidadorCPF;
 import com.franquias.Utils.ValidadorTexto;
 
-public class DialogCadastrarCliente extends JDialog {
-
+public class DialogCadastrarCliente extends JDialog{
+    
     private JTextField nomeField;
     private JFormattedTextField cpfField;
     private JTextField emailField;

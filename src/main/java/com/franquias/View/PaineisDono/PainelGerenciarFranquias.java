@@ -14,6 +14,7 @@ import javax.swing.table.DefaultTableModel;
 
 import com.franquias.Controller.DonoController;
 import com.franquias.Model.entities.Franquia;
+import com.franquias.exceptions.ValidationException;
 
 public class PainelGerenciarFranquias extends JPanel {
     private JFrame framePrincipal;
@@ -53,7 +54,7 @@ public class PainelGerenciarFranquias extends JPanel {
                     franquia.getId(),
                     franquia.getEstado(),
                     franquia.getCidade(),
-                    franquia.getGerente(),
+                    controller.getNomeGerente(franquia),
                     controller.getReceita(franquia),
             };
             modeloTabelaFranquias.addRow(rowData);
@@ -83,10 +84,17 @@ public class PainelGerenciarFranquias extends JPanel {
         DialogCadastroFranquia dialog = new DialogCadastroFranquia(framePrincipal, controller);
         dialog.setVisible(true);
 
-        Franquia novaFranquia = dialog.getFranquia();
-        if (novaFranquia != null) {
-            controller.cadastrarFranquia(novaFranquia);
-            carregarDadosNaTabela();
+        if (dialog.foiSalvo()) {
+            Franquia novaFranquia = dialog.getFranquia();
+
+            try {
+                controller.cadastrarFranquia(novaFranquia);
+                carregarDadosNaTabela();
+                JOptionPane.showMessageDialog(this, "Franquia cadastrada com sucesso!", "Sucesso",JOptionPane.INFORMATION_MESSAGE);
+            } catch (ValidationException e) {
+                JOptionPane.showMessageDialog(this, e.getMessage(), "Erro de Validação", JOptionPane.ERROR_MESSAGE);
+            }
+            
         }
     }
 
