@@ -3,6 +3,7 @@ package com.franquias.Controller;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -40,8 +41,6 @@ public class VendedorController {
         this.clientePersistence = clientePersistence;
 
         this.pedidoAtual = new Pedido();
-
-        // this.vendedorLogado = new Vendedor(); // isso é errado deve ser inializado com o vendedor correto ao logar
     }
 
     public void iniciarSessao(Vendedor vendedor) {
@@ -102,7 +101,7 @@ public class VendedorController {
                 pedidosVendedor.add(pedidoId);
         }
 
-        return pedidosVendedor;
+        return Collections.unmodifiableList(pedidosVendedor);
     }
 
     public List<Pedido> getPedidosVendedorPendentesAlteracao() {
@@ -121,7 +120,7 @@ public class VendedorController {
                 pedidosVendedor.add(pedidoId);
         }
 
-        return pedidosVendedor;
+        return Collections.unmodifiableList(pedidosVendedor);
     }
 
     public void atualizarPedido(Pedido pedido) {
@@ -150,7 +149,7 @@ public class VendedorController {
 
         pedidoPersistence.adicionarPedido(pedidoAtual);
 
-        vendedorLogado.adicionarPedido(pedidoAtual);
+        vendedorLogado.adicionarPedidoPorId(pedidoAtual.getId());
 
         vendedorPersistence.update(vendedorLogado);
 
@@ -158,7 +157,7 @@ public class VendedorController {
     }
 
     public List<Cliente> getClientesDisponiveis() {
-        return clientePersistence.findAll();
+        return Collections.unmodifiableList(clientePersistence.findAll());
     }
 
     public void adicionarCliente(Cliente cliente) throws ValidationException{

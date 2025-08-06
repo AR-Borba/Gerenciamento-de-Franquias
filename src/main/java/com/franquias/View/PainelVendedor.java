@@ -5,8 +5,6 @@ import javax.swing.*;
 import java.awt.*;
 
 import com.franquias.Controller.*;
-import com.franquias.Model.entities.Usuários.Vendedor;
-import com.franquias.Persistence.VendedorPersistence;
 import com.franquias.View.PaineisVendedor.*;
 
 public class PainelVendedor extends PainelBase {
@@ -25,10 +23,6 @@ public class PainelVendedor extends PainelBase {
         this.setLayout(new BorderLayout(5, 5));
 
         this.pedidoController = pedidoController;
-
-        // VendedorPersistence vendedorPersistence = new VendedorPersistence();
-        // Vendedor vendedor = vendedorPersistence.buscarPorId(1);
-        // controller.iniciarSessao(vendedor);
 
         construirLayout();
 

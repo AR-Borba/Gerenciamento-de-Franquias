@@ -1,4 +1,4 @@
-package com.franquias.View.PaineisVendedor;
+package com.franquias.View;
 
 import java.awt.*;
 import java.math.BigDecimal;

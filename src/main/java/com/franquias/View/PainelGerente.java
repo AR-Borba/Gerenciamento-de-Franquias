@@ -26,10 +26,6 @@ public class PainelGerente extends PainelBase {
         this.controller = controller;
         this.pedidoController = pedidoController;
 
-        // GerentePersistence gerentePersistence = new GerentePersistence();
-        // Gerente gerente = gerentePersistence.buscarPorId(0);
-        // controller.iniciarSessao(gerente);
-
         construirLayout();
     }
 

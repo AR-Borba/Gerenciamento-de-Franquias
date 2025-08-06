@@ -55,6 +55,7 @@ public class DialogVisualizarPedido extends JDialog{
         JPanel painel = new JPanel(new GridLayout(0, 1, 0, 5)); // GridLayout para empilhar verticalmente
         painel.setBorder(BorderFactory.createTitledBorder("Dados do Pedido"));
 
+        painel.add(new JLabel("Vendedor: " + pedido.getVendedorResponsavel().getNome()));
         painel.add(new JLabel("Cliente: " + pedido.getCliente().getNome()));
         painel.add(new JLabel("Data/Hora: " + pedido.getDataHoraFormatada()));
         painel.add(new JLabel("Modalidade de Entrega: " + pedido.getModalidadeDeEntrega()));
