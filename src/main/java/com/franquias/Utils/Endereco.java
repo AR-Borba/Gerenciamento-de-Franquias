@@ -1,9 +1,5 @@
 package com.franquias.Utils;
 
-import javax.swing.JOptionPane;
-
-import org.apache.commons.lang3.StringUtils;
-
 import com.google.gson.annotations.SerializedName;
 
 public class Endereco {

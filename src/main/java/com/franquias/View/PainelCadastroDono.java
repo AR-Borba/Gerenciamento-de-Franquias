@@ -9,6 +9,7 @@ import java.text.ParseException;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -17,8 +18,14 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.text.MaskFormatter;
 
+import org.apache.commons.validator.routines.EmailValidator;
+
 import com.franquias.Controller.AplicacaoPrincipal;
 import com.franquias.Controller.DonoController;
+import com.franquias.exceptions.ValidationException;
+
+import br.com.caelum.stella.validation.CPFValidator;
+import br.com.caelum.stella.validation.InvalidStateException;
 
 public class PainelCadastroDono extends JPanel{
 
@@ -140,9 +147,28 @@ public class PainelCadastroDono extends JPanel{
                 return;
             }
 
-            donoController.cadastrarDono(nome, cpf, email, senha);
+            EmailValidator emailValidator = EmailValidator.getInstance();
+                if(!emailValidator.isValid(email)) {
+                    JOptionPane.showMessageDialog(this, "Email inválido", "Erro de validação", JOptionPane.ERROR_MESSAGE);
+                    return;
+            }
+            
+            try {
+                CPFValidator validator = new CPFValidator();
+                validator.assertValid(cpf);
+            } catch (InvalidStateException p) {
+                JOptionPane.showMessageDialog(this, "CPF inválido", "Erro de validação", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            try {
+                donoController.cadastrarDono(nome, cpf, email, senha);
+            } catch (ValidationException p) {
+                JOptionPane.showMessageDialog(this, "Erro de validação", "Erro de Validação", JOptionPane.ERROR_MESSAGE);
+            }
             app.mostrarTela("LOGIN");
         });
+        
 
         painelCadastro.add(btnCadastrar, gbc);
         

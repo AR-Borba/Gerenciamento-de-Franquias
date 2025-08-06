@@ -19,9 +19,6 @@ import com.franquias.Model.entities.Cliente;
 import com.franquias.Utils.ValidadorCPF;
 import com.franquias.Utils.ValidadorTexto;
 
-import br.com.caelum.stella.validation.CPFValidator;
-import br.com.caelum.stella.validation.InvalidStateException;
-
 public class DialogCadastrarCliente extends JDialog{
     
     private JTextField nomeField;
