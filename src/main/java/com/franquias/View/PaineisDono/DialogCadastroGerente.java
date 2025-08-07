@@ -137,6 +137,7 @@ public class DialogCadastroGerente extends JDialog {
         this.gerente.setNome(nome);
         this.gerente.setCpf(cpf);
         this.gerente.setEmail(email);
+        this.gerente.setFranquiaId(-1);
 
         if (!senha.isBlank())
             gerente.setSenha(senha);

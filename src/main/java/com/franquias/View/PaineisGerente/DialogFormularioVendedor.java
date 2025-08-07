@@ -16,6 +16,7 @@ import javax.swing.text.MaskFormatter;
 
 import org.apache.commons.validator.routines.EmailValidator;
 
+import com.franquias.Controller.GerenteController;
 import com.franquias.Model.entities.Usuários.Vendedor;
 import com.franquias.Utils.ValidadorCPF;
 import com.franquias.Utils.ValidadorTexto;
@@ -31,20 +32,20 @@ public class DialogFormularioVendedor extends JDialog {
 
     boolean salvo;
 
-    public DialogFormularioVendedor(Frame parent) {
+    public DialogFormularioVendedor(Frame parent, GerenteController controller) {
         super(parent, "Editando vendedor", true);
         vendedor = new Vendedor();
-        configurarUI();
+        configurarUI(controller);
     }
 
-    public DialogFormularioVendedor(Frame parent, Vendedor vendedorSendoEditado) {
+    public DialogFormularioVendedor(Frame parent, Vendedor vendedorSendoEditado, GerenteController controller) {
         super(parent, "Editando vendedor", true);
         this.vendedor = vendedorSendoEditado;
-        configurarUI();
+        configurarUI(controller);
         preencherCampos();
     }
 
-    private void configurarUI() {
+    private void configurarUI(GerenteController controller) {
         setSize(400, 300);
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -99,7 +100,7 @@ public class DialogFormularioVendedor extends JDialog {
         add(senhaField, gbc);
 
         JButton salvarButton = new JButton("Salvar");
-        salvarButton.addActionListener(e -> onSalvar());
+        salvarButton.addActionListener(e -> onSalvar(controller));
         JButton cancelarButton = new JButton("Cancelar");
         cancelarButton.addActionListener(e -> onCancelar());
 
@@ -118,7 +119,7 @@ public class DialogFormularioVendedor extends JDialog {
         emailField.setText(vendedor.getEmail());
     }
 
-    private void onSalvar() {
+    private void onSalvar(GerenteController controller) {
         String nome = nomeField.getText();
         String cpf = (String) cpfField.getValue();
         String email = emailField.getText();
@@ -150,6 +151,7 @@ public class DialogFormularioVendedor extends JDialog {
         this.vendedor.setNome(nome);
         this.vendedor.setCpf(cpf);
         this.vendedor.setEmail(email);
+        controller.atribiuFranquiaId(this.vendedor);
 
         if (!senha.isBlank())
             vendedor.setSenha(senha);

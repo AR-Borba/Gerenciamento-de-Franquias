@@ -82,7 +82,7 @@ public class PainelGerenciarEquipe extends JPanel {
     }
 
     private void adicionarVendedor() {
-        DialogFormularioVendedor dialog = new DialogFormularioVendedor(framePrincipal);
+        DialogFormularioVendedor dialog = new DialogFormularioVendedor(framePrincipal, controller);
         dialog.setVisible(true);
 
         if (dialog.foiSalvo()) {
@@ -127,7 +127,7 @@ public class PainelGerenciarEquipe extends JPanel {
         Vendedor vendedorParaEditar = controller.buscarVendedorPorId(idVendedor);
 
         if (vendedorParaEditar != null) {
-            DialogFormularioVendedor dialog = new DialogFormularioVendedor(framePrincipal, vendedorParaEditar);
+            DialogFormularioVendedor dialog = new DialogFormularioVendedor(framePrincipal, vendedorParaEditar, controller);
             dialog.setVisible(true);
 
             // Vendedor vendedorAtualizado = dialog.getVendedor();

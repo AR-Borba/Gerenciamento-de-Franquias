@@ -120,6 +120,7 @@ public class DialogFecharPedido extends JDialog {
 
     private void onCancelar() {
         this.salvo = false;
+        this.cliente = null;
         dispose();
     }
 

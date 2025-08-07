@@ -56,13 +56,8 @@ public class DialogCadastrarCliente extends JDialog{
             cpfField = new JFormattedTextField();
         }
 
-        // Inicializar campos de texto
         nomeField = new JTextField(20);
         emailField = new JTextField(30);
-
-        // senhaField.setText(cliente.getSenha());
-
-        // Adicionar componentes ao diálogo (layout e outros componentes omitidos)
 
         gbc.gridx = 0;
         gbc.gridy = 0;

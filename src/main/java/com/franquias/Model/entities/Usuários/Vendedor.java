@@ -32,6 +32,10 @@ public class Vendedor extends Usuario {
         return this.franquiaId;
     }
 
+    public void setFranquiaId(long franquiaId) {
+        this.franquiaId = franquiaId;
+    }
+
     public void adicionarPedidoPorId(long idPedido) {
         if (this.idPedidos == null) {
             this.idPedidos = new ArrayList<>();
@@ -44,4 +48,5 @@ public class Vendedor extends Usuario {
             this.idPedidos = new ArrayList<>();
         return Collections.unmodifiableList(this.idPedidos);
     }
+
 }
