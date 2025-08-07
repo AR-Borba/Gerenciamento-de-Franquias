@@ -203,4 +203,8 @@ public class GerenteController {
                         Pedido::getCliente,
                         Collectors.counting())));
     }
+
+    public void atribiuFranquiaId(Vendedor vendedor) {
+        vendedor.setFranquiaId(gerenteLogado.getFranquiaId());
+    }
 }
