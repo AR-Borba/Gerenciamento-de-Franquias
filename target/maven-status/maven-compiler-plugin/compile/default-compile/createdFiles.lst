@@ -39,6 +39,7 @@ com\franquias\exceptions\ValidationException.class
 com\franquias\Utils\ValidadorTexto.class
 com\franquias\Utils\ViaCepService.class
 com\franquias\View\PaineisGerente\DialogVisualizarPedido.class
+com\franquias\Controller\DonoController$1.class
 com\franquias\View\PaineisDono\PainelIndicadoresFinanceiros.class
 com\franquias\Controller\AplicacaoPrincipal.class
 com\franquias\View\PaineisGerente\DialogFormularioVendedor.class
@@ -67,7 +68,6 @@ com\franquias\exceptions\CPFException.class
 com\franquias\View\PaineisDono\PainelRankingVendedores.class
 com\franquias\View\PaineisVendedor\PainelHistoricoVenda.class
 com\franquias\Model\enums\Estados.class
-com\franquias\Persistence\FranquiaPersistence$2.class
 com\franquias\exceptions\ProdutoNaoEncontradoException.class
 com\franquias\Utils\Endereco.class
 com\franquias\Model\enums\FormaDePagamento.class

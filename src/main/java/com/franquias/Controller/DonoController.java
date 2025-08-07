@@ -9,8 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import javax.naming.AuthenticationException;
-
 import com.franquias.Model.entities.Usuários.Dono;
 import com.franquias.Model.entities.Usuários.Gerente;
 import com.franquias.Model.entities.Usuários.Vendedor;
@@ -147,9 +145,16 @@ public class DonoController {
 
     public List<Vendedor> getRankingVendedores() {
         List<Vendedor> vendedores = vendedorPersistence.findAll();
-        Comparator<Vendedor> comparadorPorVendas = Comparator
-                .comparing(vendedor -> calcularTotalVendasPorVendedor(vendedor));
-        vendedores.sort(comparadorPorVendas.reversed());
+
+        Comparator<Vendedor> comparadorPorVendas = new Comparator<Vendedor>() {
+            @Override
+            public int compare(Vendedor v1, Vendedor v2) {
+                BigDecimal receitaV1 = calcularTotalVendasPorVendedor(v1);
+                BigDecimal receitaV2 = calcularTotalVendasPorVendedor(v2);
+                return receitaV2.compareTo(receitaV1);
+            }
+        };
+        vendedores.sort(comparadorPorVendas);
         return vendedores;
     }
 
@@ -170,31 +175,47 @@ public class DonoController {
     }
 
     public BigDecimal getReceita(Franquia franquia) {
-        BigDecimal total = BigDecimal.ZERO;
-        return total;
+        long idDaFranquia = franquia.getId();
+        List<Pedido> todosOsPedidos = pedidoPersistence.findAll();
+        BigDecimal receitaTotal = BigDecimal.ZERO;
+
+        for (Pedido pedido : todosOsPedidos) {
+            if (pedido.getFranquiaId() == idDaFranquia && 
+                pedido.getStatusPedido() == StatusPedido.CONCLUIDO) {
+                receitaTotal = receitaTotal.add(pedido.getValorTotal());
+            }
+        }
+        return receitaTotal;
     }
 
     public Map<Long, BigDecimal> calcularFaturamentoPorFranquia() {
         List<Pedido> todosOsPedidos = pedidoPersistence.findAll();
-
-        return todosOsPedidos.stream()
-            .filter(pedido -> pedido.getStatusPedido() == StatusPedido.CONCLUIDO)
-            .collect(Collectors.groupingBy(
-                Pedido::getFranquiaId,
-                Collectors.mapping(Pedido::getValorTotal, 
-                                 Collectors.reducing(BigDecimal.ZERO, BigDecimal::add))
-            ));
+        Map<Long, BigDecimal> faturamentoPorFranquia = new HashMap<>();
+        
+        for (Pedido pedido : todosOsPedidos) {
+            if (pedido.getStatusPedido() == StatusPedido.CONCLUIDO) {
+                long franquiaId = pedido.getFranquiaId();
+                BigDecimal valorDoPedido = pedido.getValorTotal();
+                BigDecimal faturamentoAtual = faturamentoPorFranquia.getOrDefault(franquiaId, BigDecimal.ZERO);
+                BigDecimal novoFaturamento = faturamentoAtual.add(valorDoPedido);
+                faturamentoPorFranquia.put(franquiaId, novoFaturamento);
+            }
+        }
+        return faturamentoPorFranquia;
     }
 
     public Map<Long, Long> calcularTotalPedidosPorFranquia() {
         List<Pedido> todosOsPedidos = pedidoPersistence.findAll();
 
-        return todosOsPedidos.stream()
-            .filter(pedido -> pedido.getStatusPedido() == StatusPedido.CONCLUIDO)
-            .collect(Collectors.groupingBy(
-                Pedido::getFranquiaId, 
-                Collectors.counting()
-            ));
+        Map<Long, Long> contagemPorFranquia = new HashMap<>();
+
+        for (Pedido pedido : todosOsPedidos) {
+            long franquiaId = pedido.getFranquiaId();
+            long contagemAtual = contagemPorFranquia.getOrDefault(franquiaId, 0L);
+            long novaContagem = contagemAtual + 1;
+            contagemPorFranquia.put(franquiaId, novaContagem);
+        }
+        return contagemPorFranquia;
     }
 
     public Map<Long, BigDecimal> calcularTicketMedioPorFranquia() {
@@ -206,10 +227,9 @@ public class DonoController {
         for (Long franquiaId : faturamentoPorFranquia.keySet()) {
             BigDecimal faturamento = faturamentoPorFranquia.get(franquiaId);
             Long contagemPedidos = totalPedidosPorFranquia.getOrDefault(franquiaId, 0L);
-
+            
             if (contagemPedidos > 0) {
                 BigDecimal contagemBigDecimal = new BigDecimal(contagemPedidos);
-                
                 BigDecimal ticketMedio = faturamento.divide(contagemBigDecimal, 2, RoundingMode.HALF_UP);
                 
                 ticketMedioPorFranquia.put(franquiaId, ticketMedio);
@@ -219,10 +239,17 @@ public class DonoController {
     }
 
     public String getNomeGerente(Franquia franquia) {
-        for(Franquia unidades : franquiaPersistence.findAll()){
-            if(unidades.getId() == franquia.getId())
-                return unidades.getNomeGerente();
+        for(Franquia unidade : franquiaPersistence.findAll()){
+            if(unidade.getId() == franquia.getId()){
+                Gerente gerente = gerentePersistence.buscarPorId(unidade.getGerenteId());
+                return gerente.getNome();
+            }
         }
         return "-";
+    }
+
+    public void setGerenteFranquiaId(Franquia franquia, long gerenteId) {
+        Gerente gerente = gerentePersistence.buscarPorId(gerenteId);
+        gerente.setFranquiaId(franquia.getId());
     }
 }

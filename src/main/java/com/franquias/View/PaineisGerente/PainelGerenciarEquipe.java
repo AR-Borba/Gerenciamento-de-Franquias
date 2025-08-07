@@ -39,7 +39,7 @@ public class PainelGerenciarEquipe extends JPanel {
         modeloTabelaRanking = new DefaultTableModel();
         modeloTabelaRanking.addColumn("ID");
         modeloTabelaRanking.addColumn("Nome");
-        modeloTabelaRanking.addColumn("Total de Vendas");
+        modeloTabelaRanking.addColumn("Total em Vendas");
 
         tabelaRankingEquipe = new JTable(modeloTabelaRanking);
         add(new JScrollPane(tabelaRankingEquipe), BorderLayout.CENTER);

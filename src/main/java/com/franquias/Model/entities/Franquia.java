@@ -26,10 +26,6 @@ public class Franquia {
         return this.gerenteId;
     }
 
-    public String getNomeGerente() {
-        return "";
-    }
-
     public String getEstado() {
         return this.endereco.getEstado();
     }

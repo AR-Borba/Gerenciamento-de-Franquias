@@ -89,7 +89,7 @@ public class DialogCadastroFranquia extends JDialog {
         gbc.gridx = 2;
         add(btnBuscarCep);
 
-        gbc.gridy = 4;
+        gbc.gridy = 2;
         gbc.gridx = 0;
         add(new JLabel("Estado:"), gbc);
         gbc.gridx = 1;
@@ -161,9 +161,9 @@ public class DialogCadastroFranquia extends JDialog {
         String estado = ((Estados) estadoField.getSelectedItem()).name(); 
         String cep = cepField.getText(); 
 
-        long gerenteSelecionado = controller.getIdGerente((gerentesComboBox.getSelectedItem()).toString());
+        long IdGerenteSelecionado = controller.getIdGerente((gerentesComboBox.getSelectedItem()).toString());
 
-        if(rua.isBlank() || numero.isBlank() || cidade.isBlank() || estado.isBlank() || cep.isBlank() ||  gerenteSelecionado == -1)
+        if(rua.isBlank() || numero.isBlank() || cidade.isBlank() || estado.isBlank() || cep.isBlank() ||  IdGerenteSelecionado == -1)
         {
             JOptionPane.showMessageDialog(this, "Todos os campos são obrigatórios", "Erro de validação", JOptionPane.ERROR_MESSAGE);
             return;
@@ -175,7 +175,8 @@ public class DialogCadastroFranquia extends JDialog {
         this.endereco.setEstado(estado);
         this.endereco.setCep(cep);
 
-        this.franquia.setGerenteId(gerenteSelecionado);
+        this.franquia.setGerenteId(IdGerenteSelecionado); //Franquia = gerenteID
+        controller.setGerenteFranquiaId(this.franquia, IdGerenteSelecionado); //Gerente = FranquiaID
 
         this.salvo = true;
         dispose();
