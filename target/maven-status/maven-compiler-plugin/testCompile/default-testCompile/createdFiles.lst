@@ -3,7 +3,5 @@ com\franquias\Validadores\ValidadorTextoTest.class
 com\franquias\ControllerTest\LoginControllerTest.class
 com\franquias\Models\GerenteTest.class
 com\franquias\Validadores\ValidadorNumeroTest.class
-com\franquias\ControllerTest\GerenteControllerTest.class
 com\franquias\Validadores\ValidadorCPFTest.class
-com\franquias\ControllerTest\VendedorControllerTest.class
 com\franquias\Models\PedidoTest.class

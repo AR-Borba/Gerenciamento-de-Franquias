@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="0bc871c0-087a-40cb-a7be-7615cebe0ead" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/data/vendedor.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/vendedor.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/franquias/View/PainelCadastroDono.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/franquias/View/PainelCadastroDono.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/Controller/AplicacaoPrincipal.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/Controller/AplicacaoPrincipal.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/Controller/DonoController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/Controller/DonoController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/Controller/GerenteController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/Controller/GerenteController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/Controller/LoginController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/Controller/LoginController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/Controller/PedidoController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/Controller/PedidoController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/Controller/VendedorController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/Controller/VendedorController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/Model/Produto.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/Model/Produto.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/Model/entities/Cliente.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/Model/entities/Cliente.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/Model/entities/Franquia.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/Model/entities/Franquia.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/Model/entities/Pedido.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/Model/entities/Pedido.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/Model/entities/Usuários/Dono.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/Model/entities/Usuários/Dono.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/Model/entities/Usuários/Gerente.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/Model/entities/Usuários/Gerente.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/Model/entities/Usuários/Usuario.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/Model/entities/Usuários/Usuario.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/Model/entities/Usuários/Vendedor.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/Model/entities/Usuários/Vendedor.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/Model/enums/Estados.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/Model/enums/Estados.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/Model/enums/FormaDePagamento.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/Model/enums/FormaDePagamento.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/Model/enums/ModalidadeEntrega.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/Model/enums/ModalidadeEntrega.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/Model/enums/StatusPedido.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/Model/enums/StatusPedido.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/Model/enums/TipoDeConta.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/Model/enums/TipoDeConta.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/Persistence/Arquivo.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/Persistence/Arquivo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/Persistence/ClientePersistence$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/Persistence/ClientePersistence$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/Persistence/ClientePersistence.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/Persistence/ClientePersistence.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/Persistence/DonoPersistence$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/Persistence/DonoPersistence$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/Persistence/DonoPersistence.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/Persistence/DonoPersistence.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/Persistence/FranquiaPersistence$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/Persistence/FranquiaPersistence$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/Persistence/FranquiaPersistence$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/Persistence/FranquiaPersistence$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/Persistence/FranquiaPersistence.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/Persistence/FranquiaPersistence.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/Persistence/GerentePersistence$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/Persistence/GerentePersistence$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/Persistence/GerentePersistence.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/Persistence/GerentePersistence.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/Persistence/PedidoPersistence$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/Persistence/PedidoPersistence$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/Persistence/PedidoPersistence.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/Persistence/PedidoPersistence.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/Persistence/Persistence.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/Persistence/Persistence.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/Persistence/ProdutoPersistence$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/Persistence/ProdutoPersistence$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/Persistence/ProdutoPersistence.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/Persistence/ProdutoPersistence.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/Persistence/VendedorPersistence$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/Persistence/VendedorPersistence$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/Persistence/VendedorPersistence.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/Persistence/VendedorPersistence.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/Utils/Endereco.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/Utils/Endereco.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/Utils/ValidadorCPF.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/Utils/ValidadorCPF.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/Utils/ValidadorNumero.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/Utils/ValidadorNumero.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/Utils/ValidadorTexto.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/Utils/ValidadorTexto.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/Utils/ViaCepService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/Utils/ViaCepService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/View/DialogAlterarPedido.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/View/DialogAlterarPedido.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/View/PaineisDono/DialogCadastroFranquia$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/View/PaineisDono/DialogCadastroFranquia$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/View/PaineisDono/DialogCadastroFranquia.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/View/PaineisDono/DialogCadastroFranquia.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/View/PaineisDono/DialogCadastroGerente.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/View/PaineisDono/DialogCadastroGerente.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/View/PaineisDono/PainelGerenciarFranquias.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/View/PaineisDono/PainelGerenciarFranquias.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/View/PaineisDono/PainelGerenciarGerentes.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/View/PaineisDono/PainelGerenciarGerentes.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/View/PaineisDono/PainelIndicadoresFinanceiros.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/View/PaineisDono/PainelIndicadoresFinanceiros.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/View/PaineisDono/PainelRankingVendedores.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/View/PaineisDono/PainelRankingVendedores.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/View/PaineisGerente/DialogAdicionarAoEstoque.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/View/PaineisGerente/DialogAdicionarAoEstoque.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/View/PaineisGerente/DialogFormularioProduto.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/View/PaineisGerente/DialogFormularioProduto.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/View/PaineisGerente/DialogFormularioVendedor.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/View/PaineisGerente/DialogFormularioVendedor.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/View/PaineisGerente/DialogVisualizarPedido.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/View/PaineisGerente/DialogVisualizarPedido.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/View/PaineisGerente/PainelControlarPedidos.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/View/PaineisGerente/PainelControlarPedidos.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/View/PaineisGerente/PainelGerarRelatorios$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/View/PaineisGerente/PainelGerarRelatorios$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/View/PaineisGerente/PainelGerarRelatorios.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/View/PaineisGerente/PainelGerarRelatorios.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/View/PaineisGerente/PainelGerenciarEquipe.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/View/PaineisGerente/PainelGerenciarEquipe.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/View/PaineisGerente/PainelGerenciarEstoque.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/View/PaineisGerente/PainelGerenciarEstoque.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/View/PaineisVendedor/DialogCadastrarCliente.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/View/PaineisVendedor/DialogCadastrarCliente.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/View/PaineisVendedor/DialogFecharPedido.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/View/PaineisVendedor/DialogFecharPedido.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/View/PaineisVendedor/PainelHistoricoVenda.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/View/PaineisVendedor/PainelHistoricoVenda.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/View/PaineisVendedor/PainelVenda.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/View/PaineisVendedor/PainelVenda.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/View/PainelBase.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/View/PainelBase.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/View/PainelCadastroDono.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/View/PainelCadastroDono.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/View/PainelDono.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/View/PainelDono.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/View/PainelGerente.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/View/PainelGerente.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/View/PainelLogin.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/View/PainelLogin.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/View/PainelVendedor.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/View/PainelVendedor.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/exceptions/AuthenticationException.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/exceptions/AuthenticationException.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/exceptions/CPFException.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/exceptions/CPFException.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/exceptions/EmailException.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/exceptions/EmailException.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/exceptions/EstoqueInsuficienteException.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/exceptions/EstoqueInsuficienteException.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/exceptions/ProdutoNaoEncontradoException.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/exceptions/ProdutoNaoEncontradoException.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/franquias/exceptions/ValidationException.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/franquias/exceptions/ValidationException.class" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 4
+}</component>
+  <component name="ProjectId" id="30tYZ59gEqA1e5IEXRQFEaAazFy" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/enzog/Documents/Gerenciamento-de-Franquias&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.ide.settings.uml&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.23892.409" />
+        <option value="bundled-js-predefined-d6986cc7102b-e03c56caf84a-JavaScript-IU-252.23892.409" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="0bc871c0-087a-40cb-a7be-7615cebe0ead" name="Changes" comment="" />
+      <created>1754448390715</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1754448390715</updated>
+      <workItem from="1754448393516" duration="77000" />
+      <workItem from="1754448485068" duration="715000" />
+      <workItem from="1754496829359" duration="231000" />
+      <workItem from="1754497075839" duration="1689000" />
+      <workItem from="1754506600918" duration="573000" />
+      <workItem from="1754507189662" duration="728000" />
+      <workItem from="1754522973147" duration="1713000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>
