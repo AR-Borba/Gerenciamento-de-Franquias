@@ -210,10 +210,12 @@ public class DonoController {
         Map<Long, Long> contagemPorFranquia = new HashMap<>();
 
         for (Pedido pedido : todosOsPedidos) {
-            long franquiaId = pedido.getFranquiaId();
-            long contagemAtual = contagemPorFranquia.getOrDefault(franquiaId, 0L);
-            long novaContagem = contagemAtual + 1;
-            contagemPorFranquia.put(franquiaId, novaContagem);
+            if(pedido.getStatusPedido() == StatusPedido.CONCLUIDO){
+                long franquiaId = pedido.getFranquiaId();
+                long contagemAtual = contagemPorFranquia.getOrDefault(franquiaId, 0L);
+                long novaContagem = contagemAtual + 1;
+                contagemPorFranquia.put(franquiaId, novaContagem);
+            }
         }
         return contagemPorFranquia;
     }
