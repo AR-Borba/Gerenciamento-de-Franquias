@@ -94,7 +94,6 @@ public class PainelGerenciarFranquias extends JPanel {
             } catch (ValidationException e) {
                 JOptionPane.showMessageDialog(this, e.getMessage(), "Erro de Validação", JOptionPane.ERROR_MESSAGE);
             }
-            
         }
     }
 

@@ -119,9 +119,9 @@ public class DonoController {
         return franquiaPersistence.findAll();
     }
 
-    public void cadastrarFranquia(Franquia novaFranquia) throws ValidationException{
-        franquiaPersistence.adicionarFranquia(novaFranquia);
-    }
+    // public void cadastrarFranquia(Franquia novaFranquia) throws ValidationException{
+    //     franquiaPersistence.adicionarFranquia(novaFranquia);
+    // }
 
     public Gerente buscarGerentePorId(long id) {
         return gerentePersistence.buscarPorId(id);
@@ -258,4 +258,17 @@ public class DonoController {
         }
         gerentePersistence.save(gerentes);
     }
+
+    public void cadastrarFranquia(Franquia novaFranquia) throws ValidationException {
+        franquiaPersistence.adicionarFranquia(novaFranquia);
+        List<Gerente> gerentes = gerentePersistence.findAll();
+        for(Gerente gerente : gerentes){
+            if (gerente != null) {
+                gerente.setFranquiaId(novaFranquia.getId());
+                
+                gerentePersistence.update(gerente);
+            }
+        }
+
+        }
 }

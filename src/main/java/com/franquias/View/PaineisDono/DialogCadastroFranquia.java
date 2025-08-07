@@ -176,8 +176,7 @@ public class DialogCadastroFranquia extends JDialog {
         this.endereco.setCep(cep);
 
         this.franquia.setGerenteId(IdGerenteSelecionado); //Franquia = gerenteID
-        controller.setGerenteFranquiaId(this.franquia, IdGerenteSelecionado); //Gerente = FranquiaID
-
+        
         this.salvo = true;
         dispose();
     }
