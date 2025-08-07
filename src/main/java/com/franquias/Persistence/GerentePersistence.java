@@ -86,10 +86,6 @@ public class GerentePersistence implements Persistence<Gerente> {
         }
     }
 
-    // public void registraFranquia(long id){
-
-    // }
-
     public Gerente buscarPorId(long idgerente) {
         return gerentesEmMemoria.stream().filter(g -> g.getId() == idgerente).findFirst().orElse(null);
     }

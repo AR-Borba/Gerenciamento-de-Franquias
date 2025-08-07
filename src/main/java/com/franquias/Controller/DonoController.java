@@ -251,7 +251,11 @@ public class DonoController {
     }
 
     public void setGerenteFranquiaId(Franquia franquia, long gerenteId) {
-        Gerente gerente = gerentePersistence.buscarPorId(gerenteId);
-        gerente.setFranquiaId(franquia.getId());
+        List<Gerente> gerentes = gerentePersistence.findAll();
+        for(Gerente gerente : gerentes){
+            if(gerente.getId() == gerenteId)
+                gerente.setFranquiaId(franquia.getId());
+        }
+        gerentePersistence.save(gerentes);
     }
 }
