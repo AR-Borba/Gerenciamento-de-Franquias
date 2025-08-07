@@ -79,6 +79,10 @@ public class GerenteController {
     }
 
     public void adicionarVendedor(Vendedor vendedor) throws ValidationException {
+        if (gerenteLogado.getFranquiaId() == -1) {
+            throw new ValidationException("O Gerente não está resonsável por nenhuma franquia no momento.");
+        }
+
         if (loginController.emailJaExiste(vendedor.getEmail())) {
             throw new ValidationException("O email " + vendedor.getEmail() + " já está em uso no sistema");
         }
@@ -86,6 +90,13 @@ public class GerenteController {
         vendedorPersistence.adicionarVendedor(vendedor);
         gerenteLogado.adicionarVendedorPorId(vendedor.getId());
         gerentePersistence.update(gerenteLogado);
+    }
+
+    public void negarAlteracaoPedido(Pedido pedido) {
+        if(pedido != null) {
+            pedido.setStatusPedido(StatusPedido.CONCLUIDO);
+            pedidoPersistence.update(pedido);
+        }
     }
 
     public void autorizarAlteracaoPedido(Pedido pedido) {
