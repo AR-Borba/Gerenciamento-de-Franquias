@@ -161,7 +161,7 @@ public class PainelCadastroDono extends JPanel {
             try {
                 donoController.cadastrarDono(nome, cpf, email, senha);
             } catch (ValidationException p) {
-                JOptionPane.showMessageDialog(this, "Erro de validação", "Erro de Validação", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, p.getMessage(), "Erro de Validação", JOptionPane.ERROR_MESSAGE);
             }
             app.mostrarTela("LOGIN");
         });
